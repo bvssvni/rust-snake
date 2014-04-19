@@ -1,0 +1,58 @@
+use glfw;
+use glfw::Context;
+
+pub struct GlfwWrapper {
+    pub window: glfw::Window,
+    pub events: Receiver<(f64, glfw::WindowEvent)>,
+    pub glfw: glfw::Glfw,
+}
+
+impl GlfwWrapper {
+    /// Creates a window.
+    #[allow(dead_code)]
+    pub fn window(
+        title: &str,
+        width: u32,
+        height: u32
+    ) -> GlfwWrapper {
+	    // Create GLFW window.
+        let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
+        let (window, events) = glfw.create_window(
+            width, height, title, glfw::Windowed)
+                .expect("Failed to create GLFW window.");
+        window.set_key_polling(true);
+        window.make_current();
+
+        GlfwWrapper {
+            window: window,
+            events: events,
+            glfw: glfw,
+        }
+    }
+
+    /// Opens up in fullscreen on default monitor.
+    /// Sets screen resolution to the physical size of the monitor.
+    #[allow(dead_code)]
+    pub fn fullscreen(
+        title: &str
+    ) -> GlfwWrapper { 
+	    // Create GLFW window.
+        let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
+        glfw.with_primary_monitor(|m| {
+            let m = m.unwrap();
+            let (width, height) = m.get_physical_size();
+            let (window, events) = glfw.create_window(
+                width as u32, height as u32, title, 
+                glfw::FullScreen(m)).expect("Failed to create GLFW window.");
+            window.set_key_polling(true);
+            window.make_current();
+        
+            GlfwWrapper {
+                window: window,
+                events: events,
+                glfw: glfw,
+            }
+        })
+    }
+}
+
