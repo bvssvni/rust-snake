@@ -26,10 +26,10 @@ SHELL := /bin/bash
 
 # The default make command.
 # Change this to 'make lib' if you are building a library.
-DEFAULT = make help
+DEFAULT = make exe
 
 EXAMPLE_FILES = examples/*.rs
-SOURCE_FILES = $(shell test -e src/ && find src/ -type f)
+SOURCE_FILES = $(shell test -e src/ && find src -type f)
 
 COMPILER = rustc
 
@@ -41,16 +41,27 @@ COMPILER = rustc
 RUSTDOC = rustdoc 
 
 # Extracts target from rustc.
-TARGET = $(shell rustc --version | grep "host: " | cut -c 7-)
+TARGET = $(shell rustc --version | awk "/host:/ { print \$$2 }")
 # TARGET = x86_64-unknown-linux-gnu
 # TARGET = x86_64-apple-darwin 
+
+TARGET_LIB_DIR = target/$(TARGET)/lib/
+
+# Ask 'rustc' the file name of the library and use a dummy name if the source has not been created yet.
+# The dummy file name is used to trigger the creation of the source first time.
+# Next time 'rustc' will return the right file name.
+RLIB_FILE = $(shell (rustc --crate-type=rlib --crate-file-name "src/lib.rs" 2> /dev/null) || (echo "dummy.rlib"))
+# You can't have quotes around paths because 'make' doesn't see it exists.
+RLIB = target/$(TARGET)/lib/$(RLIB_FILE)
+DYLIB_FILE = $(shell (rustc --crate-type=dylib --crate-file-name "src/lib.rs" 2> /dev/null) || (echo "dummy.dylib"))
+DYLIB = target/$(TARGET)/lib/$(DYLIB_FILE)
 
 all:
 	$(DEFAULT)
 
 help:
 	clear \
-	&& echo "--- rust-empty (0.2 009)" \
+	&& echo "--- rust-empty (0.2 012)" \
 	&& echo "make run               - Runs executable" \
 	&& echo "make exe               - Builds main executable" \
 	&& echo "make lib               - Both static and dynamic library" \
@@ -77,7 +88,25 @@ help:
 	&& echo "make clear-project     - WARNING: Deletes project files except 'Makefile'" \
 	&& echo "make clear-git         - WARNING: Deletes Git setup" \
 
-.PHONY: clean clear-git clear-project loc nightly-install nightly-uninstall run rusti
+.PHONY: \
+		bench \
+		bench-internal \
+		bench-external \
+		cargo-lite-lib \
+		cargo-lite-exe \
+		clean \
+		clear-git \
+		clear-project \
+		loc \
+		nightly-install \
+		nightly-uninstall \
+		run \
+		rusti \
+		rust-ci-lib \
+		rust-ci-exe \
+		test \
+		test-internal \
+		test-external
 
 nightly-install:
 	cd ~ \
@@ -87,7 +116,7 @@ nightly-uninstall:
 	cd ~ \
     && curl -s http://www.rust-lang.org/rustup.sh | sudo sh -s -- --uninstall
 
-cargo-lite-exe: src src/main.rs
+cargo-lite-exe: src/main.rs
 	( \
 		test -e cargo-lite.conf \
 		&& clear \
@@ -101,7 +130,7 @@ cargo-lite-exe: src src/main.rs
 		&& cat cargo-lite.conf \
 	)
 
-cargo-lite-lib: src src/lib.rs
+cargo-lite-lib: src/lib.rs
 	( \
 		test -e cargo-lite.conf \
 		&& clear \
@@ -115,7 +144,7 @@ cargo-lite-lib: src src/lib.rs
 		&& cat cargo-lite.conf \
 	)
 
-rust-ci-lib: src src/lib.rs
+rust-ci-lib: src/lib.rs
 	( \
 		test -e .travis.yml \
 		&& clear \
@@ -129,7 +158,7 @@ rust-ci-lib: src src/lib.rs
 		&& cat .travis.yml \
 	)
 
-rust-ci-exe: src src/main.rs
+rust-ci-exe: src/main.rs
 	( \
 		test -e .travis.yml \
 		&& clear \
@@ -143,7 +172,7 @@ rust-ci-exe: src src/main.rs
 		&& cat .travis.yml \
 	)
 
-doc: src $(SOURCE_FILES)
+doc: $(SOURCE_FILES) | src/
 	clear \
 	&& $(RUSTDOC) src/lib.rs -L "target/$(TARGET)/lib" \
 	&& clear \
@@ -154,9 +183,11 @@ run: exe
 	&& cd bin/ \
 	&& ./main
 
-exe: bin src src/main.rs $(SOURCE_FILES)
+exe: bin/main
+
+bin/main: $(SOURCE_FILES) | bin/ src/main.rs
 	clear \
-	&& $(COMPILER) --target $(TARGET) $(COMPILER_FLAGS) src/main.rs -o bin/main -L "target/$(TARGET)/lib" \
+	&& $(COMPILER) --target "$(TARGET)" $(COMPILER_FLAGS) src/main.rs -o bin/main -L "target/$(TARGET)/lib" \
 	&& echo "--- Built executable" \
 	&& echo "--- Type 'make run' to run executable"
 
@@ -165,19 +196,23 @@ test: test-internal test-external
 	&& echo "--- Internal tests succeeded" \
 	&& echo "--- External tests succeeded"
 
-test-external: rlib src bin src/test.rs $(SOURCE_FILES)
-	clear \
-	&& $(COMPILER) --target $(TARGET) $(COMPILER_FLAGS) --test src/test.rs -o bin/test-external -L "target/$(TARGET)/lib" \
-	&& echo "--- Built external test runner" \
-	&& cd "bin/" \
+test-external: bin/test-external
+	cd "bin/" \
 	&& ./test-external
 
-test-internal: rlib src bin $(SOURCE_FILES)
+bin/test-external: $(SOURCE_FILES) | rlib bin/ src/test.rs
 	clear \
-	&& $(COMPILER) --target $(TARGET) $(COMPILER_FLAGS) --test src/lib.rs -o bin/test-internal -L "target/$(TARGET)/lib" \
-	&& echo "--- Built internal test runner" \
-	&& cd "bin/" \
+	&& $(COMPILER) --target "$(TARGET)" $(COMPILER_FLAGS) --test src/test.rs -o bin/test-external -L "target/$(TARGET)/lib" \
+	&& echo "--- Built external test runner"
+
+test-internal: bin/test-internal
+	cd "bin/" \
 	&& ./test-internal
+
+bin/test-internal: $(SOURCE_FILES) | rlib src/ bin/
+	clear \
+	&& $(COMPILER) --target "$(TARGET)" $(COMPILER_FLAGS) --test src/lib.rs -o bin/test-internal -L "target/$(TARGET)/lib" \
+	&& echo "--- Built internal test runner"
 
 bench: bench-internal bench-external
 
@@ -195,16 +230,20 @@ lib: rlib dylib
 	&& echo "--- Built dylib" \
 	&& echo "--- Type 'make test' to test library"
 
-rlib: target-lib-dir src src/lib.rs $(SOURCE_FILES)
+rlib: $(RLIB)
+
+$(RLIB): $(SOURCE_FILES) | src/lib.rs $(TARGET_LIB_DIR)
 	clear \
-	&& $(COMPILER) --target $(TARGET) $(COMPILER_FLAGS) --crate-type=rlib src/lib.rs -L "target/$(TARGET)/lib" --out-dir "target/$(TARGET)/lib/" \
+	&& $(COMPILER) --target "$(TARGET)" $(COMPILER_FLAGS) --crate-type=rlib src/lib.rs -L "target/$(TARGET)/lib" --out-dir "target/$(TARGET)/lib/" \
 	&& clear \
 	&& echo "--- Built rlib" \
 	&& echo "--- Type 'make test' to test library"
 
-dylib: target-lib-dir src src/lib.rs $(SOURCE_FILES)
+dylib: $(DYLIB)
+
+$(DYLIB): $(SOURCE_FILES) | src/lib.rs $(TARGET_LIB_DIR)
 	clear \
-	&& $(COMPILER) --target $(TARGET) $(COMPILER_FLAGS) --crate-type=dylib src/lib.rs -L "target/$(TARGET)/lib" --out-dir "target/$(TARGET)/lib/" \
+	&& $(COMPILER) --target "$(TARGET)" $(COMPILER_FLAGS) --crate-type=dylib src/lib.rs -L "target/$(TARGET)/lib" --out-dir "target/$(TARGET)/lib/" \
 	&& clear \
 	&& echo "--- Built dylib" \
 	&& echo "--- Type 'make test' to test library"
@@ -212,8 +251,8 @@ dylib: target-lib-dir src src/lib.rs $(SOURCE_FILES)
 bin:
 	mkdir -p bin
 
-target-lib-dir:
-	mkdir -p "target/$(TARGET)/lib/"
+$(TARGET_LIB_DIR):
+	mkdir -p $(TARGET_LIB_DIR)
 
 src:
 	mkdir -p src
@@ -239,7 +278,7 @@ git-ignore:
 	) \
 	|| \
 	( \
-		echo -e ".DS_Store\n*~\n*#\n*.o\n*.so\n*.swp\n*.dylib\n*.dSYM\n*.dll\n*.rlib\n*.dummy\n*.exe\n*-test\n/bin/\n/doc/\n/target/\n/build/\n/.rust/\nrusti.sh\n" > .gitignore \
+		echo -e ".DS_Store\n*~\n*#\n*.o\n*.so\n*.swp\n*.dylib\n*.dSYM\n*.dll\n*.rlib\n*.dummy\n*.exe\n*-test\n/bin/main\n/bin/test-internal\n/bin/test-external\n/doc/\n/target/\n/build/\n/.rust/\nrusti.sh\n" > .gitignore \
 		&& clear \
 		&& echo "--- Created '.gitignore' for git" \
 		&& cat .gitignore \
@@ -248,25 +287,25 @@ git-ignore:
 examples: $(EXAMPLE_FILES)
 
 $(EXAMPLE_FILES): lib examples-dir
-	$(COMPILER) --target $(TARGET) $(COMPILER_FLAGS) $@ -L "target/$(TARGET)/lib" --out-dir examples/ \
+	$(COMPILER) --target "$(TARGET)" $(COMPILER_FLAGS) $@ -L "target/$(TARGET)/lib" --out-dir examples/ \
 	&& clear \
 	&& echo "--- Built examples"
 
-src/main.rs:
+src/main.rs: | src/
 	test -e src/main.rs \
 	|| \
 	( \
 		echo -e "fn main() {\n\tprintln!(\"Hello world!\");\n}" > src/main.rs \
 	)
 
-src/test.rs:
+src/test.rs: | src/
 	test -e src/test.rs \
 	|| \
 	( \
 		touch src/test.rs \
 	)
 
-src/lib.rs:
+src/lib.rs: | src/
 	test -e src/lib.rs \
 	|| \
 	( \
@@ -274,10 +313,14 @@ src/lib.rs:
 	)
 
 clean:
+	rm -f "$(RLIB)"
+	rm -f "$(DYLIB)"
 	rm -rf "doc/"
-	rm -f bin/*
+	rm -f "bin/main"
+	rm -f "bin/test-internal"
+	rm -f "bin/test-external"
 	clear \
-	&& echo "--- Deleted bin/* and doc/"
+	&& echo "--- Deleted binaries and documentation"
 
 clear-project:
 	rm -f "cargo-lite.conf"
@@ -301,7 +344,7 @@ clear-git:
 	&& echo "--- Content in project folder" \
 	&& ls -a
 
-rusti: target-lib-dir
+rusti: $(TARGET_LIB_DIR)
 	( \
 		test -e rusti.sh \
 		&& clear \
