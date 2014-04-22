@@ -3,6 +3,7 @@ use Settings = gameengine::game::Settings;
 use Game = gameengine::game::Game;
 use GameWindow = gameengine::game_window::GameWindow;
 use snakeshader::SnakeShader;
+use rand::random;
 
 fn load_vertices() -> Vec<f32> {
     vec!(
@@ -34,10 +35,15 @@ impl Game for SnakeApp {
     fn render(&self) {
         // Render triangle.
         // self.shader.unwrap().render(self.vertices.as_slice(), self.colors.as_slice());
-    
-        let rect = [0.0, 0.0, 0.5, 0.5];
-        let color = [1.0, 0.0, 0.0, 1.0];
-        self.shader.unwrap().fill_rect(rect, color);
+
+        let shader = self.shader.unwrap();
+        for _ in range(0, 1 << 19) {
+            let x: f32 = random();
+            let y: f32 = random();
+            let rect = [x - 0.5, y - 0.5, 0.005, 0.005];
+            let color = [random(), 0.0, 0.0, 1.0];
+            shader.fill_rect(rect, color);
+        }
     }
     fn update(&mut self) {
     }

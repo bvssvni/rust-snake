@@ -1,6 +1,7 @@
 #![feature(globs)]
 
 extern crate gameengine;
+extern crate rand;
 extern crate native;
 extern crate glfw;
 extern crate opengles;
