@@ -1,6 +1,36 @@
 use gl = opengles::gl2;
 use graphics = gameengine::graphics;
 
+fn rect_vertices(rect: [f32, ..4]) -> [f32, ..12] {
+    let x = rect[0];
+    let y = rect[1];
+    let w = rect[2];
+    let h = rect[3];
+    let x2 = x + w;
+    let y2 = y + h;
+    [x, y, x2, y, x, y2,
+     x2, y, x2, y2, x, y2]
+}
+
+fn rect_colors(color: [f32, ..4]) -> [f32, ..48] {
+    let r = color[0];
+    let g = color[1];
+    let b = color[2];
+    let a = color[3];
+    [r, g, b, a, // 0
+     r, g, b, a, // 1
+     r, g, b, a, // 2
+     r, g, b, a, // 3
+     r, g, b, a, // 4
+     r, g, b, a, // 5
+     r, g, b, a, // 6
+     r, g, b, a, // 7
+     r, g, b, a, // 8
+     r, g, b, a, // 9
+     r, g, b, a, // 10
+     r, g, b, a]
+}
+
 pub struct SnakeShader {
     vertex_shader: gl::GLuint,
     fragment_shader: gl::GLuint,
@@ -62,6 +92,11 @@ impl SnakeShader {
 
         let items: i32 = vertices.len() as i32 / size_vertices;
         gl::draw_arrays(gl::TRIANGLES, 0, items);
+    }
+
+    /// Fill rectangle with a color.
+    pub fn fill_rect(&self, rect: [f32, ..4], color: [f32, ..4]) {
+        self.render(rect_vertices(rect), rect_colors(color));
     }
 }
 

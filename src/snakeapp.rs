@@ -32,7 +32,12 @@ impl Game for SnakeApp {
     fn get_game_window<'a>(&'a self) -> &'a GameWindow { &self.game_window }
     fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
     fn render(&self) {
-        self.shader.unwrap().render(self.vertices.as_slice(), self.colors.as_slice());
+        // Render triangle.
+        // self.shader.unwrap().render(self.vertices.as_slice(), self.colors.as_slice());
+    
+        let rect = [0.0, 0.0, 0.5, 0.5];
+        let color = [1.0, 0.0, 0.0, 1.0];
+        self.shader.unwrap().fill_rect(rect, color);
     }
     fn update(&mut self) {
     }
