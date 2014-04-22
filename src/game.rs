@@ -1,3 +1,4 @@
+//! Game loop.
 
 use glfw;
 use glfw::Context;
@@ -5,12 +6,16 @@ use gl = opengles::gl2;
 
 use glfwwrapper::GlfwWrapper;
 
+/// Basic settings for window behavior.
 pub struct Settings {
+    /// If true, exit when pressing Esc.
     pub exit_on_esc: bool,
+    /// The color to use as background.
     pub background_color: [f32, ..4],
 }
 
 impl Settings {
+    /// Gets default settings.
     pub fn default() -> Settings {
         Settings {
             exit_on_esc: true,
@@ -18,19 +23,30 @@ impl Settings {
         }
     }
 
+    /// Creates a new Settings.
     pub fn new(exit_on_esc: bool, background_color: [f32, ..4]) -> Settings {
         Settings {
-            exit_on_esc: true,
+            exit_on_esc: exit_on_esc,
             background_color: background_color,
         }
     }
 }
 
+/// Implement default behavior for a game.
 pub trait Game {
+    /// Get the GLFW wrapper.
     fn get_glfw_wrapper<'a>(&'a self) -> &'a GlfwWrapper;
+    
+    /// Read settings.
     fn get_settings<'a>(&'a self) -> &'a Settings;
+    
+    /// Render graphics.
     fn render(&self); 
+    
+    /// Update the physical state of the game.
     fn update(&mut self);
+    
+    /// Perform tasks for loading before showing anything.
     fn load(&mut self);
 
     /// Clears the background with color from settings.
@@ -41,6 +57,7 @@ pub trait Game {
         gl::clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
     }
 
+    /// Sets up viewport.
     #[inline(always)]
     fn viewport(&self) {
         let glfw = self.get_glfw_wrapper();
@@ -49,14 +66,18 @@ pub trait Game {
         self.clear_background();
     }
 
+    /// Whether the window should be closed.
     fn should_close(&self) -> bool {
         self.get_glfw_wrapper().window.should_close()
     }
 
+    /// Swaps the front buffer with the back buffer.
+    /// This shows the next frame.
     fn swap_buffers(&self) {
         self.get_glfw_wrapper().window.swap_buffers()
     }
 
+    /// Handles events with default settings..
     fn handle_events(&self) {
         let glfw_wrapper = self.get_glfw_wrapper();
         let glfw = &glfw_wrapper.glfw;

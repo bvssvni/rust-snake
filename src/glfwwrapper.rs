@@ -1,9 +1,15 @@
+//! Creating of window.
+
 use glfw;
 use glfw::Context;
 
+/// Wraps GLFW objects.
 pub struct GlfwWrapper {
+    /// The window.
     pub window: glfw::Window,
+    /// Receives events from window.
     pub events: Receiver<(f64, glfw::WindowEvent)>,
+    /// GLFW context.
     pub glfw: glfw::Glfw,
 }
 

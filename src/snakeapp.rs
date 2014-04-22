@@ -1,8 +1,8 @@
-use game::{Game, Settings};
-use glfwwrapper::GlfwWrapper;
-use snakeshader::SnakeShader;
 
-use opengles::gl2;
+use Settings = gameengine::game::Settings;
+use Game = gameengine::game::Game;
+use GlfwWrapper = gameengine::glfwwrapper::GlfwWrapper;
+use snakeshader::SnakeShader;
 
 fn load_vertices() -> Vec<f32> {
     vec!(

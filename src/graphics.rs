@@ -1,7 +1,10 @@
+//! Graphics.
+
 use opengles::gl2;
 use std::io;
 use std::path;
 
+/// Clears background with a color.
 #[inline(always)]
 pub fn clear_background(r: f32, g: f32, b: f32, a: f32) {
     gl2::clear_color(r, g, b, a);

@@ -1,5 +1,5 @@
 use gl = opengles::gl2;
-use graphics;
+use graphics = gameengine::graphics;
 
 pub struct SnakeShader {
     vertex_shader: gl::GLuint,
