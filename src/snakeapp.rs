@@ -1,7 +1,7 @@
 
 use Settings = gameengine::game::Settings;
 use Game = gameengine::game::Game;
-use GlfwWrapper = gameengine::glfwwrapper::GlfwWrapper;
+use GameWindow = gameengine::game_window::GameWindow;
 use snakeshader::SnakeShader;
 
 fn load_vertices() -> Vec<f32> {
@@ -25,11 +25,11 @@ pub struct SnakeApp {
     vertices: Vec<f32>,
     colors: Vec<f32>,
     settings: Settings,
-    glfw_wrapper: GlfwWrapper,
+    game_window: GameWindow,
 }
 
 impl Game for SnakeApp {
-    fn get_glfw_wrapper<'a>(&'a self) -> &'a GlfwWrapper { &self.glfw_wrapper }
+    fn get_game_window<'a>(&'a self) -> &'a GameWindow { &self.game_window }
     fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
     fn render(&self) {
         self.shader.unwrap().render(self.vertices.as_slice(), self.colors.as_slice());
@@ -47,8 +47,7 @@ impl SnakeApp {
         let background_color = [1.0, 1.0, 1.0, 1.0];
         SnakeApp {
             shader: None,
-            glfw_wrapper: GlfwWrapper::window("Snake", 512, 512),
-            // glfw_wrapper: GlfwWrapper::fullscreen("Snake"),
+            game_window: GameWindow::window("Snake", 512, 512),
             vertices: load_vertices(),
             colors: load_colors(),
             settings: Settings::new(exit_on_esc, background_color),

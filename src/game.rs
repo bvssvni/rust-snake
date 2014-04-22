@@ -4,7 +4,7 @@ use glfw;
 use glfw::Context;
 use gl = opengles::gl2;
 
-use glfwwrapper::GlfwWrapper;
+use game_window::GameWindow;
 
 /// Basic settings for window behavior.
 pub struct Settings {
@@ -34,8 +34,8 @@ impl Settings {
 
 /// Implement default behavior for a game.
 pub trait Game {
-    /// Get the GLFW wrapper.
-    fn get_glfw_wrapper<'a>(&'a self) -> &'a GlfwWrapper;
+    /// Get the game window.
+    fn get_game_window<'a>(&'a self) -> &'a GameWindow;
     
     /// Read settings.
     fn get_settings<'a>(&'a self) -> &'a Settings;
@@ -60,36 +60,36 @@ pub trait Game {
     /// Sets up viewport.
     #[inline(always)]
     fn viewport(&self) {
-        let glfw = self.get_glfw_wrapper();
-        let (w, h) = glfw.window.get_size();
+        let game_window = self.get_game_window();
+        let (w, h) = game_window.window.get_size();
         gl::viewport(0, 0, w as gl::GLint, h as gl::GLint); 
         self.clear_background();
     }
 
     /// Whether the window should be closed.
     fn should_close(&self) -> bool {
-        self.get_glfw_wrapper().window.should_close()
+        self.get_game_window().window.should_close()
     }
 
     /// Swaps the front buffer with the back buffer.
     /// This shows the next frame.
     fn swap_buffers(&self) {
-        self.get_glfw_wrapper().window.swap_buffers()
+        self.get_game_window().window.swap_buffers()
     }
 
     /// Handles events with default settings..
     fn handle_events(&self) {
-        let glfw_wrapper = self.get_glfw_wrapper();
-        let glfw = &glfw_wrapper.glfw;
+        let game_window = self.get_game_window();
+        let glfw = &game_window.glfw;
         let settings = self.get_settings();
         glfw.poll_events();
         for (_, event) in 
-        glfw::flush_messages(&glfw_wrapper.events) {
+        glfw::flush_messages(&game_window.events) {
             match event {
                 // Close with Esc.
                 glfw::KeyEvent(glfw::KeyEscape, _, glfw::Press, _)
                 if settings.exit_on_esc  => {
-                    glfw_wrapper.window.set_should_close(true)
+                    game_window.window.set_should_close(true)
                 },
                 _ => {},
             }

@@ -8,5 +8,5 @@ extern crate glfw;
 
 pub mod game;
 pub mod graphics;
-pub mod glfwwrapper;
+pub mod game_window;
 

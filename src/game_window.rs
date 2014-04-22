@@ -3,8 +3,8 @@
 use glfw;
 use glfw::Context;
 
-/// Wraps GLFW objects.
-pub struct GlfwWrapper {
+/// Contains stuff for game window.
+pub struct GameWindow {
     /// The window.
     pub window: glfw::Window,
     /// Receives events from window.
@@ -13,14 +13,14 @@ pub struct GlfwWrapper {
     pub glfw: glfw::Glfw,
 }
 
-impl GlfwWrapper {
+impl GameWindow {
     /// Creates a window.
     #[allow(dead_code)]
     pub fn window(
         title: &str,
         width: u32,
         height: u32
-    ) -> GlfwWrapper {
+    ) -> GameWindow {
 	    // Create GLFW window.
         let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
         let (window, events) = glfw.create_window(
@@ -29,7 +29,7 @@ impl GlfwWrapper {
         window.set_key_polling(true);
         window.make_current();
 
-        GlfwWrapper {
+        GameWindow {
             window: window,
             events: events,
             glfw: glfw,
@@ -41,7 +41,7 @@ impl GlfwWrapper {
     #[allow(dead_code)]
     pub fn fullscreen(
         title: &str
-    ) -> GlfwWrapper { 
+    ) -> GameWindow { 
 	    // Create GLFW window.
         let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
         glfw.with_primary_monitor(|m| {
@@ -53,7 +53,7 @@ impl GlfwWrapper {
             window.set_key_polling(true);
             window.make_current();
         
-            GlfwWrapper {
+            GameWindow {
                 window: window,
                 events: events,
                 glfw: glfw,
