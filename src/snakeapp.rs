@@ -37,14 +37,8 @@ impl Game for SnakeApp {
         // Render triangle.
         // self.shader.unwrap().render(self.vertices.as_slice(), self.colors.as_slice());
 
-        for _ in range(0, 1 << 10) {
-            let x: f64 = random();
-            let y: f64 = random();
-            c
-            .rect(x - 0.5, y - 0.5, 0.005, 0.005)
-            .rgba(random(), 0.0, 0.0, 1.0)
-            .fill(gl);
-        }
+        c.rgba(1.0, 0.0, 0.0, 1.0).square(0.0, 0.0, 0.5).fill(gl);
+        c.rgba(0.0, 0.0, 1.0, 0.5).square(0.2, 0.0, 0.5).fill(gl);
     }
     fn update(&mut self) {
     }
