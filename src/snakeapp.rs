@@ -2,7 +2,8 @@
 use Settings = piston::game::Settings;
 use Game = piston::game::Game;
 use GameWindow = piston::game_window::GameWindow;
-use snakeshader::SnakeShader;
+use Gl = piston::gl::Gl;
+use graphics::*;
 use rand::random;
 
 fn load_vertices() -> Vec<f32> {
@@ -22,7 +23,7 @@ fn load_colors() -> Vec<f32> {
 }
 
 pub struct SnakeApp {
-    shader: Option<SnakeShader>,
+    gl: Option<Gl>,
     vertices: Vec<f32>,
     colors: Vec<f32>,
     settings: Settings,
@@ -36,19 +37,21 @@ impl Game for SnakeApp {
         // Render triangle.
         // self.shader.unwrap().render(self.vertices.as_slice(), self.colors.as_slice());
 
-        let shader = self.shader.unwrap();
-        for _ in range(0, 1 << 19) {
-            let x: f32 = random();
-            let y: f32 = random();
-            let rect = [x - 0.5, y - 0.5, 0.005, 0.005];
-            let color = [random(), 0.0, 0.0, 1.0];
-            shader.fill_rect(rect, color);
+        let mut gl = self.gl.unwrap();
+        let c = Context::new();
+        for _ in range(0, 1 << 10) {
+            let x: f64 = random();
+            let y: f64 = random();
+            c
+            .rect(x - 0.5, y - 0.5, 0.005, 0.005)
+            .rgba(random(), 0.0, 0.0, 1.0)
+            .fill(&mut gl);
         }
     }
     fn update(&mut self) {
     }
     fn load(&mut self) {
-        self.shader = Some(SnakeShader::new());
+        self.gl = Some(Gl::new());
     }
 }
 
@@ -57,7 +60,7 @@ impl SnakeApp {
         let exit_on_esc = true;
         let background_color = [1.0, 1.0, 1.0, 1.0];
         SnakeApp {
-            shader: None,
+            gl: None,
             game_window: GameWindow::window("Snake", 512, 512),
             vertices: load_vertices(),
             colors: load_colors(),

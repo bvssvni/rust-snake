@@ -1,5 +1,6 @@
 #![feature(globs)]
 
+extern crate graphics;
 extern crate piston;
 extern crate rand;
 extern crate native;
@@ -8,7 +9,6 @@ extern crate opengles;
 
 use Game = piston::game::Game;
 
-mod snakeshader;
 mod snakeapp;
 
 #[start]
