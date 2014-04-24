@@ -1,7 +1,7 @@
 
-use Settings = gameengine::game::Settings;
-use Game = gameengine::game::Game;
-use GameWindow = gameengine::game_window::GameWindow;
+use Settings = piston::game::Settings;
+use Game = piston::game::Game;
+use GameWindow = piston::game_window::GameWindow;
 use snakeshader::SnakeShader;
 use rand::random;
 

@@ -1,12 +1,12 @@
 #![feature(globs)]
 
-extern crate gameengine;
+extern crate piston;
 extern crate rand;
 extern crate native;
 extern crate glfw;
 extern crate opengles;
 
-use Game = gameengine::game::Game;
+use Game = piston::game::Game;
 
 mod snakeshader;
 mod snakeapp;

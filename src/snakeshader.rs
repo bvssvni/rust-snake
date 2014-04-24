@@ -1,5 +1,5 @@
 use gl = opengles::gl2;
-use graphics = gameengine::graphics;
+use piston::shader_utils::{compile_shader_file};
 
 fn rect_vertices(rect: [f32, ..4]) -> [f32, ..12] {
     let x = rect[0];
@@ -43,10 +43,10 @@ pub struct SnakeShader {
 
 impl SnakeShader {
     pub fn new() -> SnakeShader {
-        let vertex_shader = graphics::compile_shader_file(
+        let vertex_shader = compile_shader_file(
             gl::VERTEX_SHADER,
             "triangle.vert");
-        let fragment_shader = graphics::compile_shader_file(
+        let fragment_shader = compile_shader_file(
             gl::FRAGMENT_SHADER,
             "triangle.frag");
         let program = gl::create_program();
@@ -63,8 +63,8 @@ impl SnakeShader {
 
         // Load the vertices and color buffers.
         let buffers = gl::gen_buffers(2);
-        let position_id = buffers[0];
-        let fill_color_id = buffers[1];
+        let position_id = *buffers.get(0);
+        let fill_color_id = *buffers.get(1);
 
         SnakeShader {
             vertex_shader: vertex_shader,
