@@ -34,7 +34,16 @@ impl Game for SnakeApp {
     fn get_game_window<'a>(&'a self) -> &'a GameWindow { &self.game_window }
     fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
     fn render(&self, c: &graphics::Context, gl: &mut Gl) {
-        c.ellipse(0.0, 0.0, 0.5, 0.5).rgba(0.0, 1.0, 0.0, 1.0).fill(gl);
+        for _ in range(0, 100) {
+            // c.ellipse(random::<f64>() - 0.5, 0.0, 0.5, 0.5).rgba(0.0, 1.0, 0.0, 0.005).fill(gl);
+            let polygon: &[f64] = &[
+                random(), random(),
+                random(), random(),
+                random(), random(),
+                random(), random(),
+            ];
+            c.polygon(polygon).rgba(random(), random(), random(), 0.1).trans(-0.5, -0.5).scale(2.0, 2.0).fill(gl);
+        }
     }
     fn update(&mut self) {
     }
