@@ -34,12 +34,7 @@ impl Game for SnakeApp {
     fn get_game_window<'a>(&'a self) -> &'a GameWindow { &self.game_window }
     fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
     fn render(&self, c: &graphics::Context, gl: &mut Gl) {
-        let polygon = [
-            0.0, 0.0,
-            0.5, 0.0,
-            0.5, 0.5
-        ];
-        c.polygon(polygon.as_slice()).rgba(0.0, 0.0, 1.0, 1.0).fill(gl);
+        c.ellipse(0.0, 0.0, 0.5, 0.5).rgba(0.0, 1.0, 0.0, 1.0).fill(gl);
     }
     fn update(&mut self) {
     }
