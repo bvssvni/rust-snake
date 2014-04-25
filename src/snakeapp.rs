@@ -38,7 +38,7 @@ impl Game for SnakeApp {
         // self.shader.unwrap().render(self.vertices.as_slice(), self.colors.as_slice());
 
         c.rgba(1.0, 0.0, 0.0, 1.0).square(0.0, 0.0, 0.5).fill(gl);
-        c.rgba(0.0, 0.0, 1.0, 0.5).square(0.2, 0.0, 0.5).fill(gl);
+        c.rgba(0.0, 0.0, 1.0, 0.5).square(0.2, 0.0, 0.5).trans(-0.5, 0.0).rot_deg(-5.0).rot_deg(10.0 * random()).fill(gl);
     }
     fn update(&mut self) {
     }
