@@ -99,11 +99,36 @@ impl Object {
         };
     }
 
+    fn move_shark(&mut self, state: shark::SharkState, player_dx: f64, player_dy: f64) {
+        match state {
+            shark::ChasingPlayer => {
+                if player_dx > 0.0 { self.move_right(); }
+                else { self.move_left(); }
+
+                if player_dy > 0.0 { self.move_up(); }
+                else { self.move_down(); }
+            },
+            _ => {},
+       }
+    }
+
     pub fn update(&mut self, dt: f64, player_pos: [f64, ..2]) {
         self.pos = [self.pos[0] + self.vel[0] * dt, self.pos[1] + self.vel[1] * dt];
-    
+   
+        // Update object state. 
+        let (player_dx, player_dy) = (player_pos[0] - self.pos[0], player_pos[1] - self.pos[1]);
         match self.data {
-            SharkData(ref mut shark) => shark.update(player_pos, self.pos),
+            SharkData(ref mut shark) => {
+                shark.update(player_pos, self.pos);
+            },
+            _ => {},
+        }
+
+        // Move object.
+        match self.data {
+            SharkData(Shark { state: state, ..}) => { 
+                self.move_shark(state, player_dx, player_dy);
+            },
             _ => {},
         }
     }
