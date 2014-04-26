@@ -4,6 +4,7 @@ use graphics::*;
 use Gl = piston::gl::Gl;
 use settings;
 use spring::Spring;
+use bar::Bar;
 
 /// All objects are of same kind.
 /// Makes it easier to write game logic.
@@ -12,6 +13,7 @@ pub struct Object {
     pub vel: [f64, ..2],
     pub test_color: [f32, ..4],
     pub springs: Vec<Spring>,
+    pub bar: Option<Bar>,
 }
 
 impl Object {
@@ -21,6 +23,7 @@ impl Object {
             vel: [0.0, 0.0],
             test_color: test_color,
             springs: Vec::new(),
+            bar: None,
         }
     }
 
