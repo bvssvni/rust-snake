@@ -15,6 +15,7 @@ mod object;
 mod settings;
 mod spring;
 mod text;
+mod bar;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {
