@@ -33,7 +33,11 @@ impl Game for SnakeApp {
 
     fn load(&mut self) {
         self.add_sharks();
-        self.objects.push(Object::player(settings::ORIGIN, settings::BLUE));
+        self.objects.push(Object::player(
+            settings::ORIGIN, 
+            settings::BLUE,
+            settings::PLAYER_INITIAL_BLOOD
+        ));
         self.player_index = Some(1);
         self.add_bars();
     }

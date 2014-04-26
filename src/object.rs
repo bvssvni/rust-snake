@@ -27,13 +27,13 @@ pub struct Object {
 }
 
 impl Object {
-    pub fn player(pos: [f64, ..2], test_color: [f32, ..4]) -> Object {
+    pub fn player(pos: [f64, ..2], test_color: [f32, ..4], blood: f64) -> Object {
         Object {
             pos: pos,
             vel: [0.0, 0.0],
             test_color: test_color,
             springs: Vec::new(),
-            data: PlayerData(Player { foo: 0 }),
+            data: PlayerData(Player { blood: blood }),
         }
     }
 

@@ -1,2 +1,2 @@
 
-pub struct Player { pub foo: int }
+pub struct Player { pub blood: f64 }
