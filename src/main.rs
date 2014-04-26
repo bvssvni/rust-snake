@@ -11,6 +11,8 @@ use Game = piston::game::Game;
 use GameWindow = piston::game_window::GameWindow;
 
 mod snakeapp;
+mod object;
+mod settings;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {

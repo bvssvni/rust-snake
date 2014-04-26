@@ -1,26 +1,11 @@
 
+use glfw;
 use Settings = piston::game::Settings;
 use Game = piston::game::Game;
 use piston::gl::Gl;
 use graphics;
 use graphics::*;
-
-pub static RADIUS: f64 = 0.5;
-
-/// All objects are of same kind.
-/// Makes it easier to write game logic.
-pub struct Object {
-    pub pos: [f64, ..2],
-}
-
-impl Object {
-    pub fn render(&self, c: &graphics::Context, gl: &mut Gl) {
-        let x = self.pos[0];
-        let y = self.pos[1];
-        let rad = RADIUS;
-        c.square_centered(x, y, rad).rgba(1.0, 0.0, 0.0, 1.0).fill(gl);
-    }
-}
+use Object = object::Object;
 
 pub struct SnakeApp {
     settings: Settings,
@@ -31,15 +16,49 @@ pub struct SnakeApp {
 
 impl Game for SnakeApp {
     fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
+    
     fn render(&self, c: &graphics::Context, gl: &mut Gl) {
         for obj in self.objects.iter() {
             obj.render(c, gl);
         }
     }
+    
     fn update(&mut self) {
+        let dt = 0.1;
+        for obj in self.objects.mut_iter() {
+            obj.update(dt);
+        }
     }
+    
     fn load(&mut self) {
-        self.objects.push(Object { pos: [0.0, 0.0] });
+        self.objects.push(Object::new([0.0, 0.0]));
+        self.player_index = Some(0);
+    }
+
+    fn key_press(&mut self, key: glfw::Key) {
+        // TEST
+        // println!("Key pressed {}", key);
+
+        match (key, self.player_index) {
+            (glfw::KeyRight, Some(player_index)) => {
+                self.objects.get_mut(player_index).move_right();
+            },
+            (glfw::KeyUp, Some(player_index)) => {
+                self.objects.get_mut(player_index).move_up();
+            },
+            (glfw::KeyLeft, Some(player_index)) => {
+                self.objects.get_mut(player_index).move_left();
+            },
+            (glfw::KeyDown, Some(player_index)) => {
+                self.objects.get_mut(player_index).move_down();
+            },
+            _ => {},
+        }
+    }
+
+    fn key_release(&mut self, key: glfw::Key) {
+        // TEST
+        // println!("Key released {}", key);
     }
 }
 
