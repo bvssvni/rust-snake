@@ -21,6 +21,7 @@ pub enum ObjectData {
 pub struct Object {
     pub pos: [f64, ..2],
     pub vel: [f64, ..2],
+    pub radius: f64,
     pub test_color: [f32, ..4],
     pub springs: Vec<Spring>,
     pub data: ObjectData,
@@ -31,6 +32,7 @@ impl Object {
         Object {
             pos: pos,
             vel: [0.0, 0.0],
+            radius: settings::PLAYER_RADIUS,
             test_color: test_color,
             springs: Vec::new(),
             data: PlayerData(Player { blood: blood }),
@@ -39,23 +41,20 @@ impl Object {
 
     pub fn shark(
         pos: [f64, ..2], 
-        test_color: [f32, ..4], 
-        sensor_distance: f64,
-        state: shark::SharkState,
-        bite_damage: f64,
-        wait_seconds_before_initial_attack: f64
+        settings: settings::SharkSettings
     ) -> Object {
         
         Object {
             pos: pos,
             vel: [0.0, 0.0],
-            test_color: test_color,
+            radius: settings.radius,
+            test_color: settings.test_color,
             springs: Vec::new(),
             data: SharkData(Shark { 
-                sensor_distance: sensor_distance,
-                state: state,
-                bite_damage: bite_damage,
-                wait_seconds_before_initial_attack: wait_seconds_before_initial_attack,
+                sensor_distance: settings.sensor_distance,
+                state: settings.initial_state,
+                bite_damage: settings.bite_damage,
+                wait_seconds_before_initial_attack: settings.wait_seconds_before_initial_attack,
             }),
         }
     }
@@ -71,6 +70,7 @@ impl Object {
      
        Object {
             pos: pos,
+            radius: 0.0,
             vel: [0.0, 0.0],
             springs: Vec::new(),
             test_color: settings::BLACK,
@@ -94,14 +94,13 @@ impl Object {
     pub fn render(&self, c: &graphics::Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];
-       
+        let rad = self.radius;      
+ 
         match self.data {
             SharkData(_) => {
-                let rad = settings::SHARK_RADIUS;
                 c.square_centered(x, y, rad).color(self.test_color).fill(gl);
             },
             PlayerData(_) => {
-                let rad = settings::PLAYER_RADIUS;
                 c.square_centered(x, y, rad).color(self.test_color).fill(gl);
             },
             BarData(bar) => {

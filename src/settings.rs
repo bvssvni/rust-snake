@@ -9,24 +9,32 @@ pub static PLAYER_SPEED_LEFT: f64 = 0.1;
 pub static PLAYER_SPEED_UP: f64 = 0.1;
 pub static PLAYER_SPEED_DOWN: f64 = 0.1;
 
-pub static SHARK_INITIAL_STATE: shark::SharkState = shark::Ignorant;
-pub static SHARK_BITE_DAMAGE: f64 = 0.1;
-pub static SHARK_SENSOR_DISTANCE: f64 = 0.2;
-pub static SHARK_WAIT_SECONDS_BEFORE_INITIAL_ATTACK: f64 = 1.0;
-pub static SHARK_TEST_COLOR: [f32, ..4] = BLACK;
-pub static SHARK_RADIUS: f64 = 0.1;
+pub struct SharkSettings {
+    pub initial_state: shark::SharkState,    
+    pub bite_damage: f64,
+    pub sensor_distance: f64,
+    pub wait_seconds_before_initial_attack: f64,
+    pub test_color: [f32, ..4],
+    pub radius: f64,
+}
+
+pub static SHARK_SETTINGS: SharkSettings = SharkSettings {
+    initial_state: shark::Ignorant,
+    bite_damage: 0.1,
+    sensor_distance: 0.2,
+    wait_seconds_before_initial_attack: 1.0,
+    test_color: BLACK,
+    radius: 0.1,
+};
+
 pub static SHARK_SPEED_RIGHT: f64 = 0.1;
 pub static SHARK_SPEED_LEFT: f64 = 0.1;
 pub static SHARK_SPEED_UP: f64 = 0.1;
 pub static SHARK_SPEED_DOWN: f64 = 0.1;
 
 // shark 1.
-pub static SHARK_1_INITIAL_STATE: shark::SharkState = shark::Ignorant;
-pub static SHARK_1_BITE_DAMAGE: f64 = SHARK_BITE_DAMAGE;
-pub static SHARK_1_WAIT_SECONDS_BEFORE_INITIAL_ATTACK: f64 = SHARK_WAIT_SECONDS_BEFORE_INITIAL_ATTACK;
+pub static SHARK_1_SETTINGS: SharkSettings = SHARK_SETTINGS;
 pub static SHARK_1_POS: [f64, ..2] = [-0.1, 0.1];
-pub static SHARK_1_TEST_COLOR: [f32, ..4] = SHARK_TEST_COLOR;
-pub static SHARK_1_SENSOR_DISTANCE: f64 = SHARK_SENSOR_DISTANCE;
 
 pub static BAR_RECTANGLE: [f64, ..4] = [0.3, -0.06, 1.5, 0.05];
 pub static BAR_MARGIN: f64 = 0.01;
