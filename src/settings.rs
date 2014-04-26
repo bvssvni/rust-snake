@@ -9,6 +9,7 @@ pub static PLAYER_SPEED_UP: f64 = 0.1;
 pub static PLAYER_SPEED_DOWN: f64 = 0.1;
 
 pub static SHARK_INITIAL_STATE: shark::SharkState = shark::Ignorant;
+pub static SHARK_BITE_DAMAGE: f64 = 0.1;
 pub static SHARK_SENSOR_DISTANCE: f64 = 0.2;
 pub static SHARK_TEST_COLOR: [f32, ..4] = BLACK;
 pub static SHARK_RADIUS: f64 = 0.1;
@@ -19,6 +20,7 @@ pub static SHARK_SPEED_DOWN: f64 = 0.1;
 
 // shark 1.
 pub static SHARK_1_INITIAL_STATE: shark::SharkState = shark::Ignorant;
+pub static SHARK_1_BITE_DAMAGE: f64 = SHARK_BITE_DAMAGE;
 pub static SHARK_1_POS: [f64, ..2] = [-0.1, 0.1];
 pub static SHARK_1_TEST_COLOR: [f32, ..4] = SHARK_TEST_COLOR;
 pub static SHARK_1_SENSOR_DISTANCE: f64 = SHARK_SENSOR_DISTANCE;

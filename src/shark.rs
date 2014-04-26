@@ -8,6 +8,7 @@ pub enum SharkState {
 pub struct Shark {
     pub sensor_distance: f64,
     pub state: SharkState,
+    pub bite_damage: f64,
 }
 
 impl Shark {

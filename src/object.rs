@@ -41,7 +41,8 @@ impl Object {
         pos: [f64, ..2], 
         test_color: [f32, ..4], 
         sensor_distance: f64,
-        state: shark::SharkState
+        state: shark::SharkState,
+        bite_damage: f64
     ) -> Object {
         
         Object {
@@ -52,6 +53,7 @@ impl Object {
             data: SharkData(Shark { 
                 sensor_distance: sensor_distance,
                 state: state,
+                bite_damage: bite_damage,
             }),
         }
     }

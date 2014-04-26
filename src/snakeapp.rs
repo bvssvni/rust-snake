@@ -100,7 +100,8 @@ impl SnakeApp {
             settings::SHARK_1_POS, 
             settings::SHARK_1_TEST_COLOR, 
             settings::SHARK_1_SENSOR_DISTANCE,
-            settings::SHARK_1_INITIAL_STATE
+            settings::SHARK_1_INITIAL_STATE,
+            settings::SHARK_1_BITE_DAMAGE
         ));
     }
 }
