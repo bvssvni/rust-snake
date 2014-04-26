@@ -95,7 +95,11 @@ impl SnakeApp {
     }
 
     pub fn add_sharks(&mut self) {
-        self.objects.push(Object::shark(settings::SHARK_1_POS, settings::SHARK_1_TEST_COLOR));
+        self.objects.push(Object::shark(
+            settings::SHARK_1_POS, 
+            settings::SHARK_1_TEST_COLOR, 
+            settings::SHARK_1_SENSOR_DISTANCE
+        ));
     }
 }
 

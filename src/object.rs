@@ -35,13 +35,13 @@ impl Object {
         }
     }
 
-    pub fn shark(pos: [f64, ..2], test_color: [f32, ..4]) -> Object {
+    pub fn shark(pos: [f64, ..2], test_color: [f32, ..4], sensor_distance: f64) -> Object {
         Object {
             pos: pos,
             vel: [0.0, 0.0],
             test_color: test_color,
             springs: Vec::new(),
-            data: SharkData(Shark { foo: 0 }),
+            data: SharkData(Shark { sensor_distance: sensor_distance }),
         }
     }
 

@@ -1,5 +1,5 @@
 
 pub struct Shark {
-    pub foo: int,
+    pub sensor_distance: f64,
 }
 

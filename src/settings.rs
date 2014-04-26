@@ -7,6 +7,8 @@ pub static PLAYER_SPEED_LEFT: f64 = 0.1;
 pub static PLAYER_SPEED_UP: f64 = 0.1;
 pub static PLAYER_SPEED_DOWN: f64 = 0.1;
 
+pub static SHARK_SENSOR_DISTANCE: f64 = 0.2;
+pub static SHARK_TEST_COLOR: [f32, ..4] = BLACK;
 pub static SHARK_RADIUS: f64 = 0.1;
 pub static SHARK_SPEED_RIGHT: f64 = 0.1;
 pub static SHARK_SPEED_LEFT: f64 = 0.1;
@@ -15,7 +17,8 @@ pub static SHARK_SPEED_DOWN: f64 = 0.1;
 
 // shark 1.
 pub static SHARK_1_POS: [f64, ..2] = [-0.1, 0.1];
-pub static SHARK_1_TEST_COLOR: [f32, ..4] = BLACK;
+pub static SHARK_1_TEST_COLOR: [f32, ..4] = SHARK_TEST_COLOR;
+pub static SHARK_1_SENSOR_DISTANCE: f64 = SHARK_SENSOR_DISTANCE;
 
 pub static BAR_RECTANGLE: [f64, ..4] = [0.3, -0.06, 1.5, 0.05];
 pub static BAR_MARGIN: f64 = 0.01;
