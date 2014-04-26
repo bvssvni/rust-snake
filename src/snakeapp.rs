@@ -11,6 +11,7 @@ use text;
 pub struct SnakeApp {
     settings: Settings,
     player_index: Option<uint>,
+    blood_bar_index: Option<uint>,
     // Contains the game objects.
     objects: Vec<Object>,
 }
@@ -77,6 +78,7 @@ impl SnakeApp {
             settings: Settings::new(exit_on_esc, background_color),
             objects: Vec::new(),
             player_index: None,
+            blood_bar_index: None,
         }
     }
 
@@ -97,6 +99,7 @@ impl SnakeApp {
             settings::BLOOD_BAR_BAR_COLOR,
             settings::BLOOD_BAR_INITIAL_VALUE
         ));
+        self.blood_bar_index = Some(self.objects.len() - 1);
     }
 
     pub fn add_sharks(&mut self) {
