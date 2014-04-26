@@ -1,3 +1,4 @@
+use player::Player;
 
 pub enum SharkState {
     Ignorant,
@@ -19,4 +20,9 @@ impl Shark {
             self.state = ChasingPlayer;
         }
     }
+
+    pub fn attack(&mut self, player: &mut Player) {
+        player.blood -= self.bite_damage;
+    }
 }
+
