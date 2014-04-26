@@ -14,6 +14,7 @@ pub struct SharkSettings {
     pub bite_damage: f64,
     pub sensor_distance: f64,
     pub wait_seconds_before_initial_attack: f64,
+    pub wait_seconds_before_repeat_attack: f64,
     pub test_color: [f32, ..4],
     pub radius: f64,
 }
@@ -23,6 +24,7 @@ pub static SHARK_SETTINGS: SharkSettings = SharkSettings {
     bite_damage: 0.1,
     sensor_distance: 0.2,
     wait_seconds_before_initial_attack: 1.0,
+    wait_seconds_before_repeat_attack: 1.0,
     test_color: BLACK,
     radius: 0.1,
 };

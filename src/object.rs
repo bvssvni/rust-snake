@@ -55,6 +55,7 @@ impl Object {
                 state: settings.initial_state,
                 bite_damage: settings.bite_damage,
                 wait_seconds_before_initial_attack: settings.wait_seconds_before_initial_attack,
+                wait_seconds_before_repeat_attack: settings.wait_seconds_before_repeat_attack,
             }),
         }
     }

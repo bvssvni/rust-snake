@@ -12,6 +12,7 @@ pub struct Shark {
     pub state: SharkState,
     pub bite_damage: f64,
     pub wait_seconds_before_initial_attack: f64,
+    pub wait_seconds_before_repeat_attack: f64,
 }
 
 impl Shark {
