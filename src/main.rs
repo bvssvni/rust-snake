@@ -8,6 +8,7 @@ extern crate glfw;
 extern crate opengles;
 
 use Game = piston::game::Game;
+use GameWindow = piston::game_window::GameWindow;
 
 mod snakeapp;
 
@@ -20,7 +21,8 @@ fn start(argc: int, argv: **u8) -> int {
 fn main() {
     use snakeapp::SnakeApp;
 
+    let game_window = GameWindow::window("Snake", 512, 512);
     let mut app = SnakeApp::new();    
-    app.run();
+    app.run(&game_window);
 }
 
