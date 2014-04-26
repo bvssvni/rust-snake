@@ -6,6 +6,7 @@ use settings;
 use spring::Spring;
 use bar::Bar;
 use player::Player;
+use shark::Shark;
 
 /// All objects are of same kind.
 /// Makes it easier to write game logic.
@@ -16,6 +17,7 @@ pub struct Object {
     pub springs: Vec<Spring>,
     pub bar: Option<Bar>,
     pub player: Option<Player>,
+    pub shark: Option<Shark>,
 }
 
 impl Object {
@@ -27,6 +29,19 @@ impl Object {
             springs: Vec::new(),
             bar: None,
             player: Some(Player),
+            shark: None,
+        }
+    }
+
+    pub fn shark(pos: [f64, ..2], test_color: [f32, ..4]) -> Object {
+        Object {
+            pos: pos,
+            vel: [0.0, 0.0],
+            test_color: test_color,
+            springs: Vec::new(),
+            bar: None,
+            player: None,
+            shark: Some(Shark),
         }
     }
 
@@ -52,6 +67,7 @@ impl Object {
                 bar_color: bar_color,
             }),
             player: None,
+            shark: None,
         }
     }
 

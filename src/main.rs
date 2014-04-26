@@ -17,6 +17,7 @@ mod spring;
 mod text;
 mod bar;
 mod player;
+mod shark;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {

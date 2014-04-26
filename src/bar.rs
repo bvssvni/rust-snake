@@ -21,7 +21,7 @@ impl Bar {
         let w = rect[2];
         let h = rect[3];
         c.rect(x, y, w, h).color(self.background_color).fill(gl);
-        c.rect(x, y, w * self.value, h).color(self.bar_color).fill(gl);
+        c.rect(x, y, w * self.value, h).margin(settings::BAR_MARGIN).color(self.bar_color).fill(gl);
     }
 }
 
