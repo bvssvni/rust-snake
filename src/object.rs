@@ -1,4 +1,5 @@
 
+use action;
 use graphics;
 use graphics::*;
 use Gl = piston::gl::Gl;
@@ -124,14 +125,15 @@ impl Object {
        }
     }
 
-    pub fn update(&mut self, dt: f64, player_pos: [f64, ..2]) {
+    pub fn update(&mut self, dt: f64, player_pos: [f64, ..2]) -> action::Action {
         self.pos = [self.pos[0] + self.vel[0] * dt, self.pos[1] + self.vel[1] * dt];
    
+        let mut action = action::Passive;
         // Update object state. 
         let (player_dx, player_dy) = (player_pos[0] - self.pos[0], player_pos[1] - self.pos[1]);
         match self.data {
             SharkData(ref mut shark) => {
-                shark.update(dt, player_pos, self.pos);
+                action = shark.update(dt, player_pos, self.pos);
             },
             _ => {},
         }
@@ -143,6 +145,8 @@ impl Object {
             },
             _ => {},
         }
+
+        action
     }
 
     pub fn move_right(&mut self) {
