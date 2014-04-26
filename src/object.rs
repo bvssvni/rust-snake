@@ -8,6 +8,12 @@ use bar::Bar;
 use player::Player;
 use shark::Shark;
 
+pub enum ObjectData {
+    PlayerData(Player),
+    SharkData(Shark),
+    BarData(Bar),
+}
+
 /// All objects are of same kind.
 /// Makes it easier to write game logic.
 pub struct Object {
@@ -15,9 +21,7 @@ pub struct Object {
     pub vel: [f64, ..2],
     pub test_color: [f32, ..4],
     pub springs: Vec<Spring>,
-    pub bar: Option<Bar>,
-    pub player: Option<Player>,
-    pub shark: Option<Shark>,
+    pub data: ObjectData,
 }
 
 impl Object {
@@ -27,9 +31,7 @@ impl Object {
             vel: [0.0, 0.0],
             test_color: test_color,
             springs: Vec::new(),
-            bar: None,
-            player: Some(Player { foo: 0 }),
-            shark: None,
+            data: PlayerData(Player { foo: 0 }),
         }
     }
 
@@ -39,9 +41,7 @@ impl Object {
             vel: [0.0, 0.0],
             test_color: test_color,
             springs: Vec::new(),
-            bar: None,
-            player: None,
-            shark: Some(Shark { foo: 0 }),
+            data: SharkData(Shark { foo: 0 }),
         }
     }
 
@@ -59,44 +59,30 @@ impl Object {
             vel: [0.0, 0.0],
             springs: Vec::new(),
             test_color: settings::BLACK,
-            bar: Some(Bar { 
+            data: BarData(Bar { 
                 text: text, 
                 value: value, 
                 text_color: text_color, 
                 background_color: background_color,
                 bar_color: bar_color,
             }),
-            player: None,
-            shark: None,
         }
     }
 
     pub fn render(&self, c: &graphics::Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];
-        
-        // Render shark.
-        match self.shark {
-            None => {},
-            Some(_) => {
+       
+        match self.data {
+            SharkData(_) => {
                 let rad = settings::SHARK_RADIUS;
                 c.square_centered(x, y, rad).color(self.test_color).fill(gl);
-            }
-        };
-        
-        // Render player.
-        match self.player {
-            None => {},
-            Some(_) => {
+            },
+            PlayerData(_) => {
                 let rad = settings::PLAYER_RADIUS;
                 c.square_centered(x, y, rad).color(self.test_color).fill(gl);
-            }
-        };    
-
-        // Render bar.
-        match self.bar {
-            None => {},
-            Some(bar) => {
+            },
+            BarData(bar) => {
                 bar.render(&c.trans_local(x, y), gl);
             },
         };
