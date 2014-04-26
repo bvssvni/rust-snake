@@ -13,6 +13,7 @@ use GameWindow = piston::game_window::GameWindow;
 mod snakeapp;
 mod object;
 mod settings;
+mod spring;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {
