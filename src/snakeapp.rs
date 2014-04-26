@@ -23,8 +23,7 @@ impl Game for SnakeApp {
         }
     }
     
-    fn update(&mut self) {
-        let dt = 0.1;
+    fn update(&mut self, dt: f64) {
         for obj in self.objects.mut_iter() {
             obj.update(dt);
         }
