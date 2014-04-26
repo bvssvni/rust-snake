@@ -58,14 +58,13 @@ static lower_right_face_left: &'static [f64] = &[
     52.0, 66.0,
 ];
 
-fn a<'a, 'b>(c: &'a graphics::ColorContext<'b>, gl: &mut Gl) -> &'a graphics::ColorContext<'b> {
+fn a(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(top_face_down).fill(gl);
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left).fill(gl);
     c.polygon(middle).fill(gl);
     c.polygon(lower_left_face_right).fill(gl);
     c.polygon(lower_right_face_left).fill(gl);
-    c
 }
 
 /// Renders text filled with colors.
