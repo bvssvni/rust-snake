@@ -6,6 +6,7 @@ use piston::gl::Gl;
 use graphics;
 use graphics::*;
 use Object = object::Object;
+use text;
 
 pub struct SnakeApp {
     settings: Settings,
@@ -21,6 +22,8 @@ impl Game for SnakeApp {
         for obj in self.objects.iter() {
             obj.render(c, gl);
         }
+
+        text::text("a", &c.flip_v().zoom(0.01).color(settings::BLACK), gl);
     }
     
     fn update(&mut self, dt: f64) {

@@ -14,6 +14,7 @@ mod snakeapp;
 mod object;
 mod settings;
 mod spring;
+mod text;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {
