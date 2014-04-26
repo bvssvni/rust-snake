@@ -94,6 +94,13 @@ impl Object {
         }
     }
 
+    pub fn blood_mut<'a>(&'a mut self) -> Option<&'a mut f64> {
+        match self.data {
+            PlayerData(ref mut player) => Some(&mut player.blood),
+            _ => None,
+        }
+    }
+
     pub fn render(&self, c: &graphics::Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];

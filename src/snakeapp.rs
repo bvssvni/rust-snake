@@ -1,3 +1,4 @@
+use action;
 use settings;
 use glfw;
 use Settings = piston::game::Settings;
@@ -29,12 +30,20 @@ impl Game for SnakeApp {
     fn update(&mut self, dt: f64) {
         if self.player_index == None { return; }        
 
+        // Update states of objects.
         let player_index = self.player_index.unwrap();
         let player_pos = self.objects.get(player_index).pos;
+        let mut attack_damage: f64 = 0.0;
         for obj in self.objects.mut_iter() {
-            obj.update(dt, player_pos);
+            match obj.update(dt, player_pos) {
+                action::Passive => {},
+                action::Attack(attack) => { attack_damage += attack; },
+            }
         }
-    
+
+        // Decrease the players life with attacks.
+        *self.objects.get_mut(player_index).blood_mut().unwrap() -= attack_damage;   
+ 
         if self.blood_bar_index == None { return; }
 
         // Show blood.
