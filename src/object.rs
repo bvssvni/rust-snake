@@ -99,8 +99,13 @@ impl Object {
         };
     }
 
-    pub fn update(&mut self, dt: f64) {
+    pub fn update(&mut self, dt: f64, player_pos: [f64, ..2]) {
         self.pos = [self.pos[0] + self.vel[0] * dt, self.pos[1] + self.vel[1] * dt];
+    
+        match self.data {
+            SharkData(ref mut shark) => shark.update(player_pos, self.pos),
+            _ => {},
+        }
     }
 
     pub fn move_right(&mut self) {

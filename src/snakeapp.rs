@@ -25,8 +25,9 @@ impl Game for SnakeApp {
     }
     
     fn update(&mut self, dt: f64) {
+        let player_pos = self.objects.get(self.player_index.unwrap()).pos;
         for obj in self.objects.mut_iter() {
-            obj.update(dt);
+            obj.update(dt, player_pos);
         }
     }
 
