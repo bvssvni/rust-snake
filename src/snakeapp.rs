@@ -98,7 +98,8 @@ impl SnakeApp {
         self.objects.push(Object::shark(
             settings::SHARK_1_POS, 
             settings::SHARK_1_TEST_COLOR, 
-            settings::SHARK_1_SENSOR_DISTANCE
+            settings::SHARK_1_SENSOR_DISTANCE,
+            settings::SHARK_1_INITIAL_STATE
         ));
     }
 }

@@ -6,7 +6,9 @@ use settings;
 use spring::Spring;
 use bar::Bar;
 use player::Player;
+use shark;
 use shark::Shark;
+
 
 pub enum ObjectData {
     PlayerData(Player),
@@ -35,13 +37,22 @@ impl Object {
         }
     }
 
-    pub fn shark(pos: [f64, ..2], test_color: [f32, ..4], sensor_distance: f64) -> Object {
+    pub fn shark(
+        pos: [f64, ..2], 
+        test_color: [f32, ..4], 
+        sensor_distance: f64,
+        state: shark::SharkState
+    ) -> Object {
+        
         Object {
             pos: pos,
             vel: [0.0, 0.0],
             test_color: test_color,
             springs: Vec::new(),
-            data: SharkData(Shark { sensor_distance: sensor_distance }),
+            data: SharkData(Shark { 
+                sensor_distance: sensor_distance,
+                state: state,
+            }),
         }
     }
 
