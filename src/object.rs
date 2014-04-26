@@ -42,7 +42,8 @@ impl Object {
         test_color: [f32, ..4], 
         sensor_distance: f64,
         state: shark::SharkState,
-        bite_damage: f64
+        bite_damage: f64,
+        wait_seconds_before_initial_attack: f64
     ) -> Object {
         
         Object {
@@ -54,6 +55,7 @@ impl Object {
                 sensor_distance: sensor_distance,
                 state: state,
                 bite_damage: bite_damage,
+                wait_seconds_before_initial_attack: wait_seconds_before_initial_attack,
             }),
         }
     }
