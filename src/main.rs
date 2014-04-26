@@ -18,6 +18,7 @@ mod text;
 mod bar;
 mod player;
 mod shark;
+mod action;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {

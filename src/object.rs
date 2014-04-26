@@ -131,7 +131,7 @@ impl Object {
         let (player_dx, player_dy) = (player_pos[0] - self.pos[0], player_pos[1] - self.pos[1]);
         match self.data {
             SharkData(ref mut shark) => {
-                shark.update(player_pos, self.pos);
+                shark.update(dt, player_pos, self.pos);
             },
             _ => {},
         }
