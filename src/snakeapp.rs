@@ -5,6 +5,7 @@ use Game = piston::game::Game;
 use piston::gl::Gl;
 use graphics;
 use graphics::*;
+use object;
 use Object = object::Object;
 use text;
 
@@ -26,9 +27,25 @@ impl Game for SnakeApp {
     }
     
     fn update(&mut self, dt: f64) {
-        let player_pos = self.objects.get(self.player_index.unwrap()).pos;
+        if self.player_index == None { return; }        
+
+        let player_index = self.player_index.unwrap();
+        let player_pos = self.objects.get(player_index).pos;
         for obj in self.objects.mut_iter() {
             obj.update(dt, player_pos);
+        }
+    
+        if self.blood_bar_index == None { return; }
+
+        // Show blood.
+        let player_blood = self.objects.get(player_index).blood().unwrap();
+        let blood_bar_index = self.blood_bar_index.unwrap();
+        let blood_bar = self.objects.get_mut(blood_bar_index);
+        match blood_bar.data {
+            object::BarData(ref mut bar) => {
+                bar.value = player_blood;
+            },
+            _ => {},
         }
     }
 

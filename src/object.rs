@@ -82,6 +82,13 @@ impl Object {
         }
     }
 
+    pub fn blood(&self) -> Option<f64> {
+        match self.data {
+            PlayerData(player) => Some(player.blood),
+            _ => None,
+        }
+    }
+
     pub fn render(&self, c: &graphics::Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];
