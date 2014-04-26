@@ -10,6 +10,13 @@ static top_face_down: &'static [f64] = &[
     25.0, 31.0,
 ];
 
+static bottom_face_up: &'static [f64] = &[
+    25.0, 89.0,
+    50.0, 89.0,
+    57.0, 96.0,
+    18.0, 96.0,
+];
+
 static upper_left_face_right: &'static [f64] = &[
     17.0, 25.0,
     24.0, 33.0,
@@ -63,12 +70,17 @@ fn a<'a, 'b>(c: &'a graphics::ColorContext<'b>, gl: &mut Gl) -> &'a graphics::Co
 
 /// Renders text filled with colors.
 pub fn text(text: &str, c: &graphics::ColorContext, gl: &mut Gl) {
-    let mut d = c;
+    let mut x = 0.0;
+    let mut y = 0.0;
+    let jump_x = 55.0;
+    let jump_y = 80.0;
     for ch in text.chars() {
-        d = match ch {
-            'a' => a(c, gl),
+        let d = &c.trans_local(-17.0 + x, -24.0 + y);
+        match ch {
+            'a' => {a(d, gl); x += jump_x;},
+            '\n' => {x = 0.0; y += jump_y;},
             _ => unimplemented!(),
-        }
+        };
     }
 }
 

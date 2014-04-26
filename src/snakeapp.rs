@@ -23,7 +23,7 @@ impl Game for SnakeApp {
             obj.render(c, gl);
         }
 
-        text::text("a", &c.flip_v().zoom(0.01).color(settings::BLACK), gl);
+        text::text("aa", &c.flip_v().zoom(0.01).color(settings::BLACK), gl);
     }
     
     fn update(&mut self, dt: f64) {
