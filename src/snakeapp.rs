@@ -22,8 +22,6 @@ impl Game for SnakeApp {
         for obj in self.objects.iter() {
             obj.render(c, gl);
         }
-
-        text::text("blood", &c.flip_v().zoom(0.0025).color(settings::BLACK), gl);
     }
     
     fn update(&mut self, dt: f64) {
@@ -33,8 +31,24 @@ impl Game for SnakeApp {
     }
     
     fn load(&mut self) {
-        self.objects.push(Object::new(settings::ORIGIN, settings::BLUE));
+        self.objects.push(Object::player(settings::ORIGIN, settings::BLUE));
         self.player_index = Some(0);
+        self.objects.push(Object::bar(
+            settings::AIR_BAR_POS, 
+            "air", 
+            settings::AIR_BAR_TEXT_COLOR, 
+            settings::AIR_BAR_BACKGROUND_COLOR,
+            settings::AIR_BAR_BAR_COLOR,
+            settings::AIR_BAR_INITIAL_VALUE
+        ));
+        self.objects.push(Object::bar(
+            settings::BLOOD_BAR_POS, 
+            "blood", 
+            settings::BLOOD_BAR_TEXT_COLOR, 
+            settings::BLOOD_BAR_BACKGROUND_COLOR,
+            settings::BLOOD_BAR_BAR_COLOR,
+            settings::BLOOD_BAR_INITIAL_VALUE
+        ));
     }
 
     fn key_press(&mut self, key: glfw::Key) {
