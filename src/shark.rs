@@ -34,8 +34,11 @@ impl Shark {
                 else { ChasingPlayer },
             WaitForAttack(seconds) =>
                 if seconds - dt <= 0.0 {
-                     action = action::Attack(self.bite_damage);
-                    WaitForAttack(self.wait_seconds_before_repeat_attack) 
+                    if d >= self.attack_distance { ChasingPlayer }
+                    else { 
+                        action = action::Attack(self.bite_damage);
+                        WaitForAttack(self.wait_seconds_before_repeat_attack) 
+                    }
                 } else { WaitForAttack(seconds - dt) },
             Dead => Dead,
         };

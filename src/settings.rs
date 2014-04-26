@@ -24,7 +24,7 @@ pub static SHARK_SETTINGS: SharkSettings = SharkSettings {
     initial_state: shark::Ignorant,
     bite_damage: 0.1,
     sensor_distance: 0.2,
-    attack_distance: PLAYER_RADIUS,
+    attack_distance: 2.0 * PLAYER_RADIUS,
     wait_seconds_before_initial_attack: 1.0,
     wait_seconds_before_repeat_attack: 1.0,
     test_color: BLACK,
