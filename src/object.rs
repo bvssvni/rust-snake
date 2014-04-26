@@ -9,13 +9,15 @@ use settings;
 pub struct Object {
     pub pos: [f64, ..2],
     pub vel: [f64, ..2],
+    pub test_color: [f32, ..4],
 }
 
 impl Object {
-    pub fn new(pos: [f64, ..2]) -> Object {
+    pub fn new(pos: [f64, ..2], test_color: [f32, ..4]) -> Object {
         Object {
             pos: pos,
             vel: [0.0, 0.0],
+            test_color: test_color,
         }
     }
 
@@ -23,7 +25,7 @@ impl Object {
         let x = self.pos[0];
         let y = self.pos[1];
         let rad = settings::RADIUS;
-        c.square_centered(x, y, rad).rgba(1.0, 0.0, 0.0, 1.0).fill(gl);
+        c.square_centered(x, y, rad).color(self.test_color).fill(gl);
     }
 
     pub fn update(&mut self, dt: f64) {

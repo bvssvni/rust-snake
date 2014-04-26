@@ -1,4 +1,4 @@
-
+use settings;
 use glfw;
 use Settings = piston::game::Settings;
 use Game = piston::game::Game;
@@ -30,7 +30,7 @@ impl Game for SnakeApp {
     }
     
     fn load(&mut self) {
-        self.objects.push(Object::new([0.0, 0.0]));
+        self.objects.push(Object::new(settings::ORIGIN, settings::BLUE));
         self.player_index = Some(0);
     }
 
