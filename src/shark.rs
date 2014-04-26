@@ -1,15 +1,11 @@
 use player::Player;
+use action;
 
 pub enum SharkState {
     Ignorant,
     ChasingPlayer,
     WaitForAttack(f64),
     Dead,
-}
-
-pub enum SharkAction {
-    Passive,
-    Attack(f64),
 }
 
 pub struct Shark {
@@ -25,12 +21,12 @@ impl Shark {
     pub fn update(
         &mut self, dt: f64,  
         player_pos: [f64, ..2], 
-        shark_pos: [f64, ..2]) -> SharkAction {
+        shark_pos: [f64, ..2]) -> action::Action {
 
         let (dx, dy) = (player_pos[0] - shark_pos[0], player_pos[1] - shark_pos[1]);
         let d = (dx * dx + dy * dy).sqrt();
         
-        let mut action = Passive;
+        let mut action = action::Passive;
         self.state = match self.state {
             Ignorant => if d < self.sensor_distance { ChasingPlayer } else { Ignorant },
             ChasingPlayer =>
@@ -38,7 +34,7 @@ impl Shark {
                 else { ChasingPlayer },
             WaitForAttack(seconds) =>
                 if seconds - dt <= 0.0 {
-                     action = Attack(self.bite_damage);
+                     action = action::Attack(self.bite_damage);
                     WaitForAttack(self.wait_seconds_before_repeat_attack) 
                 } else { WaitForAttack(seconds - dt) },
             Dead => Dead,
