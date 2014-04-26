@@ -3,6 +3,7 @@ use player::Player;
 pub enum SharkState {
     Ignorant,
     ChasingPlayer,
+    WaitForAttack(f64),
     Dead,
 }
 
