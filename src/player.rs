@@ -1,2 +1,2 @@
 
-pub struct Player;
+pub struct Player { pub foo: int }

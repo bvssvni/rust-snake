@@ -29,26 +29,12 @@ impl Game for SnakeApp {
             obj.update(dt);
         }
     }
-    
+
     fn load(&mut self) {
+        self.add_sharks();
         self.objects.push(Object::player(settings::ORIGIN, settings::BLUE));
-        self.player_index = Some(0);
-        self.objects.push(Object::bar(
-            settings::AIR_BAR_POS, 
-            "air", 
-            settings::AIR_BAR_TEXT_COLOR, 
-            settings::AIR_BAR_BACKGROUND_COLOR,
-            settings::AIR_BAR_BAR_COLOR,
-            settings::AIR_BAR_INITIAL_VALUE
-        ));
-        self.objects.push(Object::bar(
-            settings::BLOOD_BAR_POS, 
-            "blood", 
-            settings::BLOOD_BAR_TEXT_COLOR, 
-            settings::BLOOD_BAR_BACKGROUND_COLOR,
-            settings::BLOOD_BAR_BAR_COLOR,
-            settings::BLOOD_BAR_INITIAL_VALUE
-        ));
+        self.player_index = Some(1);
+        self.add_bars();
     }
 
     fn key_press(&mut self, key: glfw::Key) {
@@ -87,6 +73,32 @@ impl SnakeApp {
             objects: Vec::new(),
             player_index: None,
         }
+    }
+
+    pub fn add_bars(&mut self) {
+        self.objects.push(Object::bar(
+            settings::AIR_BAR_POS, 
+            "air", 
+            settings::AIR_BAR_TEXT_COLOR, 
+            settings::AIR_BAR_BACKGROUND_COLOR,
+            settings::AIR_BAR_BAR_COLOR,
+            settings::AIR_BAR_INITIAL_VALUE
+        ));
+        self.objects.push(Object::bar(
+            settings::BLOOD_BAR_POS, 
+            "blood", 
+            settings::BLOOD_BAR_TEXT_COLOR, 
+            settings::BLOOD_BAR_BACKGROUND_COLOR,
+            settings::BLOOD_BAR_BAR_COLOR,
+            settings::BLOOD_BAR_INITIAL_VALUE
+        ));
+    }
+
+    pub fn add_sharks(&mut self) {
+        // TEST
+        println!("Adding sharks...");
+
+        self.objects.push(Object::shark(settings::SHARK_1_POS, settings::SHARK_1_TEST_COLOR));
     }
 }
 

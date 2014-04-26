@@ -1,3 +1,5 @@
 
-pub struct Shark;
+pub struct Shark {
+    pub foo: int,
+}
 

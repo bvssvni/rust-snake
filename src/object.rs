@@ -28,7 +28,7 @@ impl Object {
             test_color: test_color,
             springs: Vec::new(),
             bar: None,
-            player: Some(Player),
+            player: Some(Player { foo: 0 }),
             shark: None,
         }
     }
@@ -41,7 +41,7 @@ impl Object {
             springs: Vec::new(),
             bar: None,
             player: None,
-            shark: Some(Shark),
+            shark: Some(Shark { foo: 0 }),
         }
     }
 
@@ -75,11 +75,20 @@ impl Object {
         let x = self.pos[0];
         let y = self.pos[1];
         
+        // Render shark.
+        match self.shark {
+            None => {},
+            Some(_) => {
+                let rad = settings::SHARK_RADIUS;
+                c.square_centered(x, y, rad).color(self.test_color).fill(gl);
+            }
+        };
+        
         // Render player.
         match self.player {
             None => {},
             Some(_) => {
-                let rad = settings::RADIUS;
+                let rad = settings::PLAYER_RADIUS;
                 c.square_centered(x, y, rad).color(self.test_color).fill(gl);
             }
         };    
