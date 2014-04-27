@@ -110,7 +110,7 @@ impl Game for SnakeApp {
         self.add_bars();
  
         // Add sharks.
-        self.add_sharks();
+        self.add_snakes();
     }
 
     fn key_press(&mut self, key: glfw::Key) {
@@ -185,9 +185,9 @@ impl SnakeApp {
         self.blood_bar_index = Some(self.objects.len() - 1);
     }
 
-    pub fn add_sharks(&mut self) {
-        if settings::SNAKE_1_ADD { self.objects.push(Object::shark(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
-        if settings::SNAKE_2_ADD { self.objects.push(Object::shark(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
+    pub fn add_snakes(&mut self) {
+        if settings::SNAKE_1_ADD { self.objects.push(Object::snake(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
+        if settings::SNAKE_2_ADD { self.objects.push(Object::snake(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
     }
     
     fn follow_player(&mut self, dt: f64) {

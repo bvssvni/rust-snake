@@ -15,6 +15,7 @@ pub struct Snake {
     pub attack_distance: f64,
     pub wait_seconds_before_initial_attack: f64,
     pub wait_seconds_before_repeat_attack: f64,
+    pub tail: [f64, ..16]
 }
 
 impl Snake {

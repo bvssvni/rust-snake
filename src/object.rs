@@ -52,7 +52,7 @@ impl Object {
         }
     }
 
-    pub fn shark(
+    pub fn snake(
         pos: [f64, ..2], 
         settings: settings::SnakeSettings
     ) -> Object {
@@ -69,6 +69,7 @@ impl Object {
                 state: settings.initial_state,
                 bite_damage: settings.bite_damage,
                 attack_distance: settings.attack_distance,
+                tail: [0.0, ..16],
                 wait_seconds_before_initial_attack: settings.wait_seconds_before_initial_attack,
                 wait_seconds_before_repeat_attack: settings.wait_seconds_before_repeat_attack,
             }),
