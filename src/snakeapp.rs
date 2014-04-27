@@ -201,6 +201,8 @@ impl SnakeApp {
     }
 
     fn update_objects(&mut self, dt: f64) {
+        if self.game_state.unwrap() != game_state::Play { return; }
+
         // Update states of objects.
         let player_pos = self.player_pos();
         let mut attack_damage: f64 = 0.0;
