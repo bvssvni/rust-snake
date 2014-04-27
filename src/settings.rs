@@ -70,6 +70,7 @@ pub static BLOOD_BAR_BAR_COLOR: [f32, ..4] = LIGHT_RED;
 
 pub static BLACK: [f32, ..4] = [0.0, 0.0, 0.0, 1.0];
 pub static WHITE: [f32, ..4] = [1.0, 1.0, 1.0, 1.0];
+pub static GRAY: [f32, ..4] = [0.5, 0.5, 0.5, 1.0];
 
 pub static RED: [f32, ..4] = [1.0, 0.0, 0.0, 1.0];
 pub static DARK_RED: [f32, ..4] = [0.5, 0.0, 0.0, 1.0];

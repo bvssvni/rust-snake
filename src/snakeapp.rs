@@ -38,6 +38,10 @@ impl Game for SnakeApp {
         let surface_y = self.surface_y.unwrap();
         c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).fill(gl);
 
+        // Render round rectangle around bars.
+        let bar_background_height = 0.275;
+        c.rect(-1.0, 1.0 - bar_background_height, 2.0, bar_background_height).round(0.1).color(settings::GRAY).fill(gl);
+
         // Render objects.
         let cam = &c.trans(-cam_x, -cam_y);
         for obj in self.objects.iter() {
