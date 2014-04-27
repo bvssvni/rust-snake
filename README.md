@@ -22,7 +22,7 @@ Add the following '.rlib' files to '/target/cpu-vendor-os/lib/':
 * libopengles-73387c6a-0.1.rlib (https://github.com/bvssvni/rust-opengles)
 * libpiston-a1b791b5-0.0.rlib (https://github.com/bvssvni/piston)
 
-If you have trouble building with Rust nightly, try the original repos.  
+If you have trouble building with Rust nightly, try the original repos. There are currently many breaking changes in Rust, so please help the maintainers to keep them up with master!  
 
 In the Terminal window, navigate to the project folder and type:
 
