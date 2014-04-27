@@ -263,6 +263,22 @@ fn n_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(lower_right_face_left).fill(gl);
 }
 
+fn s_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+    c.polygon(top_capped_left_right).fill(gl);
+    c.polygon(upper_left_face_right_capped_left).fill(gl);
+    c.polygon(middle).fill(gl);
+    c.polygon(lower_right_face_left_capped_right).fill(gl);
+    c.polygon(bottom_capped_left_right).fill(gl);
+}
+
+fn e_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+    c.polygon(top_face_down).fill(gl);
+    c.polygon(upper_left_face_right).fill(gl);
+    c.polygon(middle).fill(gl);
+    c.polygon(lower_left_face_right).fill(gl);
+    c.polygon(bottom_face_up).fill(gl);
+}
+
 // end letters.
 
 /// Renders text filled with colors.
@@ -278,11 +294,13 @@ pub fn text(text: &str, c: &graphics::ColorContext, gl: &mut Gl) {
             'a' => {a_letter(d, gl); x += jump_x;},
             'b' => {b_letter(d, gl); x += jump_x;},
             'd' => {d_letter(d, gl); x += jump_x;},
+            'e' => {e_letter(d, gl); x += jump_x;},
             'i' => {i_letter(d, gl); x += jump_x;},
             'l' => {l_letter(d, gl); x += jump_x;},
             'n' => {n_letter(d, gl); x += jump_x;},
             'o' => {o_letter(d, gl); x += jump_x;},
             'r' => {r_letter(d, gl); x += jump_x;},
+            's' => {s_letter(d, gl); x += jump_x;},
             'u' => {u_letter(d, gl); x += jump_x;},
             'w' => {w_letter(d, gl); x += jump_x;},
             'y' => {y_letter(d, gl); x += jump_x;},

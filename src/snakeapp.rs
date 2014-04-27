@@ -31,7 +31,7 @@ impl Game for SnakeApp {
         }
    
         // TEST 
-        text::text("you win", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
+        text::text("you loose", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
     }
     
     fn update(&mut self, dt: f64) {
