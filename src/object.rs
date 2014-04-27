@@ -34,6 +34,7 @@ impl Object {
         pos: [f64, ..2], 
         test_color: [f32, ..4], 
         blood: f64,
+        air: f64,
         speed_h: [f64, ..2],
         speed_v: [f64, ..2]) -> Object {
         Object {
@@ -43,7 +44,10 @@ impl Object {
             speed_v: speed_v,
             radius: settings::PLAYER_RADIUS,
             test_color: test_color,
-            data: PlayerData(Player { blood: blood }),
+            data: PlayerData(Player { 
+                blood: blood,
+                air: air,
+            }),
         }
     }
 
@@ -106,6 +110,20 @@ impl Object {
     pub fn blood_mut<'a>(&'a mut self) -> Option<&'a mut f64> {
         match self.data {
             PlayerData(ref mut player) => Some(&mut player.blood),
+            _ => None,
+        }
+    }
+
+    pub fn air(&self) -> Option<f64> {
+        match self.data {
+            PlayerData(player) => Some(player.air),
+            _ => None,
+        }
+    }
+
+    pub fn air_mut<'a>(&'a mut self) -> Option<&'a mut f64> {
+        match self.data {
+            PlayerData(ref mut player) => Some(&mut player.air),
             _ => None,
         }
     }

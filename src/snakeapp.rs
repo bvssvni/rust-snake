@@ -69,6 +69,7 @@ impl Game for SnakeApp {
     fn update(&mut self, dt: f64) {
         self.update_objects(dt);
         self.win();
+        self.loose();
         self.show_blood(); 
         self.follow_player(dt); 
     }
@@ -84,6 +85,7 @@ impl Game for SnakeApp {
             settings::ORIGIN, 
             settings::BLUE,
             settings::PLAYER_INITIAL_BLOOD,
+            settings::PLAYER_INITIAL_AIR,
             [settings::PLAYER_SPEED_LEFT, settings::PLAYER_SPEED_RIGHT],
             [settings::PLAYER_SPEED_UP, settings::PLAYER_SPEED_DOWN]
         ));
@@ -207,6 +209,15 @@ impl SnakeApp {
         }
     }
 
+    fn loose(&mut self) {
+        let blood = self.player_blood();
+        let air = self.player_air();
+        if blood < 0.0 || air < 0.0 {
+            self.game_state = Some(game_state::Loose);
+            return;
+        }
+    }
+
     fn restart(&mut self) {
         *self = SnakeApp::new();
         self.load();
@@ -242,6 +253,16 @@ impl SnakeApp {
     fn set_player_blood(&mut self, val: f64) {
         let player_index = self.player_index.unwrap();
         *self.objects.get_mut(player_index).blood_mut().unwrap() = val;
+    }
+
+    fn player_air(&self) -> f64 {
+        let player_index = self.player_index.unwrap();
+        self.objects.get(player_index).air().unwrap()
+    }
+
+    fn set_player_air(&mut self, val: f64) {
+        let player_index = self.player_index.unwrap();
+        *self.objects.get_mut(player_index).air_mut().unwrap() = val;
     }
 }
 
