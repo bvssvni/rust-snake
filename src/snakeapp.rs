@@ -20,6 +20,7 @@ pub struct SnakeApp {
     camera_follow_percentage: Option<f64>,
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
+    air_bar_index: Option<uint>,
     // Contains the game objects.
     objects: Vec<Object>,
 }
@@ -79,6 +80,7 @@ impl Game for SnakeApp {
         self.win();
         self.loose();
         self.show_blood(); 
+        self.show_air();
         self.follow_player(dt); 
     }
 
@@ -156,6 +158,7 @@ impl SnakeApp {
             objects: Vec::new(),
             player_index: None,
             blood_bar_index: None,
+            air_bar_index: None,
         }
     }
 
@@ -168,6 +171,7 @@ impl SnakeApp {
             settings::AIR_BAR_BAR_COLOR,
             settings::AIR_BAR_INITIAL_VALUE
         ));
+        self.air_bar_index = Some(self.objects.len() - 1);
         self.objects.push(Object::bar(
             settings::BLOOD_BAR_POS, 
             "blood", 
@@ -210,6 +214,20 @@ impl SnakeApp {
         }
     }
 
+    fn show_air(&mut self) {
+        if self.air_bar_index == None { return; }
+        // Show air.
+        let player_air = self.player_air();
+        let air_bar_index = self.air_bar_index.unwrap();
+        let air_bar = self.objects.get_mut(air_bar_index);
+        match air_bar.data {
+            object::BarData(ref mut bar) => {
+                bar.value = player_air;
+            },
+            _ => {},
+        }
+    }
+
     fn win(&mut self) {
         let player_pos = self.player_pos();
         // When player reaches surface, win.
@@ -245,9 +263,13 @@ impl SnakeApp {
                 action::Attack(attack) => { attack_damage += attack; },
             }
         }
-        // Decrease the players life with attacks.
+        // Decrease the player's blood with attacks.
         let blood = self.player_blood();
-        self.set_player_blood(blood - attack_damage);   
+        self.set_player_blood(blood - attack_damage); 
+
+        // Decrease the player's air with time.
+        let air = self.player_air();
+        self.set_player_air(air - dt * settings::PLAYER_LOOSE_AIR_SPEED);
     }
     
     fn player_pos(&self) -> [f64, ..2] {
