@@ -54,7 +54,7 @@ impl Game for SnakeApp {
         match self.game_state.unwrap() {
             game_state::Win => {
                 let pos = settings::YOU_WIN_POS;
-                text::text("you win", 
+                text::text(settings::YOU_WIN_TEXT, 
                     &text_c
                     .trans(pos[0], pos[1])
                     .color(settings::YOU_WIN_TEXT_COLOR)
@@ -62,7 +62,7 @@ impl Game for SnakeApp {
             },
             game_state::Loose => {
                 let pos = settings::YOU_LOOSE_POS;
-                text::text("you loose",
+                text::text(settings::YOU_LOOSE_TEXT,
                     &text_c
                     .trans(pos[0], pos[1])
                     .color(settings::YOU_LOOSE_TEXT_COLOR)

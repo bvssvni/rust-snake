@@ -7,9 +7,11 @@ pub static INITIAL_GAME_STATE: game_state::GameState = game_state::Play;
 pub static INITIAL_CAMERA_POS: [f64, ..2] = [0.0, 0.0];
 pub static CAMERA_FOLLOW_PERCENTAGE: f64 = 0.2;
 
+pub static YOU_WIN_TEXT: &'static str = "you win";
 pub static YOU_WIN_TEXT_COLOR: [f32, ..4] = GREEN;
 pub static YOU_WIN_POS: [f64, ..2] = [-0.42, 0.1];
 
+pub static YOU_LOOSE_TEXT: &'static str = "you loose";
 pub static YOU_LOOSE_TEXT_COLOR: [f32, ..4] = RED;
 pub static YOU_LOOSE_POS: [f64, ..2] = [-0.4, 0.1];
 
