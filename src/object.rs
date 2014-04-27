@@ -15,6 +15,7 @@ pub enum ObjectData {
     PlayerData(Player),
     SnakeData(Snake),
     BarData(Bar),
+    BarBackgroundData,
 }
 
 /// All objects are of same kind.
@@ -31,6 +32,19 @@ pub struct Object {
 }
 
 impl Object {
+    pub fn bar_background() -> Object {
+        Object {
+            pos: [0.0, 0.0],
+            vel: [0.0, 0.0],
+            layer: 1,
+            radius: 0.0,
+            test_color: [0.0, 0.0, 0.0, 0.0],
+            speed_h: [0.0, 0.0],
+            speed_v: [0.0, 0.0],
+            data: BarBackgroundData,
+        }
+    }
+
     pub fn player(
         pos: [f64, ..2], 
         test_color: [f32, ..4], 
@@ -95,7 +109,7 @@ impl Object {
     ) -> Object {
      
        Object {
-            layer: 1,
+            layer: 2,
             pos: pos,
             radius: 0.0,
             vel: [0.0, 0.0],
@@ -167,6 +181,16 @@ impl Object {
             BarData(bar) => {
                 bar.render(&c.trans_local(x, y), gl);
             },
+            BarBackgroundData => {
+                // Render round rectangle around bars.
+                let bar_bgh = settings::BAR_BACKGROUND_HEIGHT;
+                let bar_color = settings::BAR_BACKGROUND_COLOR;
+                let bar_color_2 = settings::BAR_BACKGROUND_COLOR_2;
+                let margin = settings::BAR_BACKGROUND_MARGIN;
+                let margin_2 = settings::BAR_BACKGROUND_MARGIN_2;
+                c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin).round(0.1).color(bar_color).fill(gl);
+                c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin_2).round(0.1).color(bar_color_2).fill(gl);
+            }
         };
     }
 

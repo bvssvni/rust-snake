@@ -38,15 +38,6 @@ impl Game for SnakeApp {
         let surface_y = self.surface_y.unwrap();
         c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).fill(gl);
 
-        // Render round rectangle around bars.
-        let bar_bgh = settings::BAR_BACKGROUND_HEIGHT;
-        let bar_color = settings::BAR_BACKGROUND_COLOR;
-        let bar_color_2 = settings::BAR_BACKGROUND_COLOR_2;
-        let margin = settings::BAR_BACKGROUND_MARGIN;
-        let margin_2 = settings::BAR_BACKGROUND_MARGIN_2;
-        c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin).round(0.1).color(bar_color).fill(gl);
-        c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin_2).round(0.1).color(bar_color_2).fill(gl);
-
         // Render objects in layers.
         let cam = &c.trans(-cam_x, -cam_y);
         for i in range(0u, settings::NUMBER_OF_LAYERS) {
@@ -106,6 +97,7 @@ impl Game for SnakeApp {
             [settings::PLAYER_SPEED_LEFT, settings::PLAYER_SPEED_RIGHT],
             [settings::PLAYER_SPEED_UP, settings::PLAYER_SPEED_DOWN]
         ));
+        self.objects.push(Object::bar_background());
         self.player_index = Some(0);
         
         // Add blood and air bar.
