@@ -24,6 +24,8 @@ pub static PLAYER_SPEED_RIGHT: f64 = 0.1;
 pub static PLAYER_SPEED_LEFT: f64 = 0.1;
 pub static PLAYER_SPEED_UP: f64 = 0.1;
 pub static PLAYER_SPEED_DOWN: f64 = 0.1;
+pub static PLAYER_INITIAL_TWEEN_FACTOR: f64 = 0.0;
+pub static PLAYER_TWEEN_SPEED: f64 = 1.0;
 
 pub struct SharkSettings {
     pub speed_left: f64,

@@ -47,6 +47,7 @@ impl Object {
             data: PlayerData(Player { 
                 blood: blood,
                 air: air,
+                tween_factor: settings::PLAYER_INITIAL_TWEEN_FACTOR,
             }),
         }
     }
@@ -137,9 +138,10 @@ impl Object {
             SharkData(_) => {
                 cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
             },
-            PlayerData(_) => {
+            PlayerData(player) => {
                 cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
-                character::draw_head(0.0, &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
+                character::draw_head(player.tween_factor, 
+                    &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
             },
             BarData(bar) => {
                 bar.render(&c.trans_local(x, y), gl);
@@ -169,6 +171,9 @@ impl Object {
         match self.data {
             SharkData(ref mut shark) => {
                 action = shark.update(dt, player_pos, self.pos);
+            },
+            PlayerData(ref mut player) => {
+                player.tween_factor += dt * settings::PLAYER_TWEEN_SPEED;
             },
             _ => {},
         }
