@@ -72,7 +72,7 @@ pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     initial_state: snake::Ignorant,
     bite_damage: 0.1,
     sensor_distance: 2.0,
-    attack_distance: 2.0 * PLAYER_RADIUS,
+    attack_distance: 0.5 * PLAYER_RADIUS,
     wait_seconds_before_initial_attack: 1.0,
     wait_seconds_before_repeat_attack: 1.0,
     test_color: BLACK,
