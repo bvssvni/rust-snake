@@ -140,7 +140,7 @@ impl Object {
             },
             PlayerData(player) => {
                 cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
-                character::draw_head(player.tween_factor, 
+                character::draw_character(player.tween_factor, 
                     &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
             },
             BarData(bar) => {
