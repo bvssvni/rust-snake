@@ -8,6 +8,8 @@ use spring::Spring;
 use bar::Bar;
 use player;
 use player::Player;
+use air_bottle;
+use air_bottle::AirBottle;
 use snake;
 use snake::Snake;
 use graphics::interpolation::{lerp_4};
@@ -15,6 +17,7 @@ use graphics::interpolation::{lerp_4};
 pub enum ObjectData {
     PlayerData(Player),
     SnakeData(Snake),
+    AirBottleData(AirBottle),
     BarData(Bar),
     BarBackgroundData,
 }
@@ -69,6 +72,24 @@ impl Object {
                 air: air,
                 tween_factor: settings::PLAYER_INITIAL_TWEEN_FACTOR,
                 state: settings::PLAYER_INITIAL_STATE,
+            }),
+        }
+    }
+
+    pub fn air_bottle(
+        pos: [f64, ..2]
+    ) -> Object {
+        Object {
+            pos: pos,
+            layer: 0,
+            vel: [0.0, 0.0],
+            acc: [0.0, 0.0],
+            acceleration_h: [0.0, 0.0],
+            acceleration_v: [0.0, 0.0],
+            radius: settings::AIR_BOTTLE_RADIUS,
+            test_color: settings::AIR_BOTTLE_TEST_COLOR,
+            data: AirBottleData(AirBottle {
+                fill_up: settings::AIR_BOTTLE_FILL_UP,
             }),
         }
     }
@@ -195,6 +216,11 @@ impl Object {
         }
     }
 
+    fn render_air_bottle(&self, air_bottle: &AirBottle, x: f64, y: f64, rad: f64,
+        cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+        cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+    }
+
     pub fn render(&self, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];
@@ -203,6 +229,7 @@ impl Object {
         match self.data {
             SnakeData(ref snake) => self.render_snake(snake, x, y, rad, cam, c, gl),
             PlayerData(ref player) => self.render_player(player, x, y, cam, c, gl),
+            AirBottleData(ref air_bottle) => self.render_air_bottle(air_bottle, x, y, rad, cam, c, gl),
             BarData(bar) => {
                 bar.render(&c.trans_local(x, y), gl);
             },

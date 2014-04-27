@@ -21,6 +21,7 @@ mod snake;
 mod action;
 mod game_state;
 mod character;
+mod air_bottle;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {
