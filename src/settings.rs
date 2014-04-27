@@ -21,6 +21,7 @@ pub static YOU_LOOSE_POS: [f64, ..2] = [-0.55, 0.1];
 
 pub static AIR_BOTTLE_RADIUS: f64 = 0.1;
 pub static AIR_BOTTLE_TEST_COLOR: [f32, ..4] = WHITE;
+pub static AIR_BOTTLE_TEXT_COLOR: [f32, ..4] = BLACK;
 pub static AIR_BOTTLE_FILL_UP: f64 = 0.5;
 pub static AIR_BOTTLE_POS: &'static [f64] = &[
     0.5, 0.3,

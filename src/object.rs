@@ -13,6 +13,7 @@ use air_bottle::AirBottle;
 use snake;
 use snake::Snake;
 use graphics::interpolation::{lerp_4};
+use text;
 
 pub enum ObjectData {
     PlayerData(Player),
@@ -227,6 +228,7 @@ impl Object {
         cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
         if air_bottle.fill_up == 0.0 { return; }
         cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+        text::text("air", &cam.color(settings::AIR_BOTTLE_TEXT_COLOR).flip_v_local().trans(x - 0.075, y + 0.03).zoom_local(0.001), gl);
     }
 
     pub fn render(&self, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
