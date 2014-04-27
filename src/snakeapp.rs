@@ -140,6 +140,8 @@ impl Game for SnakeApp {
         // TEST
         // println!("Key pressed {}", key);
 
+        if self.game_state.unwrap() != game_state::Play { return; }
+
         match (key, self.player_index) {
             (glfw::KeyRight, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_right();
