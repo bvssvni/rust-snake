@@ -16,6 +16,7 @@ pub struct SnakeApp {
     // Tells where the surface is.
     surface_y: Option<f64>,
     game_state: Option<game_state::GameState>,
+    camera_pos: Option<[f64, ..2]>,
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
     // Contains the game objects.
@@ -31,7 +32,7 @@ impl Game for SnakeApp {
         }
    
         // TEST 
-        text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
+        // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
     }
     
     fn update(&mut self, dt: f64) {
@@ -72,6 +73,7 @@ impl Game for SnakeApp {
     }
 
     fn load(&mut self) {
+        self.camera_pos = Some(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
         self.game_state = Some(settings::INITIAL_GAME_STATE);    
     
@@ -124,6 +126,7 @@ impl SnakeApp {
         let exit_on_esc = true;
         let background_color = [1.0, 1.0, 1.0, 1.0];
         SnakeApp {
+            camera_pos: None,
             settings: Settings::new(exit_on_esc, background_color),
             game_state: None,
             surface_y: None,
