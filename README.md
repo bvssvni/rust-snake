@@ -1,7 +1,8 @@
 rust-snake
 ==========
 
-A sea snake game in Rust using the Piston game engine
+A sea snake game in Rust using the Piston game engine  
+To run it you need <a href="http://www.glfw.org/" target="_blank">GLFW 3.0.+</a>  
 
 ![alt tag](https://raw.githubusercontent.com/bvssvni/rust-snake/master/sea-snake.png)
 
