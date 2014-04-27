@@ -154,6 +154,23 @@ static lower_left_face_right_capped_left: &'static [f64] = &[
     17.0, 64.0,
 ];
 
+static bottom_vertical: &'static [f64] = &[
+    38.0, 64.0,
+    42.0, 68.0,
+    38.0, 88.0,
+    35.0, 85.0,
+    35.0, 67.0
+];
+
+static upper_diagonal_top_left_to_bottom_right: &'static [f64] = &[
+    27.0, 32.0,
+    32.0, 32.0,
+    49.0, 50.0,
+    49.0, 55.0,
+    44.0, 55.0,
+    27.0, 38.0,
+];
+
 // end segments.
 
 fn a_letter(c: &graphics::ColorContext, gl: &mut Gl) {
@@ -213,6 +230,39 @@ fn d_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_capped_right).fill(gl);
 }
 
+fn y_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+    c.polygon(upper_left_face_right).fill(gl);
+    c.polygon(upper_right_face_left).fill(gl);
+    c.polygon(middle).fill(gl);
+    c.polygon(lower_right_face_left).fill(gl);
+    c.polygon(bottom_capped_left_right).fill(gl);
+}
+
+fn u_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+    c.polygon(upper_left_face_right).fill(gl);
+    c.polygon(upper_right_face_left).fill(gl);
+    c.polygon(lower_left_face_right).fill(gl);
+    c.polygon(lower_right_face_left).fill(gl);
+    c.polygon(bottom_capped_left_right).fill(gl);
+}
+
+fn w_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+    c.polygon(upper_left_face_right).fill(gl);
+    c.polygon(upper_right_face_left).fill(gl);
+    c.polygon(lower_left_face_right).fill(gl);
+    c.polygon(lower_right_face_left).fill(gl);
+    c.polygon(bottom_face_up).fill(gl);
+    c.polygon(bottom_vertical).fill(gl);
+}
+
+fn n_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+    c.polygon(upper_left_face_right).fill(gl);
+    c.polygon(upper_right_face_left).fill(gl);
+    c.polygon(upper_diagonal_top_left_to_bottom_right).fill(gl);
+    c.polygon(lower_left_face_right).fill(gl);
+    c.polygon(lower_right_face_left).fill(gl);
+}
+
 // end letters.
 
 /// Renders text filled with colors.
@@ -224,15 +274,20 @@ pub fn text(text: &str, c: &graphics::ColorContext, gl: &mut Gl) {
     for ch in text.chars() {
         let d = &c.trans_local(-17.0 + x, -24.0 + y);
         match ch {
+            ' ' => {x += jump_x;},
             'a' => {a_letter(d, gl); x += jump_x;},
             'b' => {b_letter(d, gl); x += jump_x;},
             'd' => {d_letter(d, gl); x += jump_x;},
             'i' => {i_letter(d, gl); x += jump_x;},
             'l' => {l_letter(d, gl); x += jump_x;},
+            'n' => {n_letter(d, gl); x += jump_x;},
             'o' => {o_letter(d, gl); x += jump_x;},
             'r' => {r_letter(d, gl); x += jump_x;},
+            'u' => {u_letter(d, gl); x += jump_x;},
+            'w' => {w_letter(d, gl); x += jump_x;},
+            'y' => {y_letter(d, gl); x += jump_x;},
             '\n' => {x = 0.0; y += jump_y;},
-            _ => unimplemented!(),
+            ch => fail!("{} is not implemented!", ch),
         };
     }
 }

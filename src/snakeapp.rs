@@ -29,6 +29,9 @@ impl Game for SnakeApp {
         for obj in self.objects.iter() {
             obj.render(c, gl);
         }
+   
+        // TEST 
+        text::text("you win", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
     }
     
     fn update(&mut self, dt: f64) {
