@@ -1,5 +1,6 @@
 use snake;
 use game_state;
+use player;
 
 pub static NUMBER_OF_LAYERS: uint = 4;
 pub static WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.45, 1.0];
@@ -29,6 +30,8 @@ pub static PLAYER_ACCELERATION_UP: f64 = 0.1;
 pub static PLAYER_ACCELERATION_DOWN: f64 = 0.1;
 pub static PLAYER_INITIAL_TWEEN_FACTOR: f64 = 0.0;
 pub static PLAYER_TWEEN_SPEED: f64 = 1.0;
+pub static PLAYER_BITTEN_FADE_OUT_SECONDS: f64 = 2.0;
+pub static PLAYER_INITIAL_STATE: player::PlayerState = player::Normal;
 
 pub struct SnakeSettings {
     pub acceleration_left: f64,

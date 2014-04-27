@@ -6,6 +6,7 @@ use Gl = piston::gl::Gl;
 use settings;
 use spring::Spring;
 use bar::Bar;
+use player;
 use player::Player;
 use snake;
 use snake::Snake;
@@ -67,6 +68,7 @@ impl Object {
                 blood: blood,
                 air: air,
                 tween_factor: settings::PLAYER_INITIAL_TWEEN_FACTOR,
+                state: settings::PLAYER_INITIAL_STATE,
             }),
         }
     }
