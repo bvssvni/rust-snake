@@ -32,7 +32,7 @@ impl Game for SnakeApp {
         // Get camera coordinates.
         let (cam_x, cam_y) = if self.camera_pos.is_some() {
                 let camera_pos = self.camera_pos.unwrap();
-                (camera_pos[0], camera_pos[1])
+                (camera_pos[0], camera_pos[1] + 0.4)
             } else { (0.0, 0.0) };
         
         // Render surface.

@@ -3,7 +3,7 @@ use game_state;
 use player;
 
 pub static NUMBER_OF_LAYERS: uint = 4;
-pub static WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.45, 1.0];
+pub static WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.2, 1.0];
 pub static WATER_FRICTION: f64 = 0.2;
 pub static RADIUS: f64 = 0.1;
 pub static SURFACE_Y: f64 = 10.0;
@@ -40,7 +40,7 @@ pub static AIR_BOTTLE_POS: &'static [f64] = &[
 ];
 
 pub static PLAYER_LOOSE_AIR_SPEED: f64 = 0.1;
-pub static PLAYER_COLOR: [f32, ..4] = YELLOW;
+pub static PLAYER_COLOR: [f32, ..4] = [0.4, 0.4, 0.4, 1.0];
 pub static PLAYER_BITTEN_COLOR: [f32, ..4] = RED;
 pub static PLAYER_INITIAL_BLOOD: f64 = 1.0;
 pub static PLAYER_INITIAL_AIR: f64 = 1.0;
@@ -69,7 +69,7 @@ pub struct SnakeSettings {
     pub radius: f64,
 }
 
-pub static SNAKE_TAIL_COLOR: [f32, ..4] = [0.8, 0.6, 0.6, 0.4];
+pub static SNAKE_TAIL_COLOR: [f32, ..4] = [0.8, 0.0, 0.0, 0.8];
 pub static SNAKE_TAIL_DISTANCE: f64 = 0.01;
 pub static SNAKE_OVERALL_ACCELERATION: f64 = 2.0;
 pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
@@ -83,7 +83,7 @@ pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     attack_distance: 0.5 * PLAYER_RADIUS,
     wait_seconds_before_initial_attack: 1.0,
     wait_seconds_before_repeat_attack: 1.0,
-    test_color: BLACK,
+    test_color: [1.0, 1.0, 1.0, 1.0],
     radius: 0.03,
 };
 
