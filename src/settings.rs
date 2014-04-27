@@ -1,4 +1,4 @@
-use shark;
+use snake;
 use game_state;
 
 pub static WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.45, 1.0];
@@ -27,12 +27,12 @@ pub static PLAYER_SPEED_DOWN: f64 = 0.1;
 pub static PLAYER_INITIAL_TWEEN_FACTOR: f64 = 0.0;
 pub static PLAYER_TWEEN_SPEED: f64 = 1.0;
 
-pub struct SharkSettings {
+pub struct SnakeSettings {
     pub speed_left: f64,
     pub speed_right: f64,
     pub speed_up: f64,
     pub speed_down: f64,
-    pub initial_state: shark::SharkState,    
+    pub initial_state: snake::SnakeState,    
     pub bite_damage: f64,
     pub sensor_distance: f64,
     pub attack_distance: f64,
@@ -42,13 +42,13 @@ pub struct SharkSettings {
     pub radius: f64,
 }
 
-pub static SHARK_OVERALL_SPEED: f64 = 2.0;
-pub static SHARK_SETTINGS: SharkSettings = SharkSettings {
-    speed_left: 0.1 * SHARK_OVERALL_SPEED,
-    speed_right: 0.1 * SHARK_OVERALL_SPEED,
-    speed_up: 0.1 * SHARK_OVERALL_SPEED,
-    speed_down: 0.1 * SHARK_OVERALL_SPEED,
-    initial_state: shark::Ignorant,
+pub static SNAKE_OVERALL_SPEED: f64 = 2.0;
+pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
+    speed_left: 0.1 * SNAKE_OVERALL_SPEED,
+    speed_right: 0.1 * SNAKE_OVERALL_SPEED,
+    speed_up: 0.1 * SNAKE_OVERALL_SPEED,
+    speed_down: 0.1 * SNAKE_OVERALL_SPEED,
+    initial_state: snake::Ignorant,
     bite_damage: 0.1,
     sensor_distance: 0.2,
     attack_distance: 2.0 * PLAYER_RADIUS,
@@ -58,20 +58,20 @@ pub static SHARK_SETTINGS: SharkSettings = SharkSettings {
     radius: 0.1,
 };
 
-pub static SHARK_SPEED_RIGHT: f64 = 0.1;
-pub static SHARK_SPEED_LEFT: f64 = 0.1;
-pub static SHARK_SPEED_UP: f64 = 0.1;
-pub static SHARK_SPEED_DOWN: f64 = 0.1;
+pub static SNAKE_SPEED_RIGHT: f64 = 0.1;
+pub static SNAKE_SPEED_LEFT: f64 = 0.1;
+pub static SNAKE_SPEED_UP: f64 = 0.1;
+pub static SNAKE_SPEED_DOWN: f64 = 0.1;
 
-// shark 1.
-pub static SHARK_1_SETTINGS: SharkSettings = SHARK_SETTINGS;
-pub static SHARK_1_POS: [f64, ..2] = [-0.8, 0.8];
-pub static SHARK_1_ADD: bool = true;
+// snake 1.
+pub static SNAKE_1_SETTINGS: SnakeSettings = SNAKE_SETTINGS;
+pub static SNAKE_1_POS: [f64, ..2] = [-0.8, 0.8];
+pub static SNAKE_1_ADD: bool = true;
 
-// shark 2.
-pub static SHARK_2_SETTINGS: SharkSettings = SHARK_SETTINGS;
-pub static SHARK_2_POS: [f64, ..2] = [0.8, 0.8];
-pub static SHARK_2_ADD: bool = true;
+// snake 2.
+pub static SNAKE_2_SETTINGS: SnakeSettings = SNAKE_SETTINGS;
+pub static SNAKE_2_POS: [f64, ..2] = [0.8, 0.8];
+pub static SNAKE_2_ADD: bool = true;
 
 pub static BAR_RECTANGLE: [f64, ..4] = [0.3, -0.06, 1.5, 0.05];
 pub static BAR_MARGIN: f64 = 0.01;

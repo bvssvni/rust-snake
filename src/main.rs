@@ -17,7 +17,7 @@ mod spring;
 mod text;
 mod bar;
 mod player;
-mod shark;
+mod snake;
 mod action;
 mod game_state;
 mod character;

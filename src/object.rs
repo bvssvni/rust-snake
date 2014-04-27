@@ -7,13 +7,13 @@ use settings;
 use spring::Spring;
 use bar::Bar;
 use player::Player;
-use shark;
-use shark::Shark;
+use snake;
+use snake::Snake;
 
 
 pub enum ObjectData {
     PlayerData(Player),
-    SharkData(Shark),
+    SnakeData(Snake),
     BarData(Bar),
 }
 
@@ -54,7 +54,7 @@ impl Object {
 
     pub fn shark(
         pos: [f64, ..2], 
-        settings: settings::SharkSettings
+        settings: settings::SnakeSettings
     ) -> Object {
         
         Object {
@@ -64,7 +64,7 @@ impl Object {
             speed_v: [settings.speed_up, settings.speed_down],
             radius: settings.radius,
             test_color: settings.test_color,
-            data: SharkData(Shark { 
+            data: SnakeData(Snake { 
                 sensor_distance: settings.sensor_distance,
                 state: settings.initial_state,
                 bite_damage: settings.bite_damage,
@@ -135,7 +135,7 @@ impl Object {
         let rad = self.radius;      
  
         match self.data {
-            SharkData(_) => {
+            SnakeData(_) => {
                 cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
             },
             PlayerData(player) => {
@@ -149,9 +149,9 @@ impl Object {
         };
     }
 
-    fn move_shark(&mut self, state: shark::SharkState, player_dx: f64, player_dy: f64) {
+    fn move_snake(&mut self, state: snake::SnakeState, player_dx: f64, player_dy: f64) {
         match state {
-            shark::ChasingPlayer => {
+            snake::ChasingPlayer => {
                 if player_dx > 0.0 { self.move_right(); }
                 else { self.move_left(); }
 
@@ -169,7 +169,7 @@ impl Object {
         // Update object state. 
         let (player_dx, player_dy) = (player_pos[0] - self.pos[0], player_pos[1] - self.pos[1]);
         match self.data {
-            SharkData(ref mut shark) => {
+            SnakeData(ref mut shark) => {
                 action = shark.update(dt, player_pos, self.pos);
             },
             PlayerData(ref mut player) => {
@@ -180,8 +180,8 @@ impl Object {
 
         // Move object.
         match self.data {
-            SharkData(Shark { state: state, ..}) => { 
-                self.move_shark(state, player_dx, player_dy);
+            SnakeData(Snake { state: state, ..}) => { 
+                self.move_snake(state, player_dx, player_dy);
             },
             _ => {},
         }
