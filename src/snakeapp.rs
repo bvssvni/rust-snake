@@ -65,52 +65,12 @@ impl Game for SnakeApp {
         // TEST 
         // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
     }
-    
+
     fn update(&mut self, dt: f64) {
-        if self.player_index == None { return; }        
-
-        // Update states of objects.
-        let player_index = self.player_index.unwrap();
-        let player_pos = self.objects.get(player_index).pos;
-        let mut attack_damage: f64 = 0.0;
-        for obj in self.objects.mut_iter() {
-            match obj.update(dt, player_pos) {
-                action::Passive => {},
-                action::Attack(attack) => { attack_damage += attack; },
-            }
-        }
-
-        // When player reaches surface, win.
-        if player_pos[1] >= self.surface_y.unwrap() {
-            self.game_state = Some(game_state::Win);
-            return;
-        }
-
-        // Decrease the players life with attacks.
-        *self.objects.get_mut(player_index).blood_mut().unwrap() -= attack_damage;   
- 
-        if self.blood_bar_index == None { return; }
-
-        // Show blood.
-        let player_blood = self.objects.get(player_index).blood().unwrap();
-        let blood_bar_index = self.blood_bar_index.unwrap();
-        let blood_bar = self.objects.get_mut(blood_bar_index);
-        match blood_bar.data {
-            object::BarData(ref mut bar) => {
-                bar.value = player_blood;
-            },
-            _ => {},
-        }
-    
-        if self.camera_pos.is_none() { return; }
-
-        // Make camera follow player.
-        let camera_pos = self.camera_pos.unwrap();
-        let camera_follow_percentage = self.camera_follow_percentage.unwrap();
-        let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
-        let dx = camera_follow_percentage * dt * dx;
-        let dy = camera_follow_percentage * dt * dy;
-        self.camera_pos = Some([camera_pos[0] + dx, camera_pos[1] + dy]);
+        self.update_objects(dt);
+        self.win();
+        self.show_blood(); 
+        self.follow_player(dt); 
     }
 
     fn load(&mut self) {
@@ -203,6 +163,71 @@ impl SnakeApp {
 
     pub fn add_sharks(&mut self) {
         self.objects.push(Object::shark(settings::SHARK_1_POS, settings::SHARK_1_SETTINGS));
+    }
+    
+    fn follow_player(&mut self, dt: f64) {
+        if self.camera_pos.is_none() { return; }
+        // Make camera follow player.
+        let camera_pos = self.camera_pos.unwrap();
+        let camera_follow_percentage = self.camera_follow_percentage.unwrap();
+        let player_pos = self.player_pos();
+        let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
+        let dx = camera_follow_percentage * dt * dx;
+        let dy = camera_follow_percentage * dt * dy;
+        self.camera_pos = Some([camera_pos[0] + dx, camera_pos[1] + dy]);
+    }
+
+    fn show_blood(&mut self) {
+        if self.blood_bar_index == None { return; }
+        // Show blood.
+        let player_blood = self.player_blood();
+        let blood_bar_index = self.blood_bar_index.unwrap();
+        let blood_bar = self.objects.get_mut(blood_bar_index);
+        match blood_bar.data {
+            object::BarData(ref mut bar) => {
+                bar.value = player_blood;
+            },
+            _ => {},
+        }
+    }
+
+    fn win(&mut self) {
+        let player_pos = self.player_pos();
+        // When player reaches surface, win.
+        if player_pos[1] >= self.surface_y.unwrap() {
+            self.game_state = Some(game_state::Win);
+            return;
+        }
+    }
+
+    fn update_objects(&mut self, dt: f64) {
+        // Update states of objects.
+        let player_pos = self.player_pos();
+        let mut attack_damage: f64 = 0.0;
+        for obj in self.objects.mut_iter() {
+            match obj.update(dt, player_pos) {
+                action::Passive => {},
+                action::Attack(attack) => { attack_damage += attack; },
+            }
+        }
+        // Decrease the players life with attacks.
+        let blood = self.player_blood();
+        self.set_player_blood(blood - attack_damage);   
+    }
+    
+    fn player_pos(&self) -> [f64, ..2] {
+        let player_index = self.player_index.unwrap();
+        self.objects.get(player_index).pos
+    }
+
+    fn player_blood(&self) -> f64 {
+        let player_index = self.player_index.unwrap();
+        self.objects.get(player_index).blood().unwrap()
+    }
+
+    fn set_player_blood(&mut self, val: f64) {
+        let player_index = self.player_index.unwrap();
+        *self.objects.get_mut(player_index).blood_mut().unwrap() = val;
     }
 }
 
