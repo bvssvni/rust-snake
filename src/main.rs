@@ -32,7 +32,7 @@ fn start(argc: int, argv: **u8) -> int {
 fn main() {
     use snakeapp::SnakeApp;
 
-    let game_window = GameWindow::window("Sea Snake", 512, 512);
+    let game_window = GameWindow::window("Sea Snake Escape", 512, 512);
     let mut app = SnakeApp::new();    
     app.run(&game_window);
 }
