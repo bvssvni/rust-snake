@@ -49,13 +49,24 @@ impl Game for SnakeApp {
             obj.render(cam, c, gl);
         }
   
+        let text_c = c.flip_v_local();
+        let text_c = text_c.zoom(0.0025);
         match self.game_state.unwrap() {
             game_state::Win => {
                 let pos = settings::YOU_WIN_POS;
-                text::text("you win", &c.flip_v_local().zoom(0.0025).trans(pos[0], pos[1]).color(settings::YOU_WIN_TEXT_COLOR), gl);
+                text::text("you win", 
+                    &text_c
+                    .trans(pos[0], pos[1])
+                    .color(settings::YOU_WIN_TEXT_COLOR)
+                , gl);
             },
             game_state::Loose => {
-
+                let pos = settings::YOU_LOOSE_POS;
+                text::text("you loose",
+                    &text_c
+                    .trans(pos[0], pos[1])
+                    .color(settings::YOU_LOOSE_TEXT_COLOR)
+                , gl);
             },
             game_state::Play => {
 
