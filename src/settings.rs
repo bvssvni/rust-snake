@@ -3,7 +3,7 @@ use game_state;
 
 pub static RADIUS: f64 = 0.1;
 pub static SURFACE_Y: f64 = 0.8;
-pub static INITIAL_GAME_STATE: game_state::GameState = game_state::Loose; // game_state::Play;
+pub static INITIAL_GAME_STATE: game_state::GameState = game_state::Play;
 pub static INITIAL_CAMERA_POS: [f64, ..2] = [0.0, 0.0];
 pub static CAMERA_FOLLOW_PERCENTAGE: f64 = 0.2;
 
@@ -64,25 +64,30 @@ pub static SHARK_1_POS: [f64, ..2] = [-0.1, 0.1];
 
 pub static BAR_RECTANGLE: [f64, ..4] = [0.3, -0.06, 1.5, 0.05];
 pub static BAR_MARGIN: f64 = 0.01;
+pub static BAR_TEXT_COLOR: [f32, ..4] = WHITE;
 
 pub static AIR_BAR_INITIAL_VALUE: f64 = 0.5;
 pub static AIR_BAR_POS: [f64, ..2] = [-0.9, 0.95];
-pub static AIR_BAR_TEXT_COLOR: [f32, ..4] = BLACK;
+pub static AIR_BAR_TEXT_COLOR: [f32, ..4] = BAR_TEXT_COLOR;
 pub static AIR_BAR_BACKGROUND_COLOR: [f32, ..4] = DARK_BLUE;
 pub static AIR_BAR_BAR_COLOR: [f32, ..4] = LIGHT_BLUE;
 
 pub static BLOOD_BAR_INITIAL_VALUE: f64 = 0.5;
 pub static BLOOD_BAR_POS: [f64, ..2] = [-0.9, 0.85];
-pub static BLOOD_BAR_TEXT_COLOR: [f32, ..4] = BLACK;
+pub static BLOOD_BAR_TEXT_COLOR: [f32, ..4] = BAR_TEXT_COLOR;
 pub static BLOOD_BAR_BACKGROUND_COLOR: [f32, ..4] = DARK_RED;
 pub static BLOOD_BAR_BAR_COLOR: [f32, ..4] = LIGHT_RED;
 
 pub static BAR_BACKGROUND_HEIGHT: f64 = 0.275;
-pub static BAR_BACKGROUND_COLOR: [f32, ..4] = GRAY;
+pub static BAR_BACKGROUND_COLOR: [f32, ..4] = [0.1, 0.1, 0.1, 0.9];
+pub static BAR_BACKGROUND_COLOR_2: [f32, ..4] = [0.4, 0.4, 0.4, 0.8];
+pub static BAR_BACKGROUND_MARGIN: f64 = 0.01;
+pub static BAR_BACKGROUND_MARGIN_2: f64 = 0.02;
 
 pub static BLACK: [f32, ..4] = [0.0, 0.0, 0.0, 1.0];
 pub static WHITE: [f32, ..4] = [1.0, 1.0, 1.0, 1.0];
 pub static GRAY: [f32, ..4] = [0.5, 0.5, 0.5, 1.0];
+pub static DARK_GRAY: [f32, ..4] = [0.2, 0.2, 0.2, 1.0];
 
 pub static RED: [f32, ..4] = [1.0, 0.0, 0.0, 1.0];
 pub static DARK_RED: [f32, ..4] = [0.5, 0.0, 0.0, 1.0];

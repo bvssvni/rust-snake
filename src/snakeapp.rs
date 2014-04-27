@@ -41,7 +41,11 @@ impl Game for SnakeApp {
         // Render round rectangle around bars.
         let bar_bgh = settings::BAR_BACKGROUND_HEIGHT;
         let bar_color = settings::BAR_BACKGROUND_COLOR;
-        c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).round(0.1).color(bar_color).fill(gl);
+        let bar_color_2 = settings::BAR_BACKGROUND_COLOR_2;
+        let margin = settings::BAR_BACKGROUND_MARGIN;
+        let margin_2 = settings::BAR_BACKGROUND_MARGIN_2;
+        c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin).round(0.1).color(bar_color).fill(gl);
+        c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin_2).round(0.1).color(bar_color_2).fill(gl);
 
         // Render objects.
         let cam = &c.trans(-cam_x, -cam_y);
