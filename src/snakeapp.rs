@@ -64,7 +64,7 @@ impl Game for SnakeApp {
 
     fn load(&mut self) {
         self.surface_y = Some(settings::SURFACE_Y);
-        self.game_state = Some(game_state::Play);    
+        self.game_state = Some(settings::INITIAL_GAME_STATE);    
     
         // Add player.
         self.objects.push(Object::player(
