@@ -24,7 +24,6 @@ pub struct Object {
     pub vel: [f64, ..2],
     pub radius: f64,
     pub test_color: [f32, ..4],
-    pub springs: Vec<Spring>,
     pub data: ObjectData,
 }
 
@@ -35,7 +34,6 @@ impl Object {
             vel: [0.0, 0.0],
             radius: settings::PLAYER_RADIUS,
             test_color: test_color,
-            springs: Vec::new(),
             data: PlayerData(Player { blood: blood }),
         }
     }
@@ -50,7 +48,6 @@ impl Object {
             vel: [0.0, 0.0],
             radius: settings.radius,
             test_color: settings.test_color,
-            springs: Vec::new(),
             data: SharkData(Shark { 
                 sensor_distance: settings.sensor_distance,
                 state: settings.initial_state,
@@ -75,7 +72,6 @@ impl Object {
             pos: pos,
             radius: 0.0,
             vel: [0.0, 0.0],
-            springs: Vec::new(),
             test_color: settings::BLACK,
             data: BarData(Bar { 
                 text: text, 
