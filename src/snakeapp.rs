@@ -28,12 +28,17 @@ impl Game for SnakeApp {
     fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
     
     fn render(&self, c: &graphics::Context, gl: &mut Gl) {
-        // Set camera, if any.
+        // Get camera coordinates.
         let (cam_x, cam_y) = if self.camera_pos.is_some() {
                 let camera_pos = self.camera_pos.unwrap();
                 (camera_pos[0], camera_pos[1])
             } else { (0.0, 0.0) };
+        
+        // Render surface.
+        let surface_y = self.surface_y.unwrap();
+        c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).fill(gl);
 
+        // Render objects.
         let cam = &c.trans(-cam_x, -cam_y);
         for obj in self.objects.iter() {
             obj.render(cam, c, gl);
