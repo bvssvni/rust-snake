@@ -200,6 +200,11 @@ impl SnakeApp {
         }
     }
 
+    fn restart(&mut self) {
+        *self = SnakeApp::new();
+        self.load();
+    }
+
     fn update_objects(&mut self, dt: f64) {
         if self.game_state.unwrap() != game_state::Play { return; }
 
