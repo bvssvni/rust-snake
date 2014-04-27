@@ -152,7 +152,7 @@ impl Game for SnakeApp {
 impl SnakeApp {
     pub fn new() -> SnakeApp { 
         let exit_on_esc = true;
-        let background_color = [1.0, 1.0, 1.0, 1.0];
+        let background_color = settings::WATER_COLOR;
         SnakeApp {
             camera_pos: None,
             camera_follow_percentage: None,

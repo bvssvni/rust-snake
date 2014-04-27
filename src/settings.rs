@@ -1,6 +1,7 @@
 use shark;
 use game_state;
 
+pub static WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.45, 1.0];
 pub static RADIUS: f64 = 0.1;
 pub static SURFACE_Y: f64 = 0.8;
 pub static INITIAL_GAME_STATE: game_state::GameState = game_state::Play;
