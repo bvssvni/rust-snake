@@ -70,8 +70,6 @@ pub struct SnakeSettings {
 }
 
 pub static SNAKE_TAIL_COLOR: [f32, ..4] = [0.8, 0.6, 0.6, 0.4];
-
-
 pub static SNAKE_TAIL_DISTANCE: f64 = 0.01;
 pub static SNAKE_OVERALL_ACCELERATION: f64 = 2.0;
 pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
@@ -80,7 +78,7 @@ pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     acceleration_up: 0.1 * SNAKE_OVERALL_ACCELERATION,
     acceleration_down: 0.1 * SNAKE_OVERALL_ACCELERATION,
     initial_state: snake::Ignorant,
-    bite_damage: 0.1,
+    bite_damage: 0.3,
     sensor_distance: 2.0,
     attack_distance: 0.5 * PLAYER_RADIUS,
     wait_seconds_before_initial_attack: 1.0,
