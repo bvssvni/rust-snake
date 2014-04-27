@@ -187,6 +187,12 @@ fn i_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(lower_middle).fill(gl);
 }
 
+fn t_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+    c.polygon(top_face_down).fill(gl);
+    c.polygon(upper_middle).fill(gl);
+    c.polygon(lower_middle).fill(gl);
+}
+
 fn r_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(top_face_down).fill(gl);
     c.polygon(upper_left_face_right).fill(gl);
@@ -301,6 +307,7 @@ pub fn text(text: &str, c: &graphics::ColorContext, gl: &mut Gl) {
             'o' => {o_letter(d, gl); x += jump_x;},
             'r' => {r_letter(d, gl); x += jump_x;},
             's' => {s_letter(d, gl); x += jump_x;},
+            't' => {t_letter(d, gl); x += jump_x;},
             'u' => {u_letter(d, gl); x += jump_x;},
             'w' => {w_letter(d, gl); x += jump_x;},
             'y' => {y_letter(d, gl); x += jump_x;},
