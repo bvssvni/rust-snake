@@ -42,6 +42,7 @@ pub struct SnakeSettings {
     pub radius: f64,
 }
 
+pub static SNAKE_TAIL_DISTANCE: f64 = 0.1;
 pub static SNAKE_OVERALL_SPEED: f64 = 2.0;
 pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     speed_left: 0.1 * SNAKE_OVERALL_SPEED,
