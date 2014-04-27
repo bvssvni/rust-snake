@@ -42,11 +42,12 @@ pub struct SharkSettings {
     pub radius: f64,
 }
 
+pub static SHARK_OVERALL_SPEED: f64 = 2.0;
 pub static SHARK_SETTINGS: SharkSettings = SharkSettings {
-    speed_left: 0.1,
-    speed_right: 0.1,
-    speed_up: 0.1,
-    speed_down: 0.1,
+    speed_left: 0.1 * SHARK_OVERALL_SPEED,
+    speed_right: 0.1 * SHARK_OVERALL_SPEED,
+    speed_up: 0.1 * SHARK_OVERALL_SPEED,
+    speed_down: 0.1 * SHARK_OVERALL_SPEED,
     initial_state: shark::Ignorant,
     bite_damage: 0.1,
     sensor_distance: 0.2,
