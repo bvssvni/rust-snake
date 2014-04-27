@@ -10,3 +10,20 @@ OSX binary: <a href="http://www.cutoutpro.com/sea-snake-osx.zip" target="_blank"
 *Reach the surface before the sea snakes get you!*
 
 This project serves as a test project for the [Rust-Graphics](https://github.com/bvssvni/rust-graphics) API and [Piston](https://github.com/bvssvni/piston) game engine. The main goal is to improve Rust-Graphics. Do not expect it to have high quality as a game.
+
+It was also my entry game for <a href="http://www.ludumdare.com/compo/ludum-dare-29/?action=preview&uid=19918" target="_blank">Ludum Dare 29</a>
+
+## Building Instructions
+
+Add the following '.rlib' files to '/target/cpu-vendor-os/lib/':
+
+* libglfw-38369174-0.1.rlib
+* libgraphics-587c2edd-0.0.rlib
+* libopengles-73387c6a-0.1.rlib
+* libpiston-a1b791b5-0.0.rlib
+
+In the Terminal window, navigate to the 
+
+```
+make run
+```
