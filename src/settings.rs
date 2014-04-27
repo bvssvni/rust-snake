@@ -21,6 +21,7 @@ pub static YOU_LOOSE_POS: [f64, ..2] = [-0.55, 0.1];
 
 pub static PLAYER_LOOSE_AIR_SPEED: f64 = 0.1;
 pub static PLAYER_COLOR: [f32, ..4] = YELLOW;
+pub static PLAYER_BITTEN_COLOR: [f32, ..4] = RED;
 pub static PLAYER_INITIAL_BLOOD: f64 = 1.0;
 pub static PLAYER_INITIAL_AIR: f64 = 1.0;
 pub static PLAYER_RADIUS: f64 = 0.1;

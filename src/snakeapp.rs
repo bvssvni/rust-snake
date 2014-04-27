@@ -263,9 +263,8 @@ impl SnakeApp {
                 action::Attack(attack) => { attack_damage += attack; },
             }
         }
-        // Decrease the player's blood with attacks.
-        let blood = self.player_blood();
-        self.set_player_blood(blood - attack_damage); 
+        // Bite player.
+        self.bite_player(attack_damage);
 
         // Decrease the player's air with time.
         let air = self.player_air();
@@ -295,6 +294,11 @@ impl SnakeApp {
     fn set_player_air(&mut self, val: f64) {
         let player_index = self.player_index.unwrap();
         *self.objects.get_mut(player_index).air_mut().unwrap() = val;
+    }
+
+    fn bite_player(&mut self, damage: f64) {
+        let player_index = self.player_index.unwrap();
+        self.objects.get_mut(player_index).player_mut().unwrap().bite(damage);
     }
 }
 

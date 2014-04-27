@@ -14,6 +14,7 @@ pub struct Player {
 
 impl Player {
     pub fn update(&mut self, dt: f64) {
+        self.tween_factor += dt * settings::PLAYER_TWEEN_SPEED;
         self.state = match self.state {
             Normal => Normal,
             Bitten(sec) => {
@@ -26,8 +27,11 @@ impl Player {
         }
     }
 
-    pub fn bitten(&mut self) {
-        self.state = Bitten(settings::PLAYER_BITTEN_FADE_OUT_SECONDS);
+    pub fn bite(&mut self, damage: f64) {
+        if damage > 0.0 {
+            self.state = Bitten(settings::PLAYER_BITTEN_FADE_OUT_SECONDS);
+            self.blood -= damage;
+        }
     }
 }
 
