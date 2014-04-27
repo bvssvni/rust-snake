@@ -17,6 +17,7 @@ pub struct SnakeApp {
     surface_y: Option<f64>,
     game_state: Option<game_state::GameState>,
     camera_pos: Option<[f64, ..2]>,
+    camera_follow_percentage: Option<f64>,
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
     // Contains the game objects.
@@ -27,8 +28,15 @@ impl Game for SnakeApp {
     fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
     
     fn render(&self, c: &graphics::Context, gl: &mut Gl) {
+        // Set camera, if any.
+        let (cam_x, cam_y) = if self.camera_pos.is_some() {
+                let camera_pos = self.camera_pos.unwrap();
+                (camera_pos[0], camera_pos[1])
+            } else { (0.0, 0.0) };
+
+        let cam = &c.trans(-cam_x, -cam_y);
         for obj in self.objects.iter() {
-            obj.render(c, gl);
+            obj.render(cam, c, gl);
         }
    
         // TEST 
@@ -70,9 +78,20 @@ impl Game for SnakeApp {
             },
             _ => {},
         }
+    
+        if self.camera_pos.is_none() { return; }
+
+        // Make camera follow player.
+        let camera_pos = self.camera_pos.unwrap();
+        let camera_follow_percentage = self.camera_follow_percentage.unwrap();
+        let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
+        let dx = camera_follow_percentage * dt * dx;
+        let dy = camera_follow_percentage * dt * dy;
+        self.camera_pos = Some([camera_pos[0] + dx, camera_pos[1] + dy]);
     }
 
     fn load(&mut self) {
+        self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
         self.camera_pos = Some(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
         self.game_state = Some(settings::INITIAL_GAME_STATE);    
@@ -127,6 +146,7 @@ impl SnakeApp {
         let background_color = [1.0, 1.0, 1.0, 1.0];
         SnakeApp {
             camera_pos: None,
+            camera_follow_percentage: None,
             settings: Settings::new(exit_on_esc, background_color),
             game_state: None,
             surface_y: None,

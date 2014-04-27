@@ -110,17 +110,17 @@ impl Object {
         }
     }
 
-    pub fn render(&self, c: &graphics::Context, gl: &mut Gl) {
+    pub fn render(&self, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];
         let rad = self.radius;      
  
         match self.data {
             SharkData(_) => {
-                c.square_centered(x, y, rad).color(self.test_color).fill(gl);
+                cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
             },
             PlayerData(_) => {
-                c.square_centered(x, y, rad).color(self.test_color).fill(gl);
+                cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
             },
             BarData(bar) => {
                 bar.render(&c.trans_local(x, y), gl);
