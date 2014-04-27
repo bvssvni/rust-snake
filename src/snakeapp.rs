@@ -324,7 +324,7 @@ impl SnakeApp {
                     let dx = pos[0] - player_pos[0];
                     let dy = pos[1] - player_pos[1];
                     let d = dx * dx + dy * dy;
-                    if d <= settings::AIR_BOTTLE_RADIUS {
+                    if d <= settings::AIR_BOTTLE_RADIUS * settings::AIR_BOTTLE_RADIUS {
                         air += air_bottle.fill_up;
                         air_bottle.fill_up = 0.0;
                     }
