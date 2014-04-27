@@ -1,7 +1,7 @@
 rust-snake
 ==========
 
-A snake game in Rust using the Piston game engine
+A sea snake game in Rust using the Piston game engine
 
 OSX binary: <a href="http://www.cutoutpro.com/snake.zip" target="_blank">Download</a>
 
