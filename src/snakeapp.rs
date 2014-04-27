@@ -122,6 +122,13 @@ impl Game for SnakeApp {
     fn key_release(&mut self, key: glfw::Key) {
         // TEST
         // println!("Key released {}", key);
+    
+        if key == glfw::KeyEnter || key == glfw::KeySpace {
+            match self.game_state.unwrap() {
+                game_state::Win | game_state::Loose => self.restart(),
+                _ => {},
+            }
+        }
     }
 }
 
