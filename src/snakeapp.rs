@@ -96,8 +96,8 @@ impl Game for SnakeApp {
             settings::BLUE,
             settings::PLAYER_INITIAL_BLOOD,
             settings::PLAYER_INITIAL_AIR,
-            [settings::PLAYER_SPEED_LEFT, settings::PLAYER_SPEED_RIGHT],
-            [settings::PLAYER_SPEED_UP, settings::PLAYER_SPEED_DOWN]
+            [settings::PLAYER_ACCELERATION_LEFT, settings::PLAYER_ACCELERATION_RIGHT],
+            [settings::PLAYER_ACCELERATION_UP, settings::PLAYER_ACCELERATION_DOWN]
         ));
         self.objects.push(Object::bar_background());
         self.player_index = Some(0);

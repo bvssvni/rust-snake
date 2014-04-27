@@ -25,8 +25,8 @@ pub struct Object {
     pub pos: [f64, ..2],
     pub vel: [f64, ..2],
     pub acc: [f64, ..2],
-    pub speed_h: [f64, ..2],
-    pub speed_v: [f64, ..2],
+    pub acceleration_h: [f64, ..2],
+    pub acceleration_v: [f64, ..2],
     pub radius: f64,
     pub test_color: [f32, ..4],
     pub data: ObjectData,
@@ -41,8 +41,8 @@ impl Object {
             layer: 1,
             radius: 0.0,
             test_color: [0.0, 0.0, 0.0, 0.0],
-            speed_h: [0.0, 0.0],
-            speed_v: [0.0, 0.0],
+            acceleration_h: [0.0, 0.0],
+            acceleration_v: [0.0, 0.0],
             data: BarBackgroundData,
         }
     }
@@ -52,15 +52,15 @@ impl Object {
         test_color: [f32, ..4], 
         blood: f64,
         air: f64,
-        speed_h: [f64, ..2],
-        speed_v: [f64, ..2]) -> Object {
+        acceleration_h: [f64, ..2],
+        acceleration_v: [f64, ..2]) -> Object {
         Object {
             layer: 0,
             pos: pos,
             vel: [0.0, 0.0],
             acc: [0.0, 0.0],
-            speed_h: speed_h,
-            speed_v: speed_v,
+            acceleration_h: acceleration_h,
+            acceleration_v: acceleration_v,
             radius: settings::PLAYER_RADIUS,
             test_color: test_color,
             data: PlayerData(Player { 
@@ -87,8 +87,8 @@ impl Object {
             pos: pos,
             vel: [0.0, 0.0],
             acc: [0.0, 0.0],
-            speed_h: [settings.speed_left, settings.speed_right],
-            speed_v: [settings.speed_up, settings.speed_down],
+            acceleration_h: [settings.acceleration_left, settings.acceleration_right],
+            acceleration_v: [settings.acceleration_up, settings.acceleration_down],
             radius: settings.radius,
             test_color: settings.test_color,
             data: SnakeData(Snake { 
@@ -118,8 +118,8 @@ impl Object {
             radius: 0.0,
             vel: [0.0, 0.0],
             acc: [0.0, 0.0],
-            speed_h: [0.0, 0.0],
-            speed_v: [0.0, 0.0],
+            acceleration_h: [0.0, 0.0],
+            acceleration_v: [0.0, 0.0],
             test_color: settings::BLACK,
             data: BarData(Bar { 
                 text: text, 
@@ -258,22 +258,22 @@ impl Object {
     }
 
     pub fn move_right(&mut self) {
-        let acc_right = self.speed_h[1];
+        let acc_right = self.acceleration_h[1];
         self.acc = [acc_right, self.acc[1]];
     }
 
     pub fn move_left(&mut self) {
-        let acc_left = self.speed_h[0];
+        let acc_left = self.acceleration_h[0];
         self.acc = [-acc_left, self.acc[1]];
     }
 
     pub fn move_up(&mut self) {
-        let acc_up = self.speed_v[0];
+        let acc_up = self.acceleration_v[0];
         self.acc = [self.acc[0], acc_up];
     }
 
     pub fn move_down(&mut self) {
-        let acc_down = self.speed_v[1];
+        let acc_down = self.acceleration_v[1];
         self.acc = [self.acc[0], -acc_down];
     }
 }

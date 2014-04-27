@@ -23,18 +23,18 @@ pub static PLAYER_COLOR: [f32, ..4] = YELLOW;
 pub static PLAYER_INITIAL_BLOOD: f64 = 1.0;
 pub static PLAYER_INITIAL_AIR: f64 = 1.0;
 pub static PLAYER_RADIUS: f64 = 0.1;
-pub static PLAYER_SPEED_RIGHT: f64 = 0.1;
-pub static PLAYER_SPEED_LEFT: f64 = 0.1;
-pub static PLAYER_SPEED_UP: f64 = 0.1;
-pub static PLAYER_SPEED_DOWN: f64 = 0.1;
+pub static PLAYER_ACCELERATION_RIGHT: f64 = 0.1;
+pub static PLAYER_ACCELERATION_LEFT: f64 = 0.1;
+pub static PLAYER_ACCELERATION_UP: f64 = 0.1;
+pub static PLAYER_ACCELERATION_DOWN: f64 = 0.1;
 pub static PLAYER_INITIAL_TWEEN_FACTOR: f64 = 0.0;
 pub static PLAYER_TWEEN_SPEED: f64 = 1.0;
 
 pub struct SnakeSettings {
-    pub speed_left: f64,
-    pub speed_right: f64,
-    pub speed_up: f64,
-    pub speed_down: f64,
+    pub acceleration_left: f64,
+    pub acceleration_right: f64,
+    pub acceleration_up: f64,
+    pub acceleration_down: f64,
     pub initial_state: snake::SnakeState,    
     pub bite_damage: f64,
     pub sensor_distance: f64,
@@ -46,13 +46,15 @@ pub struct SnakeSettings {
 }
 
 pub static SNAKE_TAIL_COLOR: [f32, ..4] = [0.8, 0.6, 0.6, 0.4];
+
+
 pub static SNAKE_TAIL_DISTANCE: f64 = 0.01;
-pub static SNAKE_OVERALL_SPEED: f64 = 2.0;
+pub static SNAKE_OVERALL_ACCELERATION: f64 = 2.0;
 pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
-    speed_left: 0.1 * SNAKE_OVERALL_SPEED,
-    speed_right: 0.1 * SNAKE_OVERALL_SPEED,
-    speed_up: 0.1 * SNAKE_OVERALL_SPEED,
-    speed_down: 0.1 * SNAKE_OVERALL_SPEED,
+    acceleration_left: 0.1 * SNAKE_OVERALL_ACCELERATION,
+    acceleration_right: 0.1 * SNAKE_OVERALL_ACCELERATION,
+    acceleration_up: 0.1 * SNAKE_OVERALL_ACCELERATION,
+    acceleration_down: 0.1 * SNAKE_OVERALL_ACCELERATION,
     initial_state: snake::Ignorant,
     bite_damage: 0.1,
     sensor_distance: 0.2,
