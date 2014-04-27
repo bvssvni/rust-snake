@@ -189,6 +189,13 @@ impl Object {
         }
     }
 
+    pub fn air_bottle_mut<'a>(&'a mut self) -> Option<&'a mut AirBottle> {
+        match self.data {
+            AirBottleData(ref mut air_bottle) => Some(air_bottle),
+            _ => None,
+        }
+    }
+
     fn render_snake(&self, snake: &Snake, x: f64, y: f64, rad: f64, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
         // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
         cam.circle_centered(x, y, rad).color(self.test_color).fill(gl);
@@ -218,6 +225,7 @@ impl Object {
 
     fn render_air_bottle(&self, air_bottle: &AirBottle, x: f64, y: f64, rad: f64,
         cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+        if air_bottle.fill_up == 0.0 { return; }
         cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
     }
 

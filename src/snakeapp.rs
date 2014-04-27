@@ -77,6 +77,7 @@ impl Game for SnakeApp {
 
     fn update(&mut self, dt: f64) {
         self.update_objects(dt);
+        self.fill_air();
         self.win();
         self.loose();
         self.show_blood(); 
@@ -310,6 +311,27 @@ impl SnakeApp {
     fn bite_player(&mut self, damage: f64) {
         let player_index = self.player_index.unwrap();
         self.objects.get_mut(player_index).player_mut().unwrap().bite(damage);
+    }
+
+    fn fill_air(&mut self) {
+        let player_pos = self.player_pos();
+        let mut air = self.player_air();
+        for obj in self.objects.mut_iter() {
+            let pos = obj.pos;
+            match obj.air_bottle_mut() {
+                None => {},
+                Some(air_bottle) => {
+                    let dx = pos[0] - player_pos[0];
+                    let dy = pos[1] - player_pos[1];
+                    let d = dx * dx + dy * dy;
+                    if d <= settings::AIR_BOTTLE_RADIUS {
+                        air += air_bottle.fill_up;
+                        air_bottle.fill_up = 0.0;
+                    }
+                },
+            }
+        }
+        self.set_player_air(air);
     }
 }
 
