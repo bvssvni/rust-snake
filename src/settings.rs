@@ -42,7 +42,8 @@ pub struct SnakeSettings {
     pub radius: f64,
 }
 
-pub static SNAKE_TAIL_DISTANCE: f64 = 0.1;
+pub static SNAKE_TAIL_COLOR: [f32, ..4] = [0.8, 0.6, 0.6, 0.4];
+pub static SNAKE_TAIL_DISTANCE: f64 = 0.01;
 pub static SNAKE_OVERALL_SPEED: f64 = 2.0;
 pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     speed_left: 0.1 * SNAKE_OVERALL_SPEED,
@@ -56,7 +57,7 @@ pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     wait_seconds_before_initial_attack: 1.0,
     wait_seconds_before_repeat_attack: 1.0,
     test_color: BLACK,
-    radius: 0.1,
+    radius: 0.03,
 };
 
 pub static SNAKE_SPEED_RIGHT: f64 = 0.1;

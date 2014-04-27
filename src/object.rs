@@ -57,6 +57,12 @@ impl Object {
         settings: settings::SnakeSettings
     ) -> Object {
         
+        let mut tail = [0.0, ..256];
+        let n = tail.len() / 2;
+        for i in range(0, n) {
+            tail[i * 2] = pos[0];
+            tail[i * 2 + 1] = pos[1];
+        }
         Object {
             pos: pos,
             vel: [0.0, 0.0],
@@ -69,7 +75,7 @@ impl Object {
                 state: settings.initial_state,
                 bite_damage: settings.bite_damage,
                 attack_distance: settings.attack_distance,
-                tail: [0.0, ..16],
+                tail: tail,
                 wait_seconds_before_initial_attack: settings.wait_seconds_before_initial_attack,
                 wait_seconds_before_repeat_attack: settings.wait_seconds_before_repeat_attack,
             }),
@@ -136,10 +142,20 @@ impl Object {
         let rad = self.radius;      
  
         match self.data {
-            SnakeData(_) => {
-                cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+            SnakeData(ref snake) => {
+                // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+                cam.circle_centered(x, y, rad).color(self.test_color).fill(gl);
+                let n = snake.tail.len() / 2;
+                for i in range(0, n) {
+                    let x = snake.tail[i * 2];
+                    let y = snake.tail[i * 2 + 1];
+                    cam.circle_centered(x, y, rad).color(settings::SNAKE_TAIL_COLOR).fill(gl);
+                
+                    // TEST
+                    // println!("{} {}", x, y);
+                } 
             },
-            PlayerData(player) => {
+            PlayerData(ref player) => {
                 cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
                 character::draw_character(player.tween_factor, 
                     &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);

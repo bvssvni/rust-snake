@@ -17,7 +17,7 @@ pub struct Snake {
     pub attack_distance: f64,
     pub wait_seconds_before_initial_attack: f64,
     pub wait_seconds_before_repeat_attack: f64,
-    pub tail: [f64, ..16]
+    pub tail: [f64, ..256]
 }
 
 impl Snake {
@@ -66,9 +66,12 @@ impl Snake {
                 let dy = dy / d;
                 let dx = dx * (dist - d);
                 let dy = dy * (dist - d);
-                self.tail[i * 2] += dx;
-                self.tail[i * 2 + 1] += dy;
+                self.tail[i * 2] -= dx;
+                self.tail[i * 2 + 1] -= dy;
             }
+
+            x = x2;
+            y = y2;
         }
     }
 }
