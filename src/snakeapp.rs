@@ -45,6 +45,12 @@ impl Game for SnakeApp {
             }
         }
 
+        // When player reaches surface, win.
+        if player_pos[1] >= self.surface_y.unwrap() {
+            self.game_state = Some(game_state::Win);
+            return;
+        }
+
         // Decrease the players life with attacks.
         *self.objects.get_mut(player_index).blood_mut().unwrap() -= attack_damage;   
  
