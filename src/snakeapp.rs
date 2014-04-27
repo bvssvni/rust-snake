@@ -104,6 +104,9 @@ impl Game for SnakeApp {
         
         // Add blood and air bar.
         self.add_bars();
+
+        // Add air bottles.
+        self.add_air_bottles();
  
         // Add sharks.
         self.add_snakes();
@@ -186,6 +189,14 @@ impl SnakeApp {
     pub fn add_snakes(&mut self) {
         if settings::SNAKE_1_ADD { self.objects.push(Object::snake(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
         if settings::SNAKE_2_ADD { self.objects.push(Object::snake(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
+    }
+
+    pub fn add_air_bottles(&mut self) {
+        let air_bottles = settings::AIR_BOTTLE_POS;
+        let n = air_bottles.len() / 2;
+        for i in range(0, n) {
+            self.objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
+        }
     }
     
     fn follow_player(&mut self, dt: f64) {
