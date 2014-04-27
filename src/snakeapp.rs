@@ -331,6 +331,8 @@ impl SnakeApp {
                 },
             }
         }
+
+        air = if air > 1.0 { 1.0 } else { air };
         self.set_player_air(air);
     }
 }
