@@ -9,11 +9,13 @@ use graphics::*;
 use object;
 use Object = object::Object;
 use text;
+use game_state;
 
 pub struct SnakeApp {
     settings: Settings,
     // Tells where the surface is.
     surface_y: Option<f64>,
+    game_state: Option<game_state::GameState>,
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
     // Contains the game objects.
@@ -62,7 +64,8 @@ impl Game for SnakeApp {
 
     fn load(&mut self) {
         self.surface_y = Some(settings::SURFACE_Y);
-        
+        self.game_state = Some(game_state::Play);    
+    
         // Add player.
         self.objects.push(Object::player(
             settings::ORIGIN, 
@@ -113,6 +116,7 @@ impl SnakeApp {
         let background_color = [1.0, 1.0, 1.0, 1.0];
         SnakeApp {
             settings: Settings::new(exit_on_esc, background_color),
+            game_state: None,
             surface_y: None,
             objects: Vec::new(),
             player_index: None,
