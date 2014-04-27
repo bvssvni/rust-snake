@@ -20,6 +20,7 @@ mod player;
 mod shark;
 mod action;
 mod game_state;
+mod character;
 
 #[start]
 fn start(argc: int, argv: **u8) -> int {

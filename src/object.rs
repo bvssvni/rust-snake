@@ -1,4 +1,4 @@
-
+use character;
 use action;
 use graphics;
 use graphics::*;
@@ -139,6 +139,7 @@ impl Object {
             },
             PlayerData(_) => {
                 cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+                character::draw_head(0.0, &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
             },
             BarData(bar) => {
                 bar.render(&c.trans_local(x, y), gl);
