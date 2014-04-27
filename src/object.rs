@@ -24,6 +24,7 @@ pub struct Object {
     pub layer: uint,
     pub pos: [f64, ..2],
     pub vel: [f64, ..2],
+    pub acc: [f64, ..2],
     pub speed_h: [f64, ..2],
     pub speed_v: [f64, ..2],
     pub radius: f64,
@@ -36,6 +37,7 @@ impl Object {
         Object {
             pos: [0.0, 0.0],
             vel: [0.0, 0.0],
+            acc: [0.0, 0.0],
             layer: 1,
             radius: 0.0,
             test_color: [0.0, 0.0, 0.0, 0.0],
@@ -56,6 +58,7 @@ impl Object {
             layer: 0,
             pos: pos,
             vel: [0.0, 0.0],
+            acc: [0.0, 0.0],
             speed_h: speed_h,
             speed_v: speed_v,
             radius: settings::PLAYER_RADIUS,
@@ -83,6 +86,7 @@ impl Object {
             layer: 0,
             pos: pos,
             vel: [0.0, 0.0],
+            acc: [0.0, 0.0],
             speed_h: [settings.speed_left, settings.speed_right],
             speed_v: [settings.speed_up, settings.speed_down],
             radius: settings.radius,
@@ -113,6 +117,7 @@ impl Object {
             pos: pos,
             radius: 0.0,
             vel: [0.0, 0.0],
+            acc: [0.0, 0.0],
             speed_h: [0.0, 0.0],
             speed_v: [0.0, 0.0],
             test_color: settings::BLACK,
@@ -208,7 +213,25 @@ impl Object {
     }
 
     pub fn update(&mut self, dt: f64, player_pos: [f64, ..2]) -> action::Action {
-        self.pos = [self.pos[0] + self.vel[0] * dt, self.pos[1] + self.vel[1] * dt];
+        self.pos = [
+            self.pos[0] + 0.5 * self.vel[0] * dt, 
+            self.pos[1] + 0.5 * self.vel[1] * dt
+        ];
+        self.vel = [
+            self.vel[0] + self.acc[0] * dt,
+            self.vel[1] + self.acc[1] * dt
+        ];
+        let vel_len = self.vel[0] * self.vel[0] + self.vel[1] * self.vel[1];
+        let friction = settings::WATER_FRICTION;
+        let drag = 1.0 / (vel_len * friction).exp();
+        self.vel = [
+            self.vel[0] * drag,
+            self.vel[1] * drag
+        ];
+        self.pos = [
+            self.pos[0] + 0.5 * self.vel[0] * dt,
+            self.pos[1] + 0.5 * self.vel[1] * dt
+        ];
    
         let mut action = action::Passive;
         // Update object state. 
@@ -235,23 +258,23 @@ impl Object {
     }
 
     pub fn move_right(&mut self) {
-        let speed_right = self.speed_h[1];
-        self.vel = [speed_right, self.vel[1]];
+        let acc_right = self.speed_h[1];
+        self.acc = [acc_right, self.acc[1]];
     }
 
     pub fn move_left(&mut self) {
-        let speed_left = self.speed_h[0];
-        self.vel = [-speed_left, self.vel[1]];
+        let acc_left = self.speed_h[0];
+        self.acc = [-acc_left, self.acc[1]];
     }
 
     pub fn move_up(&mut self) {
-        let speed_up = self.speed_v[0];
-        self.vel = [self.vel[0], speed_up];
+        let acc_up = self.speed_v[0];
+        self.acc = [self.acc[0], acc_up];
     }
 
     pub fn move_down(&mut self) {
-        let speed_down = self.speed_v[1];
-        self.vel = [self.vel[0], -speed_down];
+        let acc_down = self.speed_v[1];
+        self.acc = [self.acc[0], -acc_down];
     }
 }
 
