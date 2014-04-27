@@ -168,37 +168,41 @@ impl Object {
         }
     }
 
+    fn render_snake(&self, snake: &Snake, x: f64, y: f64, rad: f64, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+        // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+        cam.circle_centered(x, y, rad).color(self.test_color).fill(gl);
+        let n = snake.tail.len() / 2;
+        for i in range(0, n) {
+            let x = snake.tail[i * 2];
+            let y = snake.tail[i * 2 + 1];
+            cam.circle_centered(x, y, rad).color(settings::SNAKE_TAIL_COLOR).fill(gl);
+        }
+    }
+
+    fn render_player(&self, player: &Player, x: f64, y: f64, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+        // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+        match player.state {
+            player::Normal => {
+                character::draw_character(player.tween_factor, 
+                &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
+            },
+            player::Bitten(sec) => {
+                let t = (1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS);
+                let color = lerp_4(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
+                character::draw_character(player.tween_factor, 
+                &cam.trans_local(x, y).zoom_local(0.002).color(color), gl);
+            },
+        }
+    }
+
     pub fn render(&self, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];
         let rad = self.radius;      
  
         match self.data {
-            SnakeData(ref snake) => {
-                // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
-                cam.circle_centered(x, y, rad).color(self.test_color).fill(gl);
-                let n = snake.tail.len() / 2;
-                for i in range(0, n) {
-                    let x = snake.tail[i * 2];
-                    let y = snake.tail[i * 2 + 1];
-                    cam.circle_centered(x, y, rad).color(settings::SNAKE_TAIL_COLOR).fill(gl);
-                } 
-            },
-            PlayerData(ref player) => {
-                // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
-                match player.state {
-                    player::Normal => {
-                        character::draw_character(player.tween_factor, 
-                        &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
-                    },
-                    player::Bitten(sec) => {
-                        let t = (1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS);
-                        let color = lerp_4(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
-                        character::draw_character(player.tween_factor, 
-                        &cam.trans_local(x, y).zoom_local(0.002).color(color), gl);
-                    },
-                }
-            },
+            SnakeData(ref snake) => self.render_snake(snake, x, y, rad, cam, c, gl),
+            PlayerData(ref player) => self.render_player(player, x, y, cam, c, gl),
             BarData(bar) => {
                 bar.render(&c.trans_local(x, y), gl);
             },
