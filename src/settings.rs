@@ -9,7 +9,7 @@ pub static RADIUS: f64 = 0.1;
 pub static SURFACE_Y: f64 = 10.0;
 pub static INITIAL_GAME_STATE: game_state::GameState = game_state::Play;
 pub static INITIAL_CAMERA_POS: [f64, ..2] = [0.0, 0.0];
-pub static CAMERA_FOLLOW_PERCENTAGE: f64 = 0.2;
+pub static CAMERA_FOLLOW_PERCENTAGE: f64 = 0.4;
 
 pub static YOU_WIN_TEXT: &'static str = "you win";
 pub static YOU_WIN_TEXT_COLOR: [f32, ..4] = GREEN;
