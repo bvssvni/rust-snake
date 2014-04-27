@@ -48,7 +48,20 @@ impl Game for SnakeApp {
         for obj in self.objects.iter() {
             obj.render(cam, c, gl);
         }
-   
+  
+        match self.game_state.unwrap() {
+            game_state::Win => {
+                let pos = settings::YOU_WIN_POS;
+                text::text("you win", &c.flip_v_local().zoom(0.0025).trans(pos[0], pos[1]).color(settings::YOU_WIN_TEXT_COLOR), gl);
+            },
+            game_state::Loose => {
+
+            },
+            game_state::Play => {
+
+            },
+        }
+ 
         // TEST 
         // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
     }
