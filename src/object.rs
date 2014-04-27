@@ -20,6 +20,7 @@ pub enum ObjectData {
 /// All objects are of same kind.
 /// Makes it easier to write game logic.
 pub struct Object {
+    pub layer: uint,
     pub pos: [f64, ..2],
     pub vel: [f64, ..2],
     pub speed_h: [f64, ..2],
@@ -38,6 +39,7 @@ impl Object {
         speed_h: [f64, ..2],
         speed_v: [f64, ..2]) -> Object {
         Object {
+            layer: 0,
             pos: pos,
             vel: [0.0, 0.0],
             speed_h: speed_h,
@@ -64,6 +66,7 @@ impl Object {
             tail[i * 2 + 1] = pos[1];
         }
         Object {
+            layer: 0,
             pos: pos,
             vel: [0.0, 0.0],
             speed_h: [settings.speed_left, settings.speed_right],
@@ -92,6 +95,7 @@ impl Object {
     ) -> Object {
      
        Object {
+            layer: 1,
             pos: pos,
             radius: 0.0,
             vel: [0.0, 0.0],

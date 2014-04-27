@@ -47,10 +47,12 @@ impl Game for SnakeApp {
         c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin).round(0.1).color(bar_color).fill(gl);
         c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin_2).round(0.1).color(bar_color_2).fill(gl);
 
-        // Render objects.
+        // Render objects in layers.
         let cam = &c.trans(-cam_x, -cam_y);
-        for obj in self.objects.iter() {
-            obj.render(cam, c, gl);
+        for i in range(0u, settings::NUMBER_OF_LAYERS) {
+            for obj in self.objects.iter() {
+                if obj.layer == i { obj.render(cam, c, gl); }
+            }
         }
   
         let text_c = c.flip_v_local();
