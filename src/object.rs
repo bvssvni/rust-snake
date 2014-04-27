@@ -22,16 +22,25 @@ pub enum ObjectData {
 pub struct Object {
     pub pos: [f64, ..2],
     pub vel: [f64, ..2],
+    pub speed_h: [f64, ..2],
+    pub speed_v: [f64, ..2],
     pub radius: f64,
     pub test_color: [f32, ..4],
     pub data: ObjectData,
 }
 
 impl Object {
-    pub fn player(pos: [f64, ..2], test_color: [f32, ..4], blood: f64) -> Object {
+    pub fn player(
+        pos: [f64, ..2], 
+        test_color: [f32, ..4], 
+        blood: f64,
+        speed_h: [f64, ..2],
+        speed_v: [f64, ..2]) -> Object {
         Object {
             pos: pos,
             vel: [0.0, 0.0],
+            speed_h: speed_h,
+            speed_v: speed_v,
             radius: settings::PLAYER_RADIUS,
             test_color: test_color,
             data: PlayerData(Player { blood: blood }),
@@ -46,6 +55,8 @@ impl Object {
         Object {
             pos: pos,
             vel: [0.0, 0.0],
+            speed_h: [settings.speed_left, settings.speed_right],
+            speed_v: [settings.speed_up, settings.speed_down],
             radius: settings.radius,
             test_color: settings.test_color,
             data: SharkData(Shark { 
@@ -72,6 +83,8 @@ impl Object {
             pos: pos,
             radius: 0.0,
             vel: [0.0, 0.0],
+            speed_h: [0.0, 0.0],
+            speed_v: [0.0, 0.0],
             test_color: settings::BLACK,
             data: BarData(Bar { 
                 text: text, 
@@ -153,22 +166,22 @@ impl Object {
     }
 
     pub fn move_right(&mut self) {
-        let speed_right = settings::PLAYER_SPEED_RIGHT;
+        let speed_right = self.speed_h[1];
         self.vel = [speed_right, self.vel[1]];
     }
 
     pub fn move_left(&mut self) {
-        let speed_left = settings::PLAYER_SPEED_LEFT;
+        let speed_left = self.speed_h[0];
         self.vel = [-speed_left, self.vel[1]];
     }
 
     pub fn move_up(&mut self) {
-        let speed_up = settings::PLAYER_SPEED_UP;
+        let speed_up = self.speed_v[0];
         self.vel = [self.vel[0], speed_up];
     }
 
     pub fn move_down(&mut self) {
-        let speed_down = settings::PLAYER_SPEED_DOWN;
+        let speed_down = self.speed_v[1];
         self.vel = [self.vel[0], -speed_down];
     }
 }

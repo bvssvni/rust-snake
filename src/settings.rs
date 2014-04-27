@@ -10,6 +10,10 @@ pub static PLAYER_SPEED_UP: f64 = 0.1;
 pub static PLAYER_SPEED_DOWN: f64 = 0.1;
 
 pub struct SharkSettings {
+    pub speed_left: f64,
+    pub speed_right: f64,
+    pub speed_up: f64,
+    pub speed_down: f64,
     pub initial_state: shark::SharkState,    
     pub bite_damage: f64,
     pub sensor_distance: f64,
@@ -21,6 +25,10 @@ pub struct SharkSettings {
 }
 
 pub static SHARK_SETTINGS: SharkSettings = SharkSettings {
+    speed_left: 0.1,
+    speed_right: 0.1,
+    speed_up: 0.1,
+    speed_down: 0.1,
     initial_state: shark::Ignorant,
     bite_damage: 0.1,
     sensor_distance: 0.2,
