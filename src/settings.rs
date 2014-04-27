@@ -68,6 +68,9 @@ pub static BLOOD_BAR_TEXT_COLOR: [f32, ..4] = BLACK;
 pub static BLOOD_BAR_BACKGROUND_COLOR: [f32, ..4] = DARK_RED;
 pub static BLOOD_BAR_BAR_COLOR: [f32, ..4] = LIGHT_RED;
 
+pub static BAR_BACKGROUND_HEIGHT: f64 = 0.275;
+pub static BAR_BACKGROUND_COLOR: [f32, ..4] = GRAY;
+
 pub static BLACK: [f32, ..4] = [0.0, 0.0, 0.0, 1.0];
 pub static WHITE: [f32, ..4] = [1.0, 1.0, 1.0, 1.0];
 pub static GRAY: [f32, ..4] = [0.5, 0.5, 0.5, 1.0];
