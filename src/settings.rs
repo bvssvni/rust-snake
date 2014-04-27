@@ -1,6 +1,7 @@
 use shark;
 
 pub static RADIUS: f64 = 0.1;
+pub static SURFACE_Y: f64 = 0.8;
 
 pub static PLAYER_INITIAL_BLOOD: f64 = 1.0;
 pub static PLAYER_RADIUS: f64 = 0.1;

@@ -12,6 +12,8 @@ use text;
 
 pub struct SnakeApp {
     settings: Settings,
+    // Tells where the surface is.
+    surface_y: Option<f64>,
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
     // Contains the game objects.
@@ -59,6 +61,9 @@ impl Game for SnakeApp {
     }
 
     fn load(&mut self) {
+        self.surface_y = Some(settings::SURFACE_Y);
+        
+        // Add player.
         self.objects.push(Object::player(
             settings::ORIGIN, 
             settings::BLUE,
@@ -67,8 +72,12 @@ impl Game for SnakeApp {
             [settings::PLAYER_SPEED_UP, settings::PLAYER_SPEED_DOWN]
         ));
         self.player_index = Some(0);
-        self.add_sharks();
+        
+        // Add blood and air bar.
         self.add_bars();
+ 
+        // Add sharks.
+        self.add_sharks();
     }
 
     fn key_press(&mut self, key: glfw::Key) {
@@ -104,6 +113,7 @@ impl SnakeApp {
         let background_color = [1.0, 1.0, 1.0, 1.0];
         SnakeApp {
             settings: Settings::new(exit_on_esc, background_color),
+            surface_y: None,
             objects: Vec::new(),
             player_index: None,
             blood_bar_index: None,
