@@ -186,7 +186,7 @@ impl SnakeApp {
     }
 
     pub fn add_sharks(&mut self) {
-        self.objects.push(Object::shark(settings::SHARK_1_POS, settings::SHARK_1_SETTINGS));
+        if settings::SHARK_1_ADD { self.objects.push(Object::shark(settings::SHARK_1_POS, settings::SHARK_1_SETTINGS)); }
     }
     
     fn follow_player(&mut self, dt: f64) {

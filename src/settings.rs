@@ -66,6 +66,7 @@ pub static SHARK_SPEED_DOWN: f64 = 0.1;
 // shark 1.
 pub static SHARK_1_SETTINGS: SharkSettings = SHARK_SETTINGS;
 pub static SHARK_1_POS: [f64, ..2] = [-0.8, 0.8];
+pub static SHARK_1_ADD: bool = false;
 
 pub static BAR_RECTANGLE: [f64, ..4] = [0.3, -0.06, 1.5, 0.05];
 pub static BAR_MARGIN: f64 = 0.01;
