@@ -5,6 +5,12 @@ A sea snake game in Rust using the Piston game engine
 To run it you need <a href="http://www.glfw.org/" target="_blank">GLFW 3.0.+</a>  
 OSX binary: <a href="http://www.cutoutpro.com/sea-snake-osx.zip" target="_blank">Download</a>  
 
+## How to play
+
+Use the arrow keys to control the diver.  
+When you loose or win, hit `Enter` to restart.  
+You can also exit with `Esc`.  
+
 ![alt tag](https://raw.githubusercontent.com/bvssvni/rust-snake/master/sea-snake.png)
 
 *Reach the surface before the sea snakes get you!*
