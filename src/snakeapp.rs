@@ -109,7 +109,7 @@ impl Game for SnakeApp {
         // Add air bottles.
         self.add_air_bottles();
  
-        // Add sharks.
+        // Add snakes.
         self.add_snakes();
     }
 

@@ -298,8 +298,8 @@ impl Object {
         // Update object state. 
         let (player_dx, player_dy) = (player_pos[0] - self.pos[0], player_pos[1] - self.pos[1]);
         match self.data {
-            SnakeData(ref mut shark) => {
-                action = shark.update(dt, player_pos, self.pos);
+            SnakeData(ref mut snake) => {
+                action = snake.update(dt, player_pos, self.pos);
             },
             PlayerData(ref mut player) => {
                 player.update(dt);
