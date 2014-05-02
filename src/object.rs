@@ -102,11 +102,11 @@ impl Object {
         settings: settings::SnakeSettings
     ) -> Object {
         
-        let mut tail = [0.0, ..512];
-        let n = tail.len() / 2;
-        for i in range(0, n) {
-            tail[i * 2] = pos[0];
-            tail[i * 2 + 1] = pos[1];
+        let n = 256;
+        let mut tail = Vec::with_capacity(n * 2);
+        for _ in range(0, n) {
+            tail.push(pos[0]);
+            tail.push(pos[1]);
         }
         Object {
             layer: 0,
@@ -214,8 +214,8 @@ impl Object {
         cam.circle_centered(x, y, rad).color(self.test_color).fill(gl);
         let n = snake.tail.len() / 2;
         for i in range(0, n) {
-            let x = snake.tail[i * 2];
-            let y = snake.tail[i * 2 + 1];
+            let x = *snake.tail.get(i * 2);
+            let y = *snake.tail.get(i * 2 + 1);
             if (i / 8) % 2 == 1 {
                 cam.circle_centered(x, y, rad).color(settings::BLACK).fill(gl);
             } else {
