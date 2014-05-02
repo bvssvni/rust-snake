@@ -1,8 +1,11 @@
+// External crates.
+use graphics::*;
+use piston::*;
+use graphics::interpolation::{lerp_4};
+
+// Local crate.
 use character;
 use action;
-use graphics;
-use graphics::*;
-use Gl = piston::gl::Gl;
 use settings;
 use spring::Spring;
 use bar::Bar;
@@ -12,7 +15,6 @@ use air_bottle;
 use air_bottle::AirBottle;
 use snake;
 use snake::Snake;
-use graphics::interpolation::{lerp_4};
 use text;
 
 pub enum ObjectData {
@@ -197,7 +199,17 @@ impl Object {
         }
     }
 
-    fn render_snake(&self, snake: &Snake, x: f64, y: f64, rad: f64, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+    fn render_snake(
+        &self, 
+        snake: &Snake, 
+        x: f64, 
+        y: f64, 
+        rad: f64, 
+        cam: &Context, 
+        c: &Context, 
+        gl: &mut Gl
+    ) {
+
         // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
         cam.circle_centered(x, y, rad).color(self.test_color).fill(gl);
         let n = snake.tail.len() / 2;
@@ -212,7 +224,16 @@ impl Object {
         }
     }
 
-    fn render_player(&self, player: &Player, x: f64, y: f64, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+    fn render_player(
+        &self, 
+        player: &Player, 
+        x: f64, 
+        y: f64, 
+        cam: &Context, 
+        c: &Context, 
+        gl: &mut Gl
+    ) {
+
         // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
         match player.state {
             player::Normal => {
@@ -229,13 +250,13 @@ impl Object {
     }
 
     fn render_air_bottle(&self, air_bottle: &AirBottle, x: f64, y: f64, rad: f64,
-        cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+        cam: &Context, c: &Context, gl: &mut Gl) {
         if air_bottle.fill_up == 0.0 { return; }
         cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
         text::text("air", &cam.color(settings::AIR_BOTTLE_TEXT_COLOR).flip_v_local().trans(x - 0.075, y + 0.03).zoom_local(0.001), gl);
     }
 
-    pub fn render(&self, cam: &graphics::Context, c: &graphics::Context, gl: &mut Gl) {
+    pub fn render(&self, cam: &Context, c: &Context, gl: &mut Gl) {
         let x = self.pos[0];
         let y = self.pos[1];
         let rad = self.radius;      

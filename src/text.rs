@@ -1,7 +1,7 @@
 
-use graphics;
+// External crates.
 use graphics::*;
-use Gl = piston::gl::Gl;
+use piston::*;
 
 static top_face_down: &'static [f64] = &[
     18.0, 24.0,
@@ -173,7 +173,7 @@ static upper_diagonal_top_left_to_bottom_right: &'static [f64] = &[
 
 // end segments.
 
-fn a_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn a_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_face_down).fill(gl);
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left).fill(gl);
@@ -182,18 +182,18 @@ fn a_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(lower_right_face_left).fill(gl);
 }
 
-fn i_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn i_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(upper_middle).fill(gl);
     c.polygon(lower_middle).fill(gl);
 }
 
-fn t_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn t_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_face_down).fill(gl);
     c.polygon(upper_middle).fill(gl);
     c.polygon(lower_middle).fill(gl);
 }
 
-fn r_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn r_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_face_down).fill(gl);
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left).fill(gl);
@@ -202,7 +202,7 @@ fn r_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(lower_diagonal_top_left_to_bottom_right).fill(gl);
 }
 
-fn b_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn b_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_capped_right).fill(gl);
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left_capped_right).fill(gl);
@@ -212,13 +212,13 @@ fn b_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_capped_right).fill(gl);
 }
 
-fn l_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn l_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(lower_left_face_right).fill(gl);
     c.polygon(bottom_face_up).fill(gl);
 }
 
-fn o_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn o_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_capped_left_right).fill(gl);
     c.polygon(upper_left_face_right_capped_left).fill(gl);
     c.polygon(upper_right_face_left_capped_right).fill(gl);
@@ -227,7 +227,7 @@ fn o_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_capped_left_right).fill(gl);
 }
 
-fn d_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn d_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_capped_right).fill(gl);
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left_capped_right).fill(gl);
@@ -236,7 +236,7 @@ fn d_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_capped_right).fill(gl);
 }
 
-fn y_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn y_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left).fill(gl);
     c.polygon(middle).fill(gl);
@@ -244,7 +244,7 @@ fn y_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_capped_left_right).fill(gl);
 }
 
-fn u_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn u_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left).fill(gl);
     c.polygon(lower_left_face_right).fill(gl);
@@ -252,7 +252,7 @@ fn u_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_capped_left_right).fill(gl);
 }
 
-fn w_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn w_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left).fill(gl);
     c.polygon(lower_left_face_right).fill(gl);
@@ -261,7 +261,7 @@ fn w_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_vertical).fill(gl);
 }
 
-fn n_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn n_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(upper_right_face_left).fill(gl);
     c.polygon(upper_diagonal_top_left_to_bottom_right).fill(gl);
@@ -269,7 +269,7 @@ fn n_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(lower_right_face_left).fill(gl);
 }
 
-fn s_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn s_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_capped_left_right).fill(gl);
     c.polygon(upper_left_face_right_capped_left).fill(gl);
     c.polygon(middle).fill(gl);
@@ -277,7 +277,7 @@ fn s_letter(c: &graphics::ColorContext, gl: &mut Gl) {
     c.polygon(bottom_capped_left_right).fill(gl);
 }
 
-fn e_letter(c: &graphics::ColorContext, gl: &mut Gl) {
+fn e_letter(c: &ColorContext, gl: &mut Gl) {
     c.polygon(top_face_down).fill(gl);
     c.polygon(upper_left_face_right).fill(gl);
     c.polygon(middle).fill(gl);
@@ -288,7 +288,7 @@ fn e_letter(c: &graphics::ColorContext, gl: &mut Gl) {
 // end letters.
 
 /// Renders text filled with colors.
-pub fn text(text: &str, c: &graphics::ColorContext, gl: &mut Gl) {
+pub fn text(text: &str, c: &ColorContext, gl: &mut Gl) {
     let mut x = 0.0;
     let mut y = 0.0;
     let jump_x = 55.0;

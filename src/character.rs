@@ -1,9 +1,8 @@
 
-use graphics;
 use graphics::*;
-use Gl = piston::gl::Gl;
+use piston::*;
 
-pub fn draw_character(tween_factor: f64, c: &graphics::ColorContext, gl: &mut Gl) {
+pub fn draw_character(tween_factor: f64, c: &ColorContext, gl: &mut Gl) {
     let d = c.flip_v_local();
     let d = d.trans_local(-148.0, -116.0);
     let d = d.lerp(tween_factor);

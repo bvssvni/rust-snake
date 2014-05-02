@@ -1,6 +1,5 @@
-use graphics;
 use graphics::*;
-use Gl = piston::gl::Gl;
+use piston::*;
 use text;
 use settings;
 
@@ -13,7 +12,7 @@ pub struct Bar {
 }
 
 impl Bar {
-    pub fn render(&self, c: &graphics::Context, gl: &mut Gl) {
+    pub fn render(&self, c: &Context, gl: &mut Gl) {
         text::text(self.text, &c.color(self.text_color).flip_v_local().zoom_local(0.001), gl);
         let rect = settings::BAR_RECTANGLE;
         let x = rect[0];

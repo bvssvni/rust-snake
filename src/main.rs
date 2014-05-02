@@ -7,8 +7,7 @@ extern crate native;
 extern crate glfw;
 extern crate opengles;
 
-use Game = piston::game::Game;
-use GameWindow = piston::game_window::GameWindow;
+use piston::*;
 
 mod snakeapp;
 mod object;
@@ -32,7 +31,12 @@ fn start(argc: int, argv: **u8) -> int {
 fn main() {
     use snakeapp::SnakeApp;
 
-    let game_window = GameWindow::window("Sea Snake Escape", 512, 512);
+    let game_window = GameWindow::window("Sea Snake Escape", 512, 512,
+        GameWindowSettings {
+            exit_on_esc: true,
+            background_color: settings::WATER_COLOR,
+        }
+    );
     let mut app = SnakeApp::new();    
     app.run(&game_window);
 }

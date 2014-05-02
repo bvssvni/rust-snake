@@ -1,18 +1,17 @@
+// Extern crates.
+use piston::*;
+use graphics::*;
+use glfw;
+
+// Local crate.
 use action;
 use settings;
-use glfw;
-use Settings = piston::game::Settings;
-use Game = piston::game::Game;
-use piston::gl::Gl;
-use graphics;
-use graphics::*;
 use object;
 use Object = object::Object;
 use text;
 use game_state;
 
 pub struct SnakeApp {
-    settings: Settings,
     // Tells where the surface is.
     surface_y: Option<f64>,
     game_state: Option<game_state::GameState>,
@@ -26,9 +25,7 @@ pub struct SnakeApp {
 }
 
 impl Game for SnakeApp {
-    fn get_settings<'a>(&'a self) -> &'a Settings { &self.settings }
-    
-    fn render(&self, c: &graphics::Context, gl: &mut Gl) {
+    fn render(&self, c: &Context, gl: &mut Gl) {
         // Get camera coordinates.
         let (cam_x, cam_y) = if self.camera_pos.is_some() {
                 let camera_pos = self.camera_pos.unwrap();
@@ -156,7 +153,6 @@ impl SnakeApp {
         SnakeApp {
             camera_pos: None,
             camera_follow_percentage: None,
-            settings: Settings::new(exit_on_esc, background_color),
             game_state: None,
             surface_y: None,
             objects: Vec::new(),
