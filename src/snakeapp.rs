@@ -148,8 +148,6 @@ impl Game for SnakeApp {
 
 impl SnakeApp {
     pub fn new() -> SnakeApp { 
-        let exit_on_esc = true;
-        let background_color = settings::WATER_COLOR;
         SnakeApp {
             camera_pos: None,
             camera_follow_percentage: None,
@@ -287,11 +285,6 @@ impl SnakeApp {
     fn player_blood(&self) -> f64 {
         let player_index = self.player_index.unwrap();
         self.objects.get(player_index).blood().unwrap()
-    }
-
-    fn set_player_blood(&mut self, val: f64) {
-        let player_index = self.player_index.unwrap();
-        *self.objects.get_mut(player_index).blood_mut().unwrap() = val;
     }
 
     fn player_air(&self) -> f64 {

@@ -1,6 +1,5 @@
 
 use settings;
-use player::Player;
 use action;
 
 pub enum SnakeState {
@@ -49,7 +48,7 @@ impl Snake {
         action
     }
 
-    pub fn simulate_tail(&mut self, x: f64, y: f64, dt: f64) {
+    pub fn simulate_tail(&mut self, x: f64, y: f64, _dt: f64) {
         let mut x = x;
         let mut y = y;
         let dist = settings::SNAKE_TAIL_DISTANCE;

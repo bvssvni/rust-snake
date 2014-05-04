@@ -5,7 +5,6 @@ use player;
 pub static NUMBER_OF_LAYERS: uint = 4;
 pub static WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.2, 1.0];
 pub static WATER_FRICTION: f64 = 0.2;
-pub static RADIUS: f64 = 0.1;
 pub static SURFACE_Y: f64 = 10.0;
 pub static INITIAL_GAME_STATE: game_state::GameState = game_state::Play;
 pub static INITIAL_CAMERA_POS: [f64, ..2] = [0.0, 0.0];
@@ -87,11 +86,6 @@ pub static SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     radius: 0.03,
 };
 
-pub static SNAKE_SPEED_RIGHT: f64 = 0.1;
-pub static SNAKE_SPEED_LEFT: f64 = 0.1;
-pub static SNAKE_SPEED_UP: f64 = 0.1;
-pub static SNAKE_SPEED_DOWN: f64 = 0.1;
-
 // snake 1.
 pub static SNAKE_1_SETTINGS: SnakeSettings = SNAKE_SETTINGS;
 pub static SNAKE_1_POS: [f64, ..2] = [-0.8, 0.8];
@@ -126,8 +120,6 @@ pub static BAR_BACKGROUND_MARGIN_2: f64 = 0.02;
 
 pub static BLACK: [f32, ..4] = [0.0, 0.0, 0.0, 1.0];
 pub static WHITE: [f32, ..4] = [1.0, 1.0, 1.0, 1.0];
-pub static GRAY: [f32, ..4] = [0.5, 0.5, 0.5, 1.0];
-pub static DARK_GRAY: [f32, ..4] = [0.2, 0.2, 0.2, 1.0];
 
 pub static RED: [f32, ..4] = [1.0, 0.0, 0.0, 1.0];
 pub static DARK_RED: [f32, ..4] = [0.5, 0.0, 0.0, 1.0];
@@ -138,8 +130,6 @@ pub static GREEN: [f32, ..4] = [0.0, 1.0, 0.0, 1.0];
 pub static BLUE: [f32, ..4] = [0.0, 0.0, 1.0, 1.0];
 pub static DARK_BLUE: [f32, ..4] = [0.0, 0.0, 0.5, 1.0];
 pub static LIGHT_BLUE: [f32, ..4] = [0.5, 0.5, 1.0, 1.0];
-
-pub static YELLOW: [f32, ..4] = [0.0, 1.0, 1.0, 1.0];
 
 pub static ORIGIN: [f64, ..2] = [0.0, 0.0];
 

@@ -7,11 +7,9 @@ use graphics::interpolation::{lerp_4};
 use character;
 use action;
 use settings;
-use spring::Spring;
 use bar::Bar;
 use player;
 use player::Player;
-use air_bottle;
 use air_bottle::AirBottle;
 use snake;
 use snake::Snake;
@@ -164,6 +162,7 @@ impl Object {
         }
     }
 
+    #[allow(dead_code)]
     pub fn blood_mut<'a>(&'a mut self) -> Option<&'a mut f64> {
         match self.data {
             PlayerData(ref mut player) => Some(&mut player.blood),
@@ -206,7 +205,7 @@ impl Object {
         y: f64, 
         rad: f64, 
         cam: &Context, 
-        c: &Context, 
+        _c: &Context, 
         gl: &mut Gl
     ) {
 
@@ -230,7 +229,7 @@ impl Object {
         x: f64, 
         y: f64, 
         cam: &Context, 
-        c: &Context, 
+        _c: &Context, 
         gl: &mut Gl
     ) {
 
@@ -241,7 +240,7 @@ impl Object {
                 &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
             },
             player::Bitten(sec) => {
-                let t = (1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS);
+                let t = 1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS;
                 let color = lerp_4(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
                 character::draw_character(player.tween_factor, 
                 &cam.trans_local(x, y).zoom_local(0.002).color(color), gl);
@@ -249,8 +248,16 @@ impl Object {
         }
     }
 
-    fn render_air_bottle(&self, air_bottle: &AirBottle, x: f64, y: f64, rad: f64,
-        cam: &Context, c: &Context, gl: &mut Gl) {
+    fn render_air_bottle(
+        &self, 
+        air_bottle: &AirBottle, 
+        x: f64, 
+        y: f64, 
+        rad: f64,
+        cam: &Context, 
+        _c: &Context, 
+        gl: &mut Gl
+    ) {
         if air_bottle.fill_up == 0.0 { return; }
         cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
         text::text("air", &cam.color(settings::AIR_BOTTLE_TEXT_COLOR).flip_v_local().trans(x - 0.075, y + 0.03).zoom_local(0.001), gl);

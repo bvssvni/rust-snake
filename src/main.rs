@@ -12,7 +12,6 @@ use piston::*;
 mod snakeapp;
 mod object;
 mod settings;
-mod spring;
 mod text;
 mod bar;
 mod player;
