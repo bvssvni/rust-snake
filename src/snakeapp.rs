@@ -72,7 +72,7 @@ impl Game for SnakeApp {
         // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
     }
 
-    fn update(&mut self, dt: f64) {
+    fn update(&mut self, dt: f64, _asset_store: &mut AssetStore) {
         self.update_objects(dt);
         self.fill_air();
         self.win();
@@ -82,7 +82,7 @@ impl Game for SnakeApp {
         self.follow_player(dt); 
     }
 
-    fn load(&mut self) {
+    fn load(&mut self, _asset_store: &mut AssetStore) {
         self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
         self.camera_pos = Some(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
@@ -110,7 +110,7 @@ impl Game for SnakeApp {
         self.add_snakes();
     }
 
-    fn key_press(&mut self, key: glfw::Key) {
+    fn key_press(&mut self, key: glfw::Key, _asset_store: &mut AssetStore) {
         // TEST
         // println!("Key pressed {}", key);
 
@@ -133,13 +133,13 @@ impl Game for SnakeApp {
         }
     }
 
-    fn key_release(&mut self, key: glfw::Key) {
+    fn key_release(&mut self, key: glfw::Key, asset_store: &mut AssetStore) {
         // TEST
         // println!("Key released {}", key);
     
         if key == glfw::KeyEnter || key == glfw::KeySpace {
             match self.game_state.unwrap() {
-                game_state::Win | game_state::Loose => self.restart(),
+                game_state::Win | game_state::Loose => self.restart(asset_store),
                 _ => {},
             }
         }
@@ -252,9 +252,9 @@ impl SnakeApp {
         }
     }
 
-    fn restart(&mut self) {
+    fn restart(&mut self, asset_store: &mut AssetStore) {
         *self = SnakeApp::new();
-        self.load();
+        self.load(asset_store);
     }
 
     fn update_objects(&mut self, dt: f64) {

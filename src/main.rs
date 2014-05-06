@@ -36,7 +36,10 @@ fn main() {
             background_color: settings::WATER_COLOR,
         }
     );
+
+    let mut asset_store = AssetStore::empty();
+
     let mut app = SnakeApp::new();    
-    app.run(&game_window);
+    app.run(&game_window, &mut asset_store);
 }
 
