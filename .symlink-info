@@ -5,7 +5,7 @@ https://github.com/bvssvni/glfw-rs.git
   upstream/master
 
 target/x86_64-apple-darwin/lib//libgraphics-587c2edd-0.0.rlib
-3ff75f2b2c37718adef42a2e1b388f1f61cc9ed0
+716dc5966d145cacf84e37e7f8ff96d5da70cc6f
 https://github.com/bvssvni/rust-graphics.git
   origin/HEAD -> origin/master
   origin/master
@@ -17,7 +17,7 @@ https://github.com/bvssvni/rust-opengles.git
   upstream/master
 
 target/x86_64-apple-darwin/lib//libpiston-a1b791b5-0.0.rlib
-e2edae61d0a4593056429cd6a43323614cf4de2d
+486139ce010a1e2530e440462431278025b3af34
 https://github.com/bvssvni/piston.git
   origin/HEAD -> origin/master
   origin/master
