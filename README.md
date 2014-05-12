@@ -5,6 +5,13 @@ A sea snake game in Rust using the Piston game engine
 To run it you need <a href="http://www.glfw.org/" target="_blank">GLFW 3.0.+</a>  
 OSX binary: <a href="http://www.cutoutpro.com/sea-snake-osx.zip" target="_blank">Download</a>  
 
+| Dependency | Online Docs |
+|---------|------|------------|
+| [piston](https://github.com/bvssvni/piston) | [piston docs](http://bvssvni.github.io/docs/piston/piston/) |
+| [rust-graphics](https://github.com/bvssvni/rust-graphics) | [rust-graphics docs](http://bvssvni.github.io/docs/rust-graphics/graphics/) |
+| [glfw-rs](https://github.com/bjz/glfw-rs) | [glfw-rs docs](http://bvssvni.github.io/docs/glfw-rs/glfw/) |
+| [rust-opengles](https://github.com/mozilla-servo/rust-opengles) | [rust-opengles docs](http://bvssvni.github.io/docs/rust-opengles/opengles/) |
+
 ## How to play
 
 Use the arrow keys to control the diver.  
@@ -21,14 +28,7 @@ It was also my entry game for <a href="http://www.ludumdare.com/compo/ludum-dare
 
 ## Building Instructions
 
-Add the following '.rlib' files to '/target/cpu-vendor-os/lib/':
-
-* libglfw-38369174-0.1.rlib (https://github.com/bvssvni/glfw-rs)
-* libgraphics-587c2edd-0.0.rlib (https://github.com/bvssvni/rust-graphics)
-* libopengles-73387c6a-0.1.rlib (https://github.com/bvssvni/rust-opengles)
-* libpiston-a1b791b5-0.0.rlib (https://github.com/bvssvni/piston)
-
-If you have trouble building with Rust nightly, try the original repos. There are currently many breaking changes in Rust, so please help the maintainers to keep them up with master!  
+Add the dependencies and add the '.rlib' files to '/target/cpu-vendor-os/lib/':
 
 In the Terminal window, navigate to the project folder and type:
 
