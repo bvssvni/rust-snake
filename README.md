@@ -1,22 +1,21 @@
 rust-snake - or - Sea Snake Escape
 ==========
 
-A sea snake game in Rust using the Piston game engine  
-To run it you need <a href="http://www.glfw.org/" target="_blank">GLFW 3.0.+</a>  
-OSX binary: <a href="http://www.cutoutpro.com/sea-snake-osx.zip" target="_blank">Download</a>  
+A sea snake game in Rust using the Piston game engine
+To run it you need <a href="http://www.libsdl.org/" target="_blank">SDL2</a>
 
 | Dependency | Online Docs |
 |---------|------|------------|
-| [piston](https://github.com/bvssvni/piston) | [piston docs](http://bvssvni.github.io/docs/piston/piston/) |
+| [piston(branch sdl2-back-end)](https://github.com/bvssvni/piston) | [piston docs](http://bvssvni.github.io/docs/piston/piston/) |
 | [rust-graphics](https://github.com/bvssvni/rust-graphics) | [rust-graphics docs](http://bvssvni.github.io/docs/rust-graphics/graphics/) |
-| [glfw-rs](https://github.com/bjz/glfw-rs) | [glfw-rs docs](http://bvssvni.github.io/docs/glfw-rs/glfw/) |
+| [rust-sdl2](https://github.com/AngryLawyer/rust-sdl2) | rust-sdl2 docs |
 | [rust-opengles](https://github.com/mozilla-servo/rust-opengles) | [rust-opengles docs](http://bvssvni.github.io/docs/rust-opengles/opengles/) |
 
 ## How to play
 
-Use the arrow keys to control the diver.  
-When you loose or win, hit `Enter` to restart.  
-You can also exit with `Esc`.  
+Use the arrow keys to control the diver.
+When you loose or win, hit `Enter` to restart.
+You can also exit with `Esc`.
 
 ![alt tag](https://raw.githubusercontent.com/bvssvni/rust-snake/master/sea-snake.png)
 
