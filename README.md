@@ -6,7 +6,7 @@ To run it you need <a href="http://www.libsdl.org/" target="_blank">SDL2</a>
 
 | Dependency | Online Docs |
 |---------|------|------------|
-| [piston(branch sdl2-back-end)](https://github.com/bvssvni/piston) | [piston docs](http://bvssvni.github.io/docs/piston/piston/) |
+| [piston](https://github.com/bvssvni/piston) | [piston docs](http://bvssvni.github.io/docs/piston/piston/) |
 | [rust-graphics](https://github.com/bvssvni/rust-graphics) | [rust-graphics docs](http://bvssvni.github.io/docs/rust-graphics/graphics/) |
 | [rust-sdl2](https://github.com/AngryLawyer/rust-sdl2) | rust-sdl2 docs |
 | [rust-opengles](https://github.com/mozilla-servo/rust-opengles) | [rust-opengles docs](http://bvssvni.github.io/docs/rust-opengles/opengles/) |
