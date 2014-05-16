@@ -1,7 +1,7 @@
 // Extern crates.
 use piston::*;
+use piston::game_window::keycode;
 use graphics::*;
-use glfw;
 
 // Local crate.
 use action;
@@ -24,14 +24,16 @@ pub struct SnakeApp {
     objects: Vec<Object>,
 }
 
-impl Game for SnakeApp {
+// use following line to switch to GLFW back-end
+//impl Game<GameWindowGLFW> for SnakeApp
+impl Game<GameWindowSDL2> for SnakeApp {
     fn render(&self, c: &Context, gl: &mut Gl) {
         // Get camera coordinates.
         let (cam_x, cam_y) = if self.camera_pos.is_some() {
                 let camera_pos = self.camera_pos.unwrap();
                 (camera_pos[0], camera_pos[1] + 0.4)
             } else { (0.0, 0.0) };
-        
+
         // Render surface.
         let surface_y = self.surface_y.unwrap();
         c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).fill(gl);
@@ -43,13 +45,13 @@ impl Game for SnakeApp {
                 if obj.layer == i { obj.render(cam, c, gl); }
             }
         }
-  
+
         let text_c = c.flip_v_local();
         let text_c = text_c.zoom(0.0025);
         match self.game_state.unwrap() {
             game_state::Win => {
                 let pos = settings::YOU_WIN_POS;
-                text::text(settings::YOU_WIN_TEXT, 
+                text::text(settings::YOU_WIN_TEXT,
                     &text_c
                     .trans(pos[0], pos[1])
                     .color(settings::YOU_WIN_TEXT_COLOR)
@@ -67,9 +69,9 @@ impl Game for SnakeApp {
 
             },
         }
- 
-        // TEST 
-        // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl); 
+
+        // TEST
+        // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl);
     }
 
     fn update(&mut self, dt: f64, _asset_store: &mut AssetStore) {
@@ -77,20 +79,20 @@ impl Game for SnakeApp {
         self.fill_air();
         self.win();
         self.loose();
-        self.show_blood(); 
+        self.show_blood();
         self.show_air();
-        self.follow_player(dt); 
+        self.follow_player(dt);
     }
 
     fn load(&mut self, _asset_store: &mut AssetStore) {
         self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
         self.camera_pos = Some(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
-        self.game_state = Some(settings::INITIAL_GAME_STATE);    
-    
+        self.game_state = Some(settings::INITIAL_GAME_STATE);
+
         // Add player.
         self.objects.push(Object::player(
-            settings::ORIGIN, 
+            settings::ORIGIN,
             settings::BLUE,
             settings::PLAYER_INITIAL_BLOOD,
             settings::PLAYER_INITIAL_AIR,
@@ -99,45 +101,45 @@ impl Game for SnakeApp {
         ));
         self.objects.push(Object::bar_background());
         self.player_index = Some(0);
-        
+
         // Add blood and air bar.
         self.add_bars();
 
         // Add air bottles.
         self.add_air_bottles();
- 
+
         // Add snakes.
         self.add_snakes();
     }
 
-    fn key_press(&mut self, key: glfw::Key, _asset_store: &mut AssetStore) {
+    fn key_press(&mut self, key: keycode::KeyCode, _asset_store: &mut AssetStore) {
         // TEST
         // println!("Key pressed {}", key);
 
         if self.game_state.unwrap() != game_state::Play { return; }
 
         match (key, self.player_index) {
-            (glfw::KeyRight, Some(player_index)) => {
+            (keycode::RightKey, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_right();
             },
-            (glfw::KeyUp, Some(player_index)) => {
+            (keycode::UpKey, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_up();
             },
-            (glfw::KeyLeft, Some(player_index)) => {
+            (keycode::LeftKey, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_left();
             },
-            (glfw::KeyDown, Some(player_index)) => {
+            (keycode::DownKey, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_down();
             },
             _ => {},
         }
     }
 
-    fn key_release(&mut self, key: glfw::Key, asset_store: &mut AssetStore) {
+    fn key_release(&mut self, key: keycode::KeyCode, asset_store: &mut AssetStore) {
         // TEST
         // println!("Key released {}", key);
-    
-        if key == glfw::KeyEnter || key == glfw::KeySpace {
+
+        if key == keycode::EnterKey || key == keycode::SpaceKey {
             match self.game_state.unwrap() {
                 game_state::Win | game_state::Loose => self.restart(asset_store),
                 _ => {},
@@ -147,7 +149,7 @@ impl Game for SnakeApp {
 }
 
 impl SnakeApp {
-    pub fn new() -> SnakeApp { 
+    pub fn new() -> SnakeApp {
         SnakeApp {
             camera_pos: None,
             camera_follow_percentage: None,
@@ -162,18 +164,18 @@ impl SnakeApp {
 
     pub fn add_bars(&mut self) {
         self.objects.push(Object::bar(
-            settings::AIR_BAR_POS, 
-            "air", 
-            settings::AIR_BAR_TEXT_COLOR, 
+            settings::AIR_BAR_POS,
+            "air",
+            settings::AIR_BAR_TEXT_COLOR,
             settings::AIR_BAR_BACKGROUND_COLOR,
             settings::AIR_BAR_BAR_COLOR,
             settings::AIR_BAR_INITIAL_VALUE
         ));
         self.air_bar_index = Some(self.objects.len() - 1);
         self.objects.push(Object::bar(
-            settings::BLOOD_BAR_POS, 
-            "blood", 
-            settings::BLOOD_BAR_TEXT_COLOR, 
+            settings::BLOOD_BAR_POS,
+            "blood",
+            settings::BLOOD_BAR_TEXT_COLOR,
             settings::BLOOD_BAR_BACKGROUND_COLOR,
             settings::BLOOD_BAR_BAR_COLOR,
             settings::BLOOD_BAR_INITIAL_VALUE
@@ -193,7 +195,7 @@ impl SnakeApp {
             self.objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
         }
     }
-    
+
     fn follow_player(&mut self, dt: f64) {
         if self.camera_pos.is_none() { return; }
         // Make camera follow player.
@@ -276,7 +278,7 @@ impl SnakeApp {
         let air = self.player_air();
         self.set_player_air(air - dt * settings::PLAYER_LOOSE_AIR_SPEED);
     }
-    
+
     fn player_pos(&self) -> [f64, ..2] {
         let player_index = self.player_index.unwrap();
         self.objects.get(player_index).pos

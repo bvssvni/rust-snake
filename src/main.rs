@@ -4,8 +4,6 @@ extern crate graphics;
 extern crate piston;
 extern crate rand;
 extern crate native;
-extern crate glfw;
-extern crate opengles;
 
 use piston::*;
 
@@ -29,17 +27,19 @@ fn start(argc: int, argv: **u8) -> int {
 
 fn main() {
     use snakeapp::SnakeApp;
-
-    let game_window = GameWindow::window("Sea Snake Escape", 512, 512,
-        GameWindowSettings {
-            exit_on_esc: true,
-            background_color: settings::WATER_COLOR,
-        }
+    let mut game_window = GameWindow::new(
+        GameWindowSettings::new(
+            "Sea Snake Escape".to_owned(),
+            [512, 512],
+            false,
+            true,
+            settings::WATER_COLOR,
+        )
     );
 
     let mut asset_store = AssetStore::empty();
 
-    let mut app = SnakeApp::new();    
-    app.run(&game_window, &mut asset_store);
+    let mut app = SnakeApp::new();
+    app.run(&mut game_window, &mut asset_store);
 }
 
