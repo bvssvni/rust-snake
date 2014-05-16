@@ -1,6 +1,5 @@
 // Extern crates.
 use piston::*;
-use piston::game_window::keycode;
 use graphics::*;
 
 // Local crate.
@@ -112,34 +111,34 @@ impl Game<GameWindowSDL2> for SnakeApp {
         self.add_snakes();
     }
 
-    fn key_press(&mut self, key: keycode::KeyCode, _asset_store: &mut AssetStore) {
+    fn key_press(&mut self, key: keyboard::Key, _asset_store: &mut AssetStore) {
         // TEST
         // println!("Key pressed {}", key);
 
         if self.game_state.unwrap() != game_state::Play { return; }
 
         match (key, self.player_index) {
-            (keycode::RightKey, Some(player_index)) => {
+            (keyboard::Right, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_right();
             },
-            (keycode::UpKey, Some(player_index)) => {
+            (keyboard::Up, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_up();
             },
-            (keycode::LeftKey, Some(player_index)) => {
+            (keyboard::Left, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_left();
             },
-            (keycode::DownKey, Some(player_index)) => {
+            (keyboard::Down, Some(player_index)) => {
                 self.objects.get_mut(player_index).move_down();
             },
             _ => {},
         }
     }
 
-    fn key_release(&mut self, key: keycode::KeyCode, asset_store: &mut AssetStore) {
+    fn key_release(&mut self, key: keyboard::Key, asset_store: &mut AssetStore) {
         // TEST
         // println!("Key released {}", key);
 
-        if key == keycode::EnterKey || key == keycode::SpaceKey {
+        if key == keyboard::Enter || key == keyboard::Space {
             match self.game_state.unwrap() {
                 game_state::Win | game_state::Loose => self.restart(asset_store),
                 _ => {},
