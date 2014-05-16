@@ -23,7 +23,7 @@ pub struct SnakeApp {
     objects: Vec<Object>,
 }
 
-impl<T: GameWindow> Game<T> for SnakeApp {
+impl Game for SnakeApp {
     fn render(&self, c: &Context, gl: &mut Gl) {
         // Get camera coordinates.
         let (cam_x, cam_y) = if self.camera_pos.is_some() {
