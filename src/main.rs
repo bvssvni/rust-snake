@@ -27,7 +27,7 @@ fn start(argc: int, argv: **u8) -> int {
 
 fn main() {
     use snakeapp::SnakeApp;
-    let mut game_window = GameWindow::new(
+    let mut game_window: GameWindowSDL2 = GameWindow::new(
         GameWindowSettings::new(
             "Sea Snake Escape".to_owned(),
             [512, 512],

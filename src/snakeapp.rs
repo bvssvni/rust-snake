@@ -23,9 +23,7 @@ pub struct SnakeApp {
     objects: Vec<Object>,
 }
 
-// use following line to switch to GLFW back-end
-//impl Game<GameWindowGLFW> for SnakeApp
-impl Game<GameWindowSDL2> for SnakeApp {
+impl<T: GameWindow> Game<T> for SnakeApp {
     fn render(&self, c: &Context, gl: &mut Gl) {
         // Get camera coordinates.
         let (cam_x, cam_y) = if self.camera_pos.is_some() {
