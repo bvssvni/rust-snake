@@ -236,14 +236,26 @@ impl Object {
         // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
         match player.state {
             player::Normal => {
-                character::draw_character(player.tween_factor, 
-                &cam.trans_local(x, y).zoom_local(0.002).color(settings::PLAYER_COLOR), gl);
+                character::draw_character(
+                    player.tween_factor, 
+                        &cam
+                            .trans(x, y)
+                            .zoom(0.002)
+                            .color(settings::PLAYER_COLOR), 
+                        gl
+                    );
             },
             player::Bitten(sec) => {
                 let t = 1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS;
                 let color = lerp_4(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
-                character::draw_character(player.tween_factor, 
-                &cam.trans_local(x, y).zoom_local(0.002).color(color), gl);
+                character::draw_character(
+                    player.tween_factor, 
+                    &cam
+                        .trans(x, y)
+                        .zoom(0.002)
+                        .color(color), 
+                    gl
+                );
             },
         }
     }
@@ -260,7 +272,16 @@ impl Object {
     ) {
         if air_bottle.fill_up == 0.0 { return; }
         cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
-        text::text("air", &cam.color(settings::AIR_BOTTLE_TEXT_COLOR).flip_v_local().trans(x - 0.075, y + 0.03).zoom_local(0.001), gl);
+        text::text(
+            "air", 
+            &cam
+                .color(settings::AIR_BOTTLE_TEXT_COLOR)
+                .trans(x, y)
+                .flip_v()
+                .trans(-0.075, -0.03)
+                .zoom(0.001), 
+            gl
+        );
     }
 
     pub fn render(&self, cam: &Context, c: &Context, gl: &mut Gl) {
@@ -273,7 +294,7 @@ impl Object {
             PlayerData(ref player) => self.render_player(player, x, y, cam, c, gl),
             AirBottleData(ref air_bottle) => self.render_air_bottle(air_bottle, x, y, rad, cam, c, gl),
             BarData(bar) => {
-                bar.render(&c.trans_local(x, y), gl);
+                bar.render(&c.trans(x, y), gl);
             },
             BarBackgroundData => {
                 // Render round rectangle around bars.
@@ -282,8 +303,17 @@ impl Object {
                 let bar_color_2 = settings::BAR_BACKGROUND_COLOR_2;
                 let margin = settings::BAR_BACKGROUND_MARGIN;
                 let margin_2 = settings::BAR_BACKGROUND_MARGIN_2;
-                c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin).round(0.1).color(bar_color).fill(gl);
-                c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh).margin(margin_2).round(0.1).color(bar_color_2).fill(gl);
+                c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh)
+                    .margin(margin)
+                    .round(0.1)
+                    .color(bar_color)
+                    .fill(gl);
+                c
+                    .rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh)
+                    .margin(margin_2)
+                    .round(0.1)
+                    .color(bar_color_2)
+                    .fill(gl);
             }
         };
     }

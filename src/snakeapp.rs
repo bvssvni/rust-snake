@@ -25,6 +25,8 @@ pub struct SnakeApp {
 
 impl Game for SnakeApp {
     fn render(&self, c: &Context, gl: &mut Gl) {
+        let c = &c.reset();
+
         // Get camera coordinates.
         let (cam_x, cam_y) = if self.camera_pos.is_some() {
                 let camera_pos = self.camera_pos.unwrap();
@@ -43,7 +45,7 @@ impl Game for SnakeApp {
             }
         }
 
-        let text_c = c.flip_v_local();
+        let text_c = c.flip_v();
         let text_c = text_c.zoom(0.0025);
         match self.game_state.unwrap() {
             game_state::Win => {

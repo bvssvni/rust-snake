@@ -1,10 +1,10 @@
 
 use graphics::*;
-use piston::*;
+use piston::{Gl};
 
 pub fn draw_character(tween_factor: f64, c: &ColorContext, gl: &mut Gl) {
-    let d = c.flip_v_local();
-    let d = d.trans_local(-148.0, -116.0);
+    let d = c.flip_v();
+    let d = d.trans(-148.0, -116.0);
     let d = d.lerp(tween_factor);
     d.polygons(frames_left_upper_leg).fill(gl);
     d.polygons(frames_left_lower_leg).fill(gl);

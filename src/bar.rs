@@ -13,7 +13,14 @@ pub struct Bar {
 
 impl Bar {
     pub fn render(&self, c: &Context, gl: &mut Gl) {
-        text::text(self.text, &c.color(self.text_color).flip_v_local().zoom_local(0.001), gl);
+        text::text(
+            self.text, 
+            &c
+            .color(self.text_color)
+            .flip_v()
+            .zoom(0.001), 
+            gl
+        );
         let rect = settings::BAR_RECTANGLE;
         let x = rect[0];
         let y = rect[1];

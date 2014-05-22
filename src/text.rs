@@ -294,7 +294,7 @@ pub fn text(text: &str, c: &ColorContext, gl: &mut Gl) {
     let jump_x = 55.0;
     let jump_y = 80.0;
     for ch in text.chars() {
-        let d = &c.trans_local(-17.0 + x, -24.0 + y);
+        let d = &c.trans(-17.0 + x, -24.0 + y);
         match ch {
             ' ' => {x += jump_x;},
             'a' => {a_letter(d, gl); x += jump_x;},
