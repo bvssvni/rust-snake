@@ -135,10 +135,7 @@ impl Game for SnakeApp {
     }
 
     fn key_release(&mut self, key: keyboard::Key, asset_store: &mut AssetStore) {
-        // TEST
-        // println!("Key released {}", key);
-
-        if key == keyboard::Enter || key == keyboard::Space {
+        if key == keyboard::Return || key == keyboard::Space {
             match self.game_state.unwrap() {
                 game_state::Win | game_state::Loose => self.restart(asset_store),
                 _ => {},
