@@ -23,8 +23,8 @@ pub struct SnakeApp {
     objects: Vec<Object>,
 }
 
-impl Game for SnakeApp {
-    fn render(&self, _ext_dt: f64, c: &Context, gl: &mut Gl) {
+impl SnakeApp {
+    pub fn render(&self, _ext_dt: f64, c: &Context, gl: &mut Gl) {
         let c = &c.reset();
 
         // Get camera coordinates.
@@ -73,7 +73,7 @@ impl Game for SnakeApp {
         // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl);
     }
 
-    fn update(&mut self, dt: f64, _asset_store: &mut AssetStore) {
+    pub fn update(&mut self, dt: f64, _asset_store: &mut AssetStore) {
         // Speed up time due to game loop redesign.
         let dt = dt * 1.5;
         self.update_objects(dt);
@@ -85,7 +85,7 @@ impl Game for SnakeApp {
         self.follow_player(dt);
     }
 
-    fn load(&mut self, _asset_store: &mut AssetStore) {
+    pub fn load(&mut self, _asset_store: &mut AssetStore) {
         self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
         self.camera_pos = Some(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
@@ -113,7 +113,7 @@ impl Game for SnakeApp {
         self.add_snakes();
     }
 
-    fn key_press(&mut self, key: keyboard::Key, _asset_store: &mut AssetStore) {
+    pub fn key_press(&mut self, key: keyboard::Key, _asset_store: &mut AssetStore) {
         // TEST
         // println!("Key pressed {}", key);
 
@@ -136,7 +136,7 @@ impl Game for SnakeApp {
         }
     }
 
-    fn key_release(&mut self, key: keyboard::Key, asset_store: &mut AssetStore) {
+    pub fn key_release(&mut self, key: keyboard::Key, asset_store: &mut AssetStore) {
         if key == keyboard::Return || key == keyboard::Space {
             match self.game_state.unwrap() {
                 game_state::Win | game_state::Loose => self.restart(asset_store),
@@ -144,9 +144,7 @@ impl Game for SnakeApp {
             }
         }
     }
-}
 
-impl SnakeApp {
     pub fn new() -> SnakeApp {
         SnakeApp {
             camera_pos: None,
