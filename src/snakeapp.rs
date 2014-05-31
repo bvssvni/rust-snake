@@ -73,7 +73,7 @@ impl SnakeApp {
         // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl);
     }
 
-    pub fn update(&mut self, dt: f64, _asset_store: &mut AssetStore) {
+    pub fn update(&mut self, dt: f64) {
         // Speed up time due to game loop redesign.
         let dt = dt * 1.5;
         self.update_objects(dt);
@@ -85,7 +85,7 @@ impl SnakeApp {
         self.follow_player(dt);
     }
 
-    pub fn load(&mut self, _asset_store: &mut AssetStore) {
+    pub fn load(&mut self) {
         self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
         self.camera_pos = Some(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
@@ -113,7 +113,7 @@ impl SnakeApp {
         self.add_snakes();
     }
 
-    pub fn key_press(&mut self, key: keyboard::Key, _asset_store: &mut AssetStore) {
+    pub fn key_press(&mut self, key: keyboard::Key) {
         // TEST
         // println!("Key pressed {}", key);
 
@@ -136,10 +136,10 @@ impl SnakeApp {
         }
     }
 
-    pub fn key_release(&mut self, key: keyboard::Key, asset_store: &mut AssetStore) {
+    pub fn key_release(&mut self, key: keyboard::Key) {
         if key == keyboard::Return || key == keyboard::Space {
             match self.game_state.unwrap() {
-                game_state::Win | game_state::Loose => self.restart(asset_store),
+                game_state::Win | game_state::Loose => self.restart(),
                 _ => {},
             }
         }
@@ -250,9 +250,9 @@ impl SnakeApp {
         }
     }
 
-    fn restart(&mut self, asset_store: &mut AssetStore) {
+    fn restart(&mut self) {
         *self = SnakeApp::new();
-        self.load(asset_store);
+        self.load();
     }
 
     fn update_objects(&mut self, dt: f64) {
