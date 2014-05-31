@@ -24,7 +24,7 @@ pub struct SnakeApp {
 }
 
 impl Game for SnakeApp {
-    fn render(&self, c: &Context, gl: &mut Gl) {
+    fn render(&self, _ext_dt: f64, c: &Context, gl: &mut Gl) {
         let c = &c.reset();
 
         // Get camera coordinates.
@@ -74,6 +74,8 @@ impl Game for SnakeApp {
     }
 
     fn update(&mut self, dt: f64, _asset_store: &mut AssetStore) {
+        // Speed up time due to game loop redesign.
+        let dt = dt * 1.5;
         self.update_objects(dt);
         self.fill_air();
         self.win();

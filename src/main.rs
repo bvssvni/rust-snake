@@ -28,13 +28,13 @@ fn start(argc: int, argv: **u8) -> int {
 fn main() {
     use snakeapp::SnakeApp;
     let mut game_window: GameWindowSDL2 = GameWindow::new(
-        GameWindowSettings::new(
-            "Sea Snake Escape".to_owned(),
-            [512, 512],
-            false,
-            true,
-            settings::WATER_COLOR,
-        )
+        GameWindowSettings {
+            title: "Sea Snake Escape".to_string(),
+            size: [512, 512],
+            fullscreen: false,
+            exit_on_esc: true,
+            background_color: settings::WATER_COLOR,
+        }
     );
 
     let mut asset_store = AssetStore::empty();
