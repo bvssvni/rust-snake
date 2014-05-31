@@ -40,6 +40,26 @@ fn main() {
     let mut asset_store = AssetStore::empty();
 
     let mut app = SnakeApp::new();
-    app.run(&mut game_window, &mut asset_store);
+    app.load(&mut asset_store);
+
+    // app.run(&mut game_window, &mut asset_store);
+    let mut game_iterator = GameIterator::new(&mut game_window);
+    loop { match game_iterator.next() { None => { break }, Some(e) => {
+        match e {
+            Render(args) => {
+                app.render(0.0, &args.context, &mut Gl::new(args.gl_data, &mut asset_store)); 
+            },
+            Update(args) => {
+                app.update(args.dt, &mut asset_store);
+            },
+            KeyPress(args) => {
+                app.key_press(args.key, &mut asset_store);
+            },
+            KeyRelease(args) => {
+                app.key_release(args.key, &mut asset_store);
+            },
+            _ => {},
+        }
+    } } }
 }
 
