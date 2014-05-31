@@ -47,7 +47,8 @@ fn main() {
     loop { match game_iterator.next() { None => { break }, Some(e) => {
         match e {
             Render(args) => {
-                app.render(&args.context, &mut Gl::new(args.gl_data, &mut asset_store)); 
+                let c = graphics::Context::abs(args.width as f64, args.height as f64);
+                app.render(&c, &mut Gl::new(args.gl_data, &mut asset_store)); 
             },
             Update(args) => {
                 app.update(args.dt);
