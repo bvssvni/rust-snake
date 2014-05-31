@@ -24,7 +24,7 @@ pub struct SnakeApp {
 }
 
 impl SnakeApp {
-    pub fn render(&self, _ext_dt: f64, c: &Context, gl: &mut Gl) {
+    pub fn render(&self, c: &Context, gl: &mut Gl) {
         let c = &c.reset();
 
         // Get camera coordinates.
