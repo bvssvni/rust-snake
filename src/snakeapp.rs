@@ -75,7 +75,7 @@ impl SnakeApp {
 
     pub fn update(&mut self, dt: f64) {
         // Speed up time due to game loop redesign.
-        let dt = dt * 1.5;
+        let dt = dt * 2.0;
         self.update_objects(dt);
         self.fill_air();
         self.win();

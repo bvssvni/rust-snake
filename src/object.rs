@@ -210,15 +210,15 @@ impl Object {
     ) {
 
         // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
-        cam.circle_centered(x, y, rad).color(self.test_color).fill(gl);
+        cam.circle(x, y, rad).color(self.test_color).fill(gl);
         let n = snake.tail.len() / 2;
         for i in range(0, n) {
             let x = *snake.tail.get(i * 2);
             let y = *snake.tail.get(i * 2 + 1);
             if (i / 8) % 2 == 1 {
-                cam.circle_centered(x, y, rad).color(settings::BLACK).fill(gl);
+                cam.circle(x, y, rad).color(settings::BLACK).fill(gl);
             } else {
-                cam.circle_centered(x, y, rad).color(settings::SNAKE_TAIL_COLOR).fill(gl);
+                cam.circle(x, y, rad).color(settings::SNAKE_TAIL_COLOR).fill(gl);
             }
         }
     }

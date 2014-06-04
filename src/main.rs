@@ -37,18 +37,20 @@ fn main() {
         }
     );
 
-    let mut asset_store = AssetStore::empty();
-
     let mut app = SnakeApp::new();
     app.load();
 
     // app.run(&mut game_window, &mut asset_store);
-    let mut game_iterator = GameIterator::new(&mut game_window);
+    let mut game_iterator = GameIterator::new(&mut game_window,
+        &GameIteratorSettings {
+            updates_per_second: 120,
+            max_frames_per_second: 60
+        });
     loop { match game_iterator.next() { None => { break }, Some(e) => {
         match e {
             Render(args) => {
                 let c = graphics::Context::abs(args.width as f64, args.height as f64);
-                app.render(&c, &mut Gl::new(args.gl_data, &mut asset_store)); 
+                app.render(&c, args.gl); 
             },
             Update(args) => {
                 app.update(args.dt);
