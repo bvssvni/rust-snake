@@ -14,9 +14,9 @@ pub static YOU_WIN_TEXT: &'static str = "you win";
 pub static YOU_WIN_TEXT_COLOR: [f32, ..4] = GREEN;
 pub static YOU_WIN_POS: [f64, ..2] = [-0.42, 0.1];
 
-pub static YOU_LOOSE_TEXT: &'static str = "you loose";
-pub static YOU_LOOSE_TEXT_COLOR: [f32, ..4] = RED;
-pub static YOU_LOOSE_POS: [f64, ..2] = [-0.55, 0.1];
+pub static YOU_LOSE_TEXT: &'static str = "you lose";
+pub static YOU_LOSE_TEXT_COLOR: [f32, ..4] = RED;
+pub static YOU_LOSE_POS: [f64, ..2] = [-0.55, 0.1];
 
 pub static AIR_BOTTLE_RADIUS: f64 = 0.1;
 pub static AIR_BOTTLE_TEST_COLOR: [f32, ..4] = WHITE;
@@ -38,7 +38,7 @@ pub static AIR_BOTTLE_POS: &'static [f64] = &[
     0.6, 8.8,
 ];
 
-pub static PLAYER_LOOSE_AIR_SPEED: f64 = 0.1;
+pub static PLAYER_LOSE_AIR_SPEED: f64 = 0.1;
 pub static PLAYER_COLOR: [f32, ..4] = [0.4, 0.4, 0.4, 1.0];
 pub static PLAYER_BITTEN_COLOR: [f32, ..4] = RED;
 pub static PLAYER_INITIAL_BLOOD: f64 = 1.0;

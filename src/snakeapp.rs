@@ -56,12 +56,12 @@ impl SnakeApp {
                     .color(settings::YOU_WIN_TEXT_COLOR)
                 , gl);
             },
-            game_state::Loose => {
-                let pos = settings::YOU_LOOSE_POS;
-                text::text(settings::YOU_LOOSE_TEXT,
+            game_state::Lose => {
+                let pos = settings::YOU_LOSE_POS;
+                text::text(settings::YOU_LOSE_TEXT,
                     &text_c
                     .trans(pos[0], pos[1])
-                    .color(settings::YOU_LOOSE_TEXT_COLOR)
+                    .color(settings::YOU_LOSE_TEXT_COLOR)
                 , gl);
             },
             game_state::Play => {
@@ -79,7 +79,7 @@ impl SnakeApp {
         self.update_objects(dt);
         self.fill_air();
         self.win();
-        self.loose();
+        self.lose();
         self.show_blood();
         self.show_air();
         self.follow_player(dt);
@@ -139,7 +139,7 @@ impl SnakeApp {
     pub fn key_release(&mut self, key: keyboard::Key) {
         if key == keyboard::Return || key == keyboard::Space {
             match self.game_state.unwrap() {
-                game_state::Win | game_state::Loose => self.restart(),
+                game_state::Win | game_state::Lose => self.restart(),
                 _ => {},
             }
         }
@@ -241,11 +241,11 @@ impl SnakeApp {
         }
     }
 
-    fn loose(&mut self) {
+    fn lose(&mut self) {
         let blood = self.player_blood();
         let air = self.player_air();
         if blood < 0.0 || air < 0.0 {
-            self.game_state = Some(game_state::Loose);
+            self.game_state = Some(game_state::Lose);
             return;
         }
     }
@@ -272,7 +272,7 @@ impl SnakeApp {
 
         // Decrease the player's air with time.
         let air = self.player_air();
-        self.set_player_air(air - dt * settings::PLAYER_LOOSE_AIR_SPEED);
+        self.set_player_air(air - dt * settings::PLAYER_LOSE_AIR_SPEED);
     }
 
     fn player_pos(&self) -> [f64, ..2] {
