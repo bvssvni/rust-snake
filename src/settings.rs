@@ -12,11 +12,11 @@ pub static CAMERA_FOLLOW_PERCENTAGE: f64 = 0.4;
 
 pub static YOU_WIN_TEXT: &'static str = "you win";
 pub static YOU_WIN_TEXT_COLOR: [f32, ..4] = GREEN;
-pub static YOU_WIN_POS: [f64, ..2] = [-0.42, 0.1];
+pub static YOU_WIN_POS: [f64, ..2] = [-160.0, -64.0];
 
 pub static YOU_LOSE_TEXT: &'static str = "you lose";
 pub static YOU_LOSE_TEXT_COLOR: [f32, ..4] = RED;
-pub static YOU_LOSE_POS: [f64, ..2] = [-0.55, 0.1];
+pub static YOU_LOSE_POS: [f64, ..2] = [-200.0, -64.0];
 
 pub static AIR_BOTTLE_RADIUS: f64 = 0.1;
 pub static AIR_BOTTLE_TEST_COLOR: [f32, ..4] = WHITE;

@@ -68,9 +68,6 @@ impl SnakeApp {
 
             },
         }
-
-        // TEST
-        // text::text("restart", &c.flip_v_local().zoom(0.001).color(settings::BLACK), gl);
     }
 
     pub fn update(&mut self, dt: f64) {
@@ -114,9 +111,6 @@ impl SnakeApp {
     }
 
     pub fn key_press(&mut self, key: keyboard::Key) {
-        // TEST
-        // println!("Key pressed {}", key);
-
         if self.game_state.unwrap() != game_state::Play { return; }
 
         match (key, self.player_index) {
