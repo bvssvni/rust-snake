@@ -14,7 +14,7 @@ To run it you need <a href="http://www.libsdl.org/" target="_blank">SDL2</a>
 ## How to play
 
 Use the arrow keys to control the diver.
-When you loose or win, hit `Enter` to restart.
+When you lose or win, hit `Enter` to restart.
 You can also exit with `Esc`.
 
 ![alt tag](https://raw.githubusercontent.com/bvssvni/rust-snake/master/sea-snake.png)
