@@ -5,7 +5,16 @@ extern crate piston;
 extern crate rand;
 extern crate native;
 
-use piston::*;
+use piston::{
+    GameIterator,
+    GameIteratorSettings,
+    GameWindowSDL2,
+    GameWindowSettings,
+    KeyPress,
+    KeyRelease,
+    Render,
+    Update,
+};
 
 mod snakeapp;
 mod object;
@@ -27,7 +36,7 @@ fn start(argc: int, argv: **u8) -> int {
 
 fn main() {
     use snakeapp::SnakeApp;
-    let mut game_window: GameWindowSDL2 = GameWindow::new(
+    let mut game_window = GameWindowSDL2::new(
         GameWindowSettings {
             title: "Sea Snake Escape".to_string(),
             size: [512, 512],
