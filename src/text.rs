@@ -1,7 +1,6 @@
 
 // External crates.
 use graphics::*;
-use piston::*;
 
 static top_face_down: &'static [f64] = &[
     18.0, 24.0,

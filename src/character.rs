@@ -1,6 +1,5 @@
 
 use graphics::*;
-use piston::{Gl};
 
 pub fn draw_character(tween_factor: f64, c: &ColorContext, gl: &mut Gl) {
     let d = c.flip_v();

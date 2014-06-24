@@ -1,5 +1,4 @@
 use graphics::*;
-use piston::*;
 use text;
 use settings;
 
