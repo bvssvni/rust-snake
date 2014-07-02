@@ -4,12 +4,17 @@ extern crate graphics;
 extern crate piston;
 extern crate rand;
 extern crate native;
+extern crate sdl2_game_window;
+extern crate opengl_graphics;
 
+use opengl_graphics::{
+    Gl,
+};
+use Window = sdl2_game_window::GameWindowSDL2;
 use graphics::*;
 use piston::{
     GameIterator,
     GameIteratorSettings,
-    GameWindowSDL2,
     GameWindowSettings,
     KeyPress,
     KeyRelease,
@@ -29,15 +34,9 @@ mod game_state;
 mod character;
 mod air_bottle;
 
-#[start]
-fn start(argc: int, argv: **u8) -> int {
-    // Run GLFW on the main thread.
-    native::start(argc, argv, main)
-}
-
 fn main() {
     use snakeapp::SnakeApp;
-    let mut game_window = GameWindowSDL2::new(
+    let mut game_window = Window::new(
         GameWindowSettings {
             title: "Sea Snake Escape".to_string(),
             size: [512, 512],
@@ -61,7 +60,7 @@ fn main() {
             Render(args) => {
                 gl.viewport(0, 0, args.width as i32, args.height as i32);
                 let c = graphics::Context::abs(args.width as f64, args.height as f64);
-                c.color(settings::WATER_COLOR).clear(gl);
+                c.color(settings::WATER_COLOR).draw(gl);
                 app.render(&c, gl); 
             },
             Update(args) => {

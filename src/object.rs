@@ -2,6 +2,7 @@
 use graphics::*;
 use piston::*;
 use graphics::interpolation::{lerp_4};
+use opengl_graphics::Gl;
 
 // Local crate.
 use character;
@@ -209,16 +210,16 @@ impl Object {
         gl: &mut Gl
     ) {
 
-        // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
-        cam.circle(x, y, rad).color(self.test_color).fill(gl);
+        // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
+        cam.circle(x, y, rad).color(self.test_color).draw(gl);
         let n = snake.tail.len() / 2;
         for i in range(0, n) {
             let x = *snake.tail.get(i * 2);
             let y = *snake.tail.get(i * 2 + 1);
             if (i / 8) % 2 == 1 {
-                cam.circle(x, y, rad).color(settings::BLACK).fill(gl);
+                cam.circle(x, y, rad).color(settings::BLACK).draw(gl);
             } else {
-                cam.circle(x, y, rad).color(settings::SNAKE_TAIL_COLOR).fill(gl);
+                cam.circle(x, y, rad).color(settings::SNAKE_TAIL_COLOR).draw(gl);
             }
         }
     }
@@ -233,7 +234,7 @@ impl Object {
         gl: &mut Gl
     ) {
 
-        // cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+        // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
         match player.state {
             player::Normal => {
                 character::draw_character(
@@ -271,7 +272,7 @@ impl Object {
         gl: &mut Gl
     ) {
         if air_bottle.fill_up == 0.0 { return; }
-        cam.square_centered(x, y, rad).color(self.test_color).fill(gl);
+        cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
         text::text(
             "air", 
             &cam
@@ -307,13 +308,13 @@ impl Object {
                     .margin(margin)
                     .round(0.1)
                     .color(bar_color)
-                    .fill(gl);
+                    .draw(gl);
                 c
                     .rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh)
                     .margin(margin_2)
                     .round(0.1)
                     .color(bar_color_2)
-                    .fill(gl);
+                    .draw(gl);
             }
         };
     }

@@ -1,6 +1,9 @@
 // Extern crates.
-use piston::*;
 use graphics::*;
+use opengl_graphics::Gl;
+use piston::{
+    keyboard,
+};
 
 // Local crate.
 use action;
@@ -35,7 +38,7 @@ impl SnakeApp {
 
         // Render surface.
         let surface_y = self.surface_y.unwrap();
-        c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).fill(gl);
+        c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).draw(gl);
 
         // Render objects in layers.
         let cam = &c.trans(-cam_x, -cam_y);

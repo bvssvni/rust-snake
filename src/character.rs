@@ -1,18 +1,19 @@
 
+use opengl_graphics::Gl;
 use graphics::*;
 
 pub fn draw_character(tween_factor: f64, c: &ColorContext, gl: &mut Gl) {
     let d = c.flip_v();
     let d = d.trans(-148.0, -116.0);
     let d = d.lerp(tween_factor);
-    d.polygons(frames_left_upper_leg).fill(gl);
-    d.polygons(frames_left_lower_leg).fill(gl);
-    d.polygons(frames_right_upper_leg).fill(gl);
-    d.polygons(frames_right_lower_leg).fill(gl);
-    d.polygons(frames_body).fill(gl);
-    d.polygons(frames_left_arm).fill(gl);
-    d.polygons(frames_right_arm).fill(gl);
-    d.polygons(frames_head).fill(gl);
+    d.polygons(frames_left_upper_leg).draw(gl);
+    d.polygons(frames_left_lower_leg).draw(gl);
+    d.polygons(frames_right_upper_leg).draw(gl);
+    d.polygons(frames_right_lower_leg).draw(gl);
+    d.polygons(frames_body).draw(gl);
+    d.polygons(frames_left_arm).draw(gl);
+    d.polygons(frames_right_arm).draw(gl);
+    d.polygons(frames_head).draw(gl);
 }
 
 pub static frames_right_lower_leg: &'static [&'static [f64]] = &[

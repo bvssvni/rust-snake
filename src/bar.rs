@@ -1,4 +1,5 @@
 use graphics::*;
+use opengl_graphics::Gl;
 use text;
 use settings;
 
@@ -25,9 +26,9 @@ impl Bar {
         let y = rect[1];
         let w = rect[2];
         let h = rect[3];
-        c.rect(x, y, w, h).color(self.background_color).fill(gl);
+        c.rect(x, y, w, h).color(self.background_color).draw(gl);
         let val = if self.value < 0.0 { 0.0 } else { self.value };
-        c.rect(x, y, w * val, h).margin(settings::BAR_MARGIN).color(self.bar_color).fill(gl);
+        c.rect(x, y, w * val, h).margin(settings::BAR_MARGIN).color(self.bar_color).draw(gl);
     }
 }
 

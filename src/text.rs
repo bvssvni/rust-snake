@@ -1,6 +1,7 @@
 
 // External crates.
 use graphics::*;
+use opengl_graphics::Gl;
 
 static top_face_down: &'static [f64] = &[
     18.0, 24.0,
@@ -173,115 +174,115 @@ static upper_diagonal_top_left_to_bottom_right: &'static [f64] = &[
 // end segments.
 
 fn a_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_face_down).fill(gl);
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left).fill(gl);
-    c.polygon(middle).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(lower_right_face_left).fill(gl);
+    c.polygon(top_face_down).draw(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left).draw(gl);
+    c.polygon(middle).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(lower_right_face_left).draw(gl);
 }
 
 fn i_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(upper_middle).fill(gl);
-    c.polygon(lower_middle).fill(gl);
+    c.polygon(upper_middle).draw(gl);
+    c.polygon(lower_middle).draw(gl);
 }
 
 fn t_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_face_down).fill(gl);
-    c.polygon(upper_middle).fill(gl);
-    c.polygon(lower_middle).fill(gl);
+    c.polygon(top_face_down).draw(gl);
+    c.polygon(upper_middle).draw(gl);
+    c.polygon(lower_middle).draw(gl);
 }
 
 fn r_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_face_down).fill(gl);
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left).fill(gl);
-    c.polygon(middle).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(lower_diagonal_top_left_to_bottom_right).fill(gl);
+    c.polygon(top_face_down).draw(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left).draw(gl);
+    c.polygon(middle).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(lower_diagonal_top_left_to_bottom_right).draw(gl);
 }
 
 fn b_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_capped_right).fill(gl);
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left_capped_right).fill(gl);
-    c.polygon(middle).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(lower_right_face_left_capped_right).fill(gl);
-    c.polygon(bottom_capped_right).fill(gl);
+    c.polygon(top_capped_right).draw(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left_capped_right).draw(gl);
+    c.polygon(middle).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(lower_right_face_left_capped_right).draw(gl);
+    c.polygon(bottom_capped_right).draw(gl);
 }
 
 fn l_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(bottom_face_up).fill(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(bottom_face_up).draw(gl);
 }
 
 fn o_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_capped_left_right).fill(gl);
-    c.polygon(upper_left_face_right_capped_left).fill(gl);
-    c.polygon(upper_right_face_left_capped_right).fill(gl);
-    c.polygon(lower_left_face_right_capped_left).fill(gl);
-    c.polygon(lower_right_face_left_capped_right).fill(gl);
-    c.polygon(bottom_capped_left_right).fill(gl);
+    c.polygon(top_capped_left_right).draw(gl);
+    c.polygon(upper_left_face_right_capped_left).draw(gl);
+    c.polygon(upper_right_face_left_capped_right).draw(gl);
+    c.polygon(lower_left_face_right_capped_left).draw(gl);
+    c.polygon(lower_right_face_left_capped_right).draw(gl);
+    c.polygon(bottom_capped_left_right).draw(gl);
 }
 
 fn d_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_capped_right).fill(gl);
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left_capped_right).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(lower_right_face_left_capped_right).fill(gl);
-    c.polygon(bottom_capped_right).fill(gl);
+    c.polygon(top_capped_right).draw(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left_capped_right).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(lower_right_face_left_capped_right).draw(gl);
+    c.polygon(bottom_capped_right).draw(gl);
 }
 
 fn y_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left).fill(gl);
-    c.polygon(middle).fill(gl);
-    c.polygon(lower_right_face_left).fill(gl);
-    c.polygon(bottom_capped_left_right).fill(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left).draw(gl);
+    c.polygon(middle).draw(gl);
+    c.polygon(lower_right_face_left).draw(gl);
+    c.polygon(bottom_capped_left_right).draw(gl);
 }
 
 fn u_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(lower_right_face_left).fill(gl);
-    c.polygon(bottom_capped_left_right).fill(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(lower_right_face_left).draw(gl);
+    c.polygon(bottom_capped_left_right).draw(gl);
 }
 
 fn w_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(lower_right_face_left).fill(gl);
-    c.polygon(bottom_face_up).fill(gl);
-    c.polygon(bottom_vertical).fill(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(lower_right_face_left).draw(gl);
+    c.polygon(bottom_face_up).draw(gl);
+    c.polygon(bottom_vertical).draw(gl);
 }
 
 fn n_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(upper_right_face_left).fill(gl);
-    c.polygon(upper_diagonal_top_left_to_bottom_right).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(lower_right_face_left).fill(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(upper_right_face_left).draw(gl);
+    c.polygon(upper_diagonal_top_left_to_bottom_right).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(lower_right_face_left).draw(gl);
 }
 
 fn s_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_capped_left_right).fill(gl);
-    c.polygon(upper_left_face_right_capped_left).fill(gl);
-    c.polygon(middle).fill(gl);
-    c.polygon(lower_right_face_left_capped_right).fill(gl);
-    c.polygon(bottom_capped_left_right).fill(gl);
+    c.polygon(top_capped_left_right).draw(gl);
+    c.polygon(upper_left_face_right_capped_left).draw(gl);
+    c.polygon(middle).draw(gl);
+    c.polygon(lower_right_face_left_capped_right).draw(gl);
+    c.polygon(bottom_capped_left_right).draw(gl);
 }
 
 fn e_letter(c: &ColorContext, gl: &mut Gl) {
-    c.polygon(top_face_down).fill(gl);
-    c.polygon(upper_left_face_right).fill(gl);
-    c.polygon(middle).fill(gl);
-    c.polygon(lower_left_face_right).fill(gl);
-    c.polygon(bottom_face_up).fill(gl);
+    c.polygon(top_face_down).draw(gl);
+    c.polygon(upper_left_face_right).draw(gl);
+    c.polygon(middle).draw(gl);
+    c.polygon(lower_left_face_right).draw(gl);
+    c.polygon(bottom_face_up).draw(gl);
 }
 
 // end letters.
