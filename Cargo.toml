@@ -1,0 +1,28 @@
+[package]
+
+name = "rust-snake"
+version = "0.0.0"
+authors = ["Your Name <your@email.com>"]
+tags = []
+
+[[bin]]
+
+name = "rust-snake"
+path = "src/main.rs"
+
+[dependencies.piston]
+
+git = "https://github.com/PistonDevelopers/piston.git"
+
+[dependencies.sdl2_game_window]
+
+git = "https://github.com/PistonDevelopers/sdl2_game_window.git"
+
+[dependencies.graphics]
+
+git = "https://github.com/PistonDevelopers/rust-graphics.git"
+
+[dependencies.opengl_graphics]
+
+git = "https://github.com/PistonDevelopers/opengl_graphics.git"
+
