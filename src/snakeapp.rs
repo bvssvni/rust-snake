@@ -74,8 +74,6 @@ impl SnakeApp {
     }
 
     pub fn update(&mut self, dt: f64) {
-        // Speed up time due to game loop redesign.
-        let dt = dt * 2.0;
         self.update_objects(dt);
         self.fill_air();
         self.win();
@@ -274,17 +272,17 @@ impl SnakeApp {
 
     fn player_pos(&self) -> [f64, ..2] {
         let player_index = self.player_index.unwrap();
-        self.objects.get(player_index).pos
+        self.objects[player_index].pos
     }
 
     fn player_blood(&self) -> f64 {
         let player_index = self.player_index.unwrap();
-        self.objects.get(player_index).blood().unwrap()
+        self.objects[player_index].blood().unwrap()
     }
 
     fn player_air(&self) -> f64 {
         let player_index = self.player_index.unwrap();
-        self.objects.get(player_index).air().unwrap()
+        self.objects[player_index].air().unwrap()
     }
 
     fn set_player_air(&mut self, val: f64) {

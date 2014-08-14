@@ -214,8 +214,8 @@ impl Object {
         cam.circle(x, y, rad).color(self.test_color).draw(gl);
         let n = snake.tail.len() / 2;
         for i in range(0, n) {
-            let x = *snake.tail.get(i * 2);
-            let y = *snake.tail.get(i * 2 + 1);
+            let x = snake.tail[i * 2];
+            let y = snake.tail[i * 2 + 1];
             if (i / 8) % 2 == 1 {
                 cam.circle(x, y, rad).color(settings::BLACK).draw(gl);
             } else {

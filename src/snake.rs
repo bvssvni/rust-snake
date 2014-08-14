@@ -54,8 +54,8 @@ impl Snake {
         let dist = settings::SNAKE_TAIL_DISTANCE;
         let n = self.tail.len() / 2;
         for i in range(0, n) {
-            let x2 = *self.tail.get(i * 2);
-            let y2 = *self.tail.get(i * 2 + 1);
+            let x2 = self.tail[i * 2];
+            let y2 = self.tail[i * 2 + 1];
             let dx = x - x2;
             let dy = y - y2;
             let d = dx * dx + dy * dy;
