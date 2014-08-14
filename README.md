@@ -32,5 +32,6 @@ Add the dependencies and add the '.rlib' files to '/target/cpu-vendor-os/lib/':
 In the Terminal window, navigate to the project folder and type:
 
 ```
+cargo build
 make run
 ```
