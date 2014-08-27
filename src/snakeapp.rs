@@ -1,15 +1,13 @@
 // Extern crates.
 use graphics::*;
 use opengl_graphics::Gl;
-use piston::{
-    keyboard,
-};
+use piston::input::keyboard;
 
 // Local crate.
 use action;
 use settings;
 use object;
-use Object = object::Object;
+use object::Object;
 use text;
 use game_state;
 

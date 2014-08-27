@@ -1,6 +1,5 @@
 // External crates.
 use graphics::*;
-use piston::*;
 use graphics::interpolation::{lerp_4};
 use opengl_graphics::Gl;
 
