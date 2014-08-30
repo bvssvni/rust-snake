@@ -67,10 +67,10 @@ fn main() {
             Update(args) => {
                 app.update(args.dt);
             },
-            Input(input::KeyPress { key, .. }) => {
+            Input(input::Press(input::Keyboard(key))) => {
                 app.key_press(key);
             },
-            Input(input::KeyRelease { key, .. }) => {
+            Input(input::Release(input::Keyboard(key))) => {
                 app.key_release(key);
             },
             _ => {},
