@@ -10,12 +10,12 @@ extern crate opengl_graphics;
 use opengl_graphics::{
     Gl,
 };
-use sdl2_game_window::GameWindowSDL2 as Window;
+use sdl2_game_window::WindowSDL2;
 use graphics::*;
 use piston::{
-    GameIterator,
-    GameIteratorSettings,
-    GameWindowSettings,
+    EventIterator,
+    EventSettings,
+    WindowSettings,
     Render,
     Update,
     Input,
@@ -36,27 +36,27 @@ mod air_bottle;
 
 fn main() {
     use snakeapp::SnakeApp;
-    let mut game_window = Window::new(
+    let mut game_window = WindowSDL2::new(
         piston::shader_version::opengl::OpenGL_3_2,
-        GameWindowSettings {
+        WindowSettings {
             title: "Sea Snake Escape".to_string(),
             size: [512, 512],
             fullscreen: false,
             exit_on_esc: true,
+            samples: 4,
         }
     );
 
     let mut app = SnakeApp::new();
     app.load();
 
-    // app.run(&mut game_window, &mut asset_store);
-    let mut game_iterator = GameIterator::new(&mut game_window,
-        &GameIteratorSettings {
+    let mut event_iterator = EventIterator::new(&mut game_window,
+        &EventSettings {
             updates_per_second: 120,
             max_frames_per_second: 60
         });
     let ref mut gl = Gl::new();
-    loop { match game_iterator.next() { None => { break }, Some(e) => {
+    for e in event_iterator {
         match e {
             Render(args) => {
                 gl.viewport(0, 0, args.width as i32, args.height as i32);
@@ -75,6 +75,6 @@ fn main() {
             },
             _ => {},
         }
-    } } }
+    }
 }
 
