@@ -36,8 +36,10 @@ mod air_bottle;
 
 fn main() {
     use snakeapp::SnakeApp;
+    
+    let opengl = piston::shader_version::opengl::OpenGL_3_2;
     let mut game_window = WindowSDL2::new(
-        piston::shader_version::opengl::OpenGL_3_2,
+        opengl,
         WindowSettings {
             title: "Sea Snake Escape".to_string(),
             size: [512, 512],
@@ -55,7 +57,7 @@ fn main() {
             updates_per_second: 120,
             max_frames_per_second: 60
         });
-    let ref mut gl = Gl::new();
+    let ref mut gl = Gl::new(opengl);
     for e in event_iterator {
         match e {
             Render(args) => {
