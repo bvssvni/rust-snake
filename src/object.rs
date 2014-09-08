@@ -1,8 +1,6 @@
 // External crates.
 use graphics::*;
 use graphics::interpolation::{lerp_4};
-use gfx_graphics::RenderContext;
-use gfx;
 
 // Local crate.
 use character;
@@ -199,7 +197,7 @@ impl Object {
         }
     }
 
-    fn render_snake<C: gfx::CommandBuffer>(
+    fn render_snake<B: BackEnd<I>, I: ImageSize>(
         &self, 
         snake: &Snake, 
         x: f64, 
@@ -207,7 +205,7 @@ impl Object {
         rad: f64, 
         cam: &Context, 
         _c: &Context, 
-        gl: &mut RenderContext<C>
+        gl: &mut B
     ) {
 
         // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
@@ -224,14 +222,14 @@ impl Object {
         }
     }
 
-    fn render_player<C: gfx::CommandBuffer>(
+    fn render_player<B: BackEnd<I>, I: ImageSize>(
         &self, 
         player: &Player, 
         x: f64, 
         y: f64, 
         cam: &Context, 
         _c: &Context, 
-        gl: &mut RenderContext<C>
+        gl: &mut B
     ) {
 
         // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
@@ -261,7 +259,7 @@ impl Object {
         }
     }
 
-    fn render_air_bottle<C: gfx::CommandBuffer>(
+    fn render_air_bottle<B: BackEnd<I>, I: ImageSize>(
         &self, 
         air_bottle: &AirBottle, 
         x: f64, 
@@ -269,7 +267,7 @@ impl Object {
         rad: f64,
         cam: &Context, 
         _c: &Context, 
-        gl: &mut RenderContext<C>
+        gl: &mut B
     ) {
         if air_bottle.fill_up == 0.0 { return; }
         cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
@@ -285,8 +283,8 @@ impl Object {
         );
     }
 
-    pub fn render<C: gfx::CommandBuffer>(
-        &self, cam: &Context, c: &Context, gl: &mut RenderContext<C>
+    pub fn render<B: BackEnd<I>, I: ImageSize>(
+        &self, cam: &Context, c: &Context, gl: &mut B
     ) {
         let x = self.pos[0];
         let y = self.pos[1];

@@ -1,9 +1,6 @@
 // Extern crates.
-use gfx;
-use gfx::CommandBuffer;
 use graphics::*;
 use piston::input::keyboard;
-use gfx_graphics::RenderContext;
 
 // Local crate.
 use action;
@@ -27,8 +24,8 @@ pub struct SnakeApp {
 }
 
 impl SnakeApp {
-    pub fn render<C: gfx::CommandBuffer>(
-        &self, c: &Context, gl: &mut RenderContext<C>
+    pub fn render<B: BackEnd<I>, I: ImageSize>(
+        &self, c: &Context, gl: &mut B
     ) {
         let c = &c.reset();
 

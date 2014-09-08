@@ -1,10 +1,8 @@
 
-use gfx_graphics::RenderContext;
 use graphics::*;
-use gfx;
 
-pub fn draw_character<C: gfx::CommandBuffer>(
-    tween_factor: f64, c: &ColorContext, gl: &mut RenderContext<C>
+pub fn draw_character<B: BackEnd<I>, I: ImageSize>(
+    tween_factor: f64, c: &ColorContext, gl: &mut B
 ) {
     let d = c.flip_v();
     let d = d.trans(-148.0, -116.0);

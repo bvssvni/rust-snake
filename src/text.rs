@@ -1,8 +1,6 @@
 
 // External crates.
 use graphics::*;
-use gfx_graphics::RenderContext;
-use gfx;
 
 static top_face_down: &'static [f64] = &[
     18.0, 24.0,
@@ -174,8 +172,8 @@ static upper_diagonal_top_left_to_bottom_right: &'static [f64] = &[
 
 // end segments.
 
-fn a_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn a_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_face_down).draw(gl);
     c.polygon(upper_left_face_right).draw(gl);
@@ -185,23 +183,23 @@ fn a_letter<C: gfx::CommandBuffer>(
     c.polygon(lower_right_face_left).draw(gl);
 }
 
-fn i_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn i_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(upper_middle).draw(gl);
     c.polygon(lower_middle).draw(gl);
 }
 
-fn t_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn t_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_face_down).draw(gl);
     c.polygon(upper_middle).draw(gl);
     c.polygon(lower_middle).draw(gl);
 }
 
-fn r_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn r_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_face_down).draw(gl);
     c.polygon(upper_left_face_right).draw(gl);
@@ -211,8 +209,8 @@ fn r_letter<C: gfx::CommandBuffer>(
     c.polygon(lower_diagonal_top_left_to_bottom_right).draw(gl);
 }
 
-fn b_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn b_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_capped_right).draw(gl);
     c.polygon(upper_left_face_right).draw(gl);
@@ -223,16 +221,16 @@ fn b_letter<C: gfx::CommandBuffer>(
     c.polygon(bottom_capped_right).draw(gl);
 }
 
-fn l_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn l_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(upper_left_face_right).draw(gl);
     c.polygon(lower_left_face_right).draw(gl);
     c.polygon(bottom_face_up).draw(gl);
 }
 
-fn o_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn o_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_capped_left_right).draw(gl);
     c.polygon(upper_left_face_right_capped_left).draw(gl);
@@ -242,8 +240,8 @@ fn o_letter<C: gfx::CommandBuffer>(
     c.polygon(bottom_capped_left_right).draw(gl);
 }
 
-fn d_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn d_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_capped_right).draw(gl);
     c.polygon(upper_left_face_right).draw(gl);
@@ -253,8 +251,8 @@ fn d_letter<C: gfx::CommandBuffer>(
     c.polygon(bottom_capped_right).draw(gl);
 }
 
-fn y_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn y_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(upper_left_face_right).draw(gl);
     c.polygon(upper_right_face_left).draw(gl);
@@ -263,8 +261,8 @@ fn y_letter<C: gfx::CommandBuffer>(
     c.polygon(bottom_capped_left_right).draw(gl);
 }
 
-fn u_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn u_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(upper_left_face_right).draw(gl);
     c.polygon(upper_right_face_left).draw(gl);
@@ -273,8 +271,8 @@ fn u_letter<C: gfx::CommandBuffer>(
     c.polygon(bottom_capped_left_right).draw(gl);
 }
 
-fn w_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn w_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(upper_left_face_right).draw(gl);
     c.polygon(upper_right_face_left).draw(gl);
@@ -284,8 +282,8 @@ fn w_letter<C: gfx::CommandBuffer>(
     c.polygon(bottom_vertical).draw(gl);
 }
 
-fn n_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn n_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(upper_left_face_right).draw(gl);
     c.polygon(upper_right_face_left).draw(gl);
@@ -294,8 +292,8 @@ fn n_letter<C: gfx::CommandBuffer>(
     c.polygon(lower_right_face_left).draw(gl);
 }
 
-fn s_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn s_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_capped_left_right).draw(gl);
     c.polygon(upper_left_face_right_capped_left).draw(gl);
@@ -304,8 +302,8 @@ fn s_letter<C: gfx::CommandBuffer>(
     c.polygon(bottom_capped_left_right).draw(gl);
 }
 
-fn e_letter<C: gfx::CommandBuffer>(
-    c: &ColorContext, gl: &mut RenderContext<C>
+fn e_letter<B: BackEnd<I>, I: ImageSize>(
+    c: &ColorContext, gl: &mut B
 ) {
     c.polygon(top_face_down).draw(gl);
     c.polygon(upper_left_face_right).draw(gl);
@@ -317,8 +315,8 @@ fn e_letter<C: gfx::CommandBuffer>(
 // end letters.
 
 /// Renders text filled with colors.
-pub fn text<C: gfx::CommandBuffer>(
-    text: &str, c: &ColorContext, gl: &mut RenderContext<C>
+pub fn text<B: BackEnd<I>, I: ImageSize>(
+    text: &str, c: &ColorContext, gl: &mut B
 ) {
     let mut x = 0.0;
     let mut y = 0.0;
