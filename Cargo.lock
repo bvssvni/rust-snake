@@ -2,6 +2,7 @@
 name = "rust-snake"
 version = "0.0.0"
 dependencies = [
+ "gfx_graphics 0.0.0 (git+https://github.com/PistonDevelopers/gfx_graphics.git#b604bdc0e28caa9c9b093840235036ca4cf78b9a)",
  "graphics 0.0.0 (git+https://github.com/PistonDevelopers/rust-graphics.git#1b16b4a8ca74d210cf1d1ce09cb735a0303c279c)",
  "opengl_graphics 0.0.0 (git+https://github.com/PistonDevelopers/opengl_graphics.git#1815a565617c609b36fe22eff9361813da7a2e27)",
  "piston 0.0.0 (git+https://github.com/PistonDevelopers/piston.git#142ca129b74b3a5bd4a021fad66471b29322760b)",
@@ -13,7 +14,7 @@ name = "cam"
 version = "0.0.0"
 source = "git+https://github.com/pistondevelopers/cam#f8b957ec81bb712a5a79097ae196b3f4bdc56af0"
 dependencies = [
- "input 0.0.0 (git+https://github.com/pistondevelopers/input#71d1522f1ef3e441a47bff10ca3cdb83183b225b)",
+ "input 0.0.0 (git+https://github.com/PistonDevelopers/input#71d1522f1ef3e441a47bff10ca3cdb83183b225b)",
  "vecmath 0.0.0 (git+https://github.com/PistonDevelopers/vecmath#ec3cccb24d44e32e80f939ca1d83c28705683f30)",
 ]
 
@@ -45,7 +46,18 @@ name = "gfx_gl"
 version = "0.1.0"
 source = "git+https://github.com/gfx-rs/gfx_gl.git#52bb510e9e76cd3c0aed7b6aa678c03059d630a6"
 dependencies = [
- "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a)",
+ "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a)",
+]
+
+[[package]]
+name = "gfx_graphics"
+version = "0.0.0"
+source = "git+https://github.com/PistonDevelopers/gfx_graphics.git#b604bdc0e28caa9c9b093840235036ca4cf78b9a"
+dependencies = [
+ "gfx 0.1.0 (git+https://github.com/gfx-rs/gfx-rs#86b34980ced7c650bb6d3277b5876d3a839273b4)",
+ "gfx_macros 0.1.0 (git+https://github.com/gfx-rs/gfx-rs#86b34980ced7c650bb6d3277b5876d3a839273b4)",
+ "graphics 0.0.0 (git+https://github.com/PistonDevelopers/rust-graphics.git#1b16b4a8ca74d210cf1d1ce09cb735a0303c279c)",
+ "image 0.0.0 (git+https://github.com/pistondevelopers/rust-image#fc52847967c9bb6cefdc95db5bbb87a9439a0313)",
 ]
 
 [[package]]
@@ -56,17 +68,17 @@ source = "git+https://github.com/gfx-rs/gfx-rs#86b34980ced7c650bb6d3277b5876d3a8
 [[package]]
 name = "gl"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a"
+source = "git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a"
 dependencies = [
- "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a)",
+ "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a)",
 ]
 
 [[package]]
 name = "gl_generator"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a"
+source = "git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a"
 dependencies = [
- "khronos_api 0.0.1 (git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a)",
+ "khronos_api 0.0.1 (git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a)",
  "rust-xml 0.1.0 (git+https://github.com/netvl/rust-xml#418a3776922e545a7c33b1f68d9c8c513dc5c80b)",
 ]
 
@@ -86,12 +98,12 @@ source = "git+https://github.com/pistondevelopers/rust-image#fc52847967c9bb6cefd
 [[package]]
 name = "input"
 version = "0.0.0"
-source = "git+https://github.com/pistondevelopers/input#71d1522f1ef3e441a47bff10ca3cdb83183b225b"
+source = "git+https://github.com/PistonDevelopers/input#71d1522f1ef3e441a47bff10ca3cdb83183b225b"
 
 [[package]]
 name = "khronos_api"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a"
+source = "git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a"
 
 [[package]]
 name = "noise-rs"
@@ -103,7 +115,7 @@ name = "opengl_graphics"
 version = "0.0.0"
 source = "git+https://github.com/PistonDevelopers/opengl_graphics.git#1815a565617c609b36fe22eff9361813da7a2e27"
 dependencies = [
- "gl 0.0.1 (git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a)",
+ "gl 0.0.1 (git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a)",
  "graphics 0.0.0 (git+https://github.com/PistonDevelopers/rust-graphics.git#1b16b4a8ca74d210cf1d1ce09cb735a0303c279c)",
  "image 0.0.0 (git+https://github.com/pistondevelopers/rust-image#fc52847967c9bb6cefdc95db5bbb87a9439a0313)",
  "shader_version 0.0.0 (git+https://github.com/pistondevelopers/shader_version#34862581c665dd53b65222ba6dbfb10ed3b97cbf)",
@@ -118,7 +130,7 @@ dependencies = [
  "genmesh 0.1.0 (git+https://github.com/csherratt/genmesh.git#8fc064208cfed8ee0f6539862a8065bab7319303)",
  "graphics 0.0.0 (git+https://github.com/PistonDevelopers/rust-graphics.git#1b16b4a8ca74d210cf1d1ce09cb735a0303c279c)",
  "image 0.0.0 (git+https://github.com/pistondevelopers/rust-image#fc52847967c9bb6cefdc95db5bbb87a9439a0313)",
- "input 0.0.0 (git+https://github.com/pistondevelopers/input#71d1522f1ef3e441a47bff10ca3cdb83183b225b)",
+ "input 0.0.0 (git+https://github.com/PistonDevelopers/input#71d1522f1ef3e441a47bff10ca3cdb83183b225b)",
  "noise-rs 0.0.1 (git+https://github.com/bjz/noise-rs#106531adf89c42fdf35ec522b9ad0b6cf1f978db)",
  "shader_version 0.0.0 (git+https://github.com/pistondevelopers/shader_version#34862581c665dd53b65222ba6dbfb10ed3b97cbf)",
  "vecmath 0.0.0 (git+https://github.com/PistonDevelopers/vecmath#ec3cccb24d44e32e80f939ca1d83c28705683f30)",
@@ -148,7 +160,7 @@ version = "0.0.0"
 source = "git+https://github.com/PistonDevelopers/sdl2_game_window.git#ab8e88e20fc86b9adc6bfdc8f849bd2eedc152e0"
 dependencies = [
  "gfx 0.1.0 (git+https://github.com/gfx-rs/gfx-rs#86b34980ced7c650bb6d3277b5876d3a839273b4)",
- "gl 0.0.1 (git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a)",
+ "gl 0.0.1 (git+https://github.com/bjz/gl-rs.git#accdd51d493e62855bd9146bc221db464028510a)",
  "piston 0.0.0 (git+https://github.com/PistonDevelopers/piston.git#142ca129b74b3a5bd4a021fad66471b29322760b)",
  "sdl2 0.0.1 (git+https://github.com/AngryLawyer/rust-sdl2#7af4b9233bc6b5737e2c10e374b38ce769c7ca20)",
 ]

@@ -1,5 +1,4 @@
 use graphics::*;
-use opengl_graphics::Gl;
 use text;
 use settings;
 
@@ -12,7 +11,9 @@ pub struct Bar {
 }
 
 impl Bar {
-    pub fn render(&self, c: &Context, gl: &mut Gl) {
+    pub fn render<B: BackEnd<I>, I: ImageSize>(
+        &self, c: &Context, gl: &mut B
+    ) {
         text::text(
             self.text, 
             &c

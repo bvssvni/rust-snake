@@ -1,8 +1,9 @@
 
-use opengl_graphics::Gl;
 use graphics::*;
 
-pub fn draw_character(tween_factor: f64, c: &ColorContext, gl: &mut Gl) {
+pub fn draw_character<B: BackEnd<I>, I: ImageSize>(
+    tween_factor: f64, c: &ColorContext, gl: &mut B
+) {
     let d = c.flip_v();
     let d = d.trans(-148.0, -116.0);
     let d = d.lerp(tween_factor);

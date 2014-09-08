@@ -22,6 +22,10 @@ git = "https://github.com/PistonDevelopers/sdl2_game_window.git"
 
 git = "https://github.com/PistonDevelopers/rust-graphics.git"
 
+[dependencies.gfx_graphics]
+
+git = "https://github.com/PistonDevelopers/gfx_graphics.git"
+
 [dependencies.opengl_graphics]
 
 git = "https://github.com/PistonDevelopers/opengl_graphics.git"
