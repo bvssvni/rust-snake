@@ -2,8 +2,8 @@
 name = "rust-snake"
 version = "0.0.0"
 dependencies = [
+ "gfx_graphics 0.0.0 (git+https://github.com/PistonDevelopers/gfx_graphics.git#1048a0d1dae45c70afbf6c76d1fb910b9639a363)",
  "graphics 0.0.0 (git+https://github.com/PistonDevelopers/rust-graphics.git#9af095bb66cd3e145ef0c40debf79f8e4b7d7ce1)",
- "opengl_graphics 0.0.0 (git+https://github.com/PistonDevelopers/opengl_graphics.git#ea54d9bec76d6018209a61fb3badd1860e919666)",
  "piston 0.0.0 (git+https://github.com/PistonDevelopers/piston.git#d7f0cd4f0b988aad35c0fbbc485f23a797dc3b2d)",
  "sdl2_game_window 0.0.0 (git+https://github.com/PistonDevelopers/sdl2_game_window.git#262bce921309e81d4142398bf6c17466af172afd)",
 ]
@@ -46,6 +46,17 @@ version = "0.1.0"
 source = "git+https://github.com/gfx-rs/gfx_gl.git#52bb510e9e76cd3c0aed7b6aa678c03059d630a6"
 dependencies = [
  "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a)",
+]
+
+[[package]]
+name = "gfx_graphics"
+version = "0.0.0"
+source = "git+https://github.com/PistonDevelopers/gfx_graphics.git#1048a0d1dae45c70afbf6c76d1fb910b9639a363"
+dependencies = [
+ "gfx 0.1.0 (git+https://github.com/gfx-rs/gfx-rs#5b6df3ca45b5187b1790f32023e7e9e1b246c67c)",
+ "gfx_macros 0.1.0 (git+https://github.com/gfx-rs/gfx-rs#5b6df3ca45b5187b1790f32023e7e9e1b246c67c)",
+ "graphics 0.0.0 (git+https://github.com/PistonDevelopers/rust-graphics.git#9af095bb66cd3e145ef0c40debf79f8e4b7d7ce1)",
+ "image 0.0.0 (git+https://github.com/pistondevelopers/rust-image#fb3847297718a6b97b4e8f87ca7945b0ef0c310a)",
 ]
 
 [[package]]
@@ -97,16 +108,6 @@ source = "git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db4640285
 name = "noise-rs"
 version = "0.0.1"
 source = "git+https://github.com/bjz/noise-rs#106531adf89c42fdf35ec522b9ad0b6cf1f978db"
-
-[[package]]
-name = "opengl_graphics"
-version = "0.0.0"
-source = "git+https://github.com/PistonDevelopers/opengl_graphics.git#ea54d9bec76d6018209a61fb3badd1860e919666"
-dependencies = [
- "gl 0.0.1 (git+https://github.com/bjz/gl-rs#accdd51d493e62855bd9146bc221db464028510a)",
- "graphics 0.0.0 (git+https://github.com/PistonDevelopers/rust-graphics.git#9af095bb66cd3e145ef0c40debf79f8e4b7d7ce1)",
- "image 0.0.0 (git+https://github.com/pistondevelopers/rust-image#fb3847297718a6b97b4e8f87ca7945b0ef0c310a)",
-]
 
 [[package]]
 name = "piston"

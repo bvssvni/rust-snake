@@ -1,5 +1,6 @@
 use graphics::*;
-use opengl_graphics::Gl;
+use gfx_graphics::RenderContext;
+use gfx;
 use text;
 use settings;
 
@@ -12,7 +13,9 @@ pub struct Bar {
 }
 
 impl Bar {
-    pub fn render(&self, c: &Context, gl: &mut Gl) {
+    pub fn render<C: gfx::CommandBuffer>(
+        &self, c: &Context, gl: &mut RenderContext<C>
+    ) {
         text::text(
             self.text, 
             &c

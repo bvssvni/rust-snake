@@ -1,7 +1,9 @@
 // Extern crates.
+use gfx;
+use gfx::CommandBuffer;
 use graphics::*;
-use opengl_graphics::Gl;
 use piston::input::keyboard;
+use gfx_graphics::RenderContext;
 
 // Local crate.
 use action;
@@ -25,7 +27,9 @@ pub struct SnakeApp {
 }
 
 impl SnakeApp {
-    pub fn render(&self, c: &Context, gl: &mut Gl) {
+    pub fn render<C: gfx::CommandBuffer>(
+        &self, c: &Context, gl: &mut RenderContext<C>
+    ) {
         let c = &c.reset();
 
         // Get camera coordinates.
