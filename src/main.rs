@@ -73,6 +73,7 @@ fn main() {
         });
     let ref mut gl = Gl::new(opengl);
     let mut gfx2d = Gfx2d::new(&mut device);
+    let mut fps_counter = piston::FPSCounter::new();
     for e in event_iterator {
         match e {
             Render(args) => {
@@ -99,7 +100,9 @@ fn main() {
                         c.color(settings::WATER_COLOR).draw(gl);
                         app.render(&c, gl); 
                     }
-                }
+                };
+
+                event_iterator.window.window.set_title(fps_counter.tick().to_string().as_slice());
             },
             Update(args) => {
                 app.update(args.dt);
