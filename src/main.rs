@@ -39,6 +39,7 @@ mod game_state;
 mod character;
 mod air_bottle;
 
+#[deriving(Show)]
 pub enum GraphicsBackEnd {
     Gfx,
     OpenGL,
@@ -48,6 +49,9 @@ fn main() {
     use snakeapp::SnakeApp;
     
     let mut backend = Gfx;
+    println!("Running with graphics backend {}", backend);
+    println!("Use 'S' to swap back-end");
+
     let opengl = piston::shader_version::opengl::OpenGL_3_2;
     let mut window = WindowSDL2::new(
         opengl,
