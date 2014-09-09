@@ -97,6 +97,7 @@ fn main() {
                     }
                     OpenGL => {
                         gl.viewport(0, 0, args.width as i32, args.height as i32);
+                        gl.clear_program();
                         let c = graphics::Context::abs(
                             args.width as f64, 
                             args.height as f64
