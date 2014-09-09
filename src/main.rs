@@ -13,7 +13,6 @@ use opengl_graphics::Gl;
 use gfx_graphics::{
     Gfx2d,
 };
-use gfx::{Device, DeviceHelper};
 use gfx_graphics::RenderContext;
 use sdl2_game_window::WindowSDL2;
 use graphics::*;
@@ -65,7 +64,8 @@ fn main() {
     );
 
     let (mut device, frame) = window.gfx();
-    let mut renderer = device.create_renderer();
+    let mut gfx2d = Gfx2d::new(&mut device);
+    let mut renderer = gfx::Renderer::new(device);
 
     let mut app = SnakeApp::new();
     app.load();
@@ -76,24 +76,19 @@ fn main() {
             max_frames_per_second: 60
         });
     let ref mut gl = Gl::new(opengl);
-    let mut gfx2d = Gfx2d::new(&mut device);
     let mut fps_counter = piston::FPSCounter::new();
     for e in event_iterator {
         match e {
             Render(args) => {
                 match backend {
                     Gfx => {
-                        {
-                            let ref mut gl = RenderContext::new(&mut renderer, &frame, &mut gfx2d);
-                            let c = graphics::Context::abs(
-                                args.width as f64,
-                                args.height as f64
-                            );
-                            c.color(settings::WATER_COLOR).draw(gl);
-                            app.render(&c, gl); 
-                        }
-                        device.submit(renderer.as_buffer());
-                        renderer.reset();
+                        let ref mut gl = RenderContext::new(&mut renderer, &frame, &mut gfx2d);
+                        let c = graphics::Context::abs(
+                            args.width as f64,
+                            args.height as f64
+                        );
+                        c.color(settings::WATER_COLOR).draw(gl);
+                        app.render(&c, gl); 
                     }
                     OpenGL => {
                         gl.viewport(0, 0, args.width as i32, args.height as i32);
