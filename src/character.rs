@@ -1,5 +1,5 @@
 
-use graphics::*;
+use piston::graphics::*;
 
 pub fn draw_character<B: BackEnd<I>, I: ImageSize>(
     tween_factor: f64, c: &ColorContext, gl: &mut B

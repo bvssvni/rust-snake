@@ -1,6 +1,5 @@
 #![feature(globs)]
 
-extern crate graphics;
 extern crate piston;
 extern crate rand;
 extern crate native;
@@ -8,6 +7,7 @@ extern crate sdl2_game_window;
 extern crate opengl_graphics;
 extern crate gfx_graphics;
 extern crate gfx;
+extern crate sdl2;
 
 use opengl_graphics::Gl;
 use gfx_graphics::{
@@ -16,7 +16,7 @@ use gfx_graphics::{
 use gfx::{Device, DeviceHelper};
 use gfx_graphics::RenderContext;
 use sdl2_game_window::WindowSDL2;
-use graphics::*;
+use piston::graphics::*;
 use piston::{
     EventIterator,
     EventSettings,
@@ -26,6 +26,7 @@ use piston::{
     Input,
 };
 use piston::input;
+use piston::{Window};
 
 mod snakeapp;
 mod object;
@@ -64,7 +65,12 @@ fn main() {
         }
     );
 
-    let (mut device, frame) = window.gfx();
+    let mut device = gfx::GlDevice::new(|s| unsafe {
+        std::mem::transmute(sdl2::video::gl_get_proc_address(s))
+    });
+    let (w, h) = window.get_size();
+    let frame = gfx::Frame::new(w as u16, h as u16);
+
     let mut renderer = device.create_renderer();
 
     let mut app = SnakeApp::new();
@@ -78,19 +84,24 @@ fn main() {
     let ref mut gl = Gl::new(opengl);
     let mut gfx2d = Gfx2d::new(&mut device);
     let mut fps_counter = piston::FPSCounter::new();
-    for e in event_iterator {
+    loop {
+        let e = match event_iterator.next() {
+                None => { break; }
+                Some(e) => e
+            };
+
         match e {
             Render(args) => {
                 match backend {
                     Gfx => {
                         {
-                            let ref mut gl = RenderContext::new(&mut renderer, &frame, &mut gfx2d);
-                            let c = graphics::Context::abs(
+                            let ref mut g = RenderContext::new(&mut renderer, &frame, &mut gfx2d);
+                            let c = Context::abs(
                                 args.width as f64,
                                 args.height as f64
                             );
-                            c.color(settings::WATER_COLOR).draw(gl);
-                            app.render(&c, gl); 
+                            c.color(settings::WATER_COLOR).draw(g);
+                            app.render(&c, g); 
                         }
                         device.submit(renderer.as_buffer());
                         renderer.reset();
@@ -98,7 +109,7 @@ fn main() {
                     OpenGL => {
                         gl.viewport(0, 0, args.width as i32, args.height as i32);
                         gl.clear_program();
-                        let c = graphics::Context::abs(
+                        let c = Context::abs(
                             args.width as f64, 
                             args.height as f64
                         );

@@ -1,5 +1,5 @@
 // Extern crates.
-use graphics::*;
+use piston::graphics::*;
 use piston::input::keyboard;
 
 // Local crate.
@@ -255,7 +255,7 @@ impl SnakeApp {
         // Update states of objects.
         let player_pos = self.player_pos();
         let mut attack_damage: f64 = 0.0;
-        for obj in self.objects.mut_iter() {
+        for obj in self.objects.iter_mut() {
             match obj.update(dt, player_pos) {
                 action::Passive => {},
                 action::Attack(attack) => { attack_damage += attack; },
@@ -297,7 +297,7 @@ impl SnakeApp {
     fn fill_air(&mut self) {
         let player_pos = self.player_pos();
         let mut air = self.player_air();
-        for obj in self.objects.mut_iter() {
+        for obj in self.objects.iter_mut() {
             let pos = obj.pos;
             match obj.air_bottle_mut() {
                 None => {},

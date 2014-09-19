@@ -1,6 +1,6 @@
 // External crates.
-use graphics::*;
-use graphics::interpolation::{lerp_4};
+use piston::graphics::*;
+use piston::graphics::interpolation::{lerp_4};
 
 // Local crate.
 use character;
