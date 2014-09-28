@@ -13,10 +13,14 @@ use opengl_graphics::Gl;
 use gfx_graphics::{
     Gfx2d,
 };
+use piston::graphics::{
+    AddColor,
+    Context,
+    Draw,
+};
 use gfx::{Device, DeviceHelper};
 use gfx_graphics::RenderContext;
 use sdl2_game_window::WindowSDL2;
-use piston::graphics::*;
 use piston::{
     EventIterator,
     EventSettings,
