@@ -10,9 +10,7 @@ extern crate gfx;
 extern crate sdl2;
 
 use opengl_graphics::Gl;
-use gfx_graphics::{
-    G2D,
-};
+use gfx_graphics::G2D;
 use piston::graphics::{
     AddColor,
     Context,
