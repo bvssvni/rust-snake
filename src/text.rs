@@ -1,3 +1,4 @@
+#![allow(non_uppercase_statics)]
 
 // External crates.
 use piston::graphics::*;
