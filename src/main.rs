@@ -11,7 +11,7 @@ extern crate sdl2;
 
 use opengl_graphics::Gl;
 use gfx_graphics::{
-    Gfx2d,
+    G2D,
 };
 use piston::graphics::{
     AddColor,
@@ -19,7 +19,6 @@ use piston::graphics::{
     Draw,
 };
 use gfx::{Device, DeviceHelper};
-use gfx_graphics::RenderContext;
 use sdl2_game_window::WindowSDL2;
 use piston::{
     EventIterator,
@@ -86,7 +85,7 @@ fn main() {
             max_frames_per_second: 60
         });
     let ref mut gl = Gl::new(opengl);
-    let mut gfx2d = Gfx2d::new(&mut device);
+    let mut g2d = G2D::new(&mut device);
     let mut fps_counter = piston::FPSCounter::new();
     loop {
         let e = match event_iterator.next() {
@@ -98,15 +97,10 @@ fn main() {
             Render(args) => {
                 match backend {
                     Gfx => {
-                        {
-                            let ref mut g = RenderContext::new(&mut renderer, &frame, &mut gfx2d);
-                            let c = Context::abs(
-                                args.width as f64,
-                                args.height as f64
-                            );
+                        g2d.render(&mut renderer, &frame, |c, g| {
                             c.color(settings::WATER_COLOR).draw(g);
                             app.render(&c, g); 
-                        }
+                        });
                         device.submit(renderer.as_buffer());
                         renderer.reset();
                     }
