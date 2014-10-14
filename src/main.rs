@@ -49,7 +49,7 @@ pub enum GraphicsBackEnd {
 
 fn main() {
     use snakeapp::SnakeApp;
-    
+
     let mut backend = Gfx;
     println!("Running with graphics backend {}", backend);
     println!("Use 'S' to swap back-end");
@@ -95,9 +95,9 @@ fn main() {
             Render(args) => {
                 match backend {
                     Gfx => {
-                        g2d.render(&mut renderer, &frame, |c, g| {
+                        g2d.draw(&mut renderer, &frame, |c: Context, g| {
                             c.color(settings::WATER_COLOR).draw(g);
-                            app.render(&c, g); 
+                            app.render(&c, g);
                         });
                         device.submit(renderer.as_buffer());
                         renderer.reset();
@@ -106,11 +106,11 @@ fn main() {
                         gl.viewport(0, 0, args.width as i32, args.height as i32);
                         gl.clear_program();
                         let c = Context::abs(
-                            args.width as f64, 
+                            args.width as f64,
                             args.height as f64
                         );
                         c.color(settings::WATER_COLOR).draw(gl);
-                        app.render(&c, gl); 
+                        app.render(&c, gl);
                     }
                 };
 
@@ -135,4 +135,3 @@ fn main() {
         }
     }
 }
-
