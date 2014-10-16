@@ -28,6 +28,7 @@ use piston::{
 };
 use piston::input;
 use piston::{Window};
+use piston::event::fps_counter::FPSCounter;
 
 mod snakeapp;
 mod object;
@@ -84,7 +85,7 @@ fn main() {
         });
     let ref mut gl = Gl::new(opengl);
     let mut g2d = G2D::new(&mut device);
-    let mut fps_counter = piston::FPSCounter::new();
+    let mut fps_counter = FPSCounter::new();
     loop {
         let e = match event_iterator.next() {
                 None => { break; }
