@@ -1,6 +1,6 @@
 // Extern crates.
-use piston::graphics::*;
-use piston::input::keyboard;
+use graphics::*;
+use input::keyboard;
 
 // Local crate.
 use action;

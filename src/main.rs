@@ -1,6 +1,9 @@
 #![feature(globs)]
 
-extern crate piston;
+extern crate input;
+extern crate shader_version;
+extern crate event;
+extern crate graphics;
 extern crate rand;
 extern crate native;
 extern crate sdl2_game_window;
@@ -11,24 +14,18 @@ extern crate sdl2;
 
 use opengl_graphics::Gl;
 use gfx_graphics::G2D;
-use piston::graphics::{
-    AddColor,
-    Context,
-    Draw,
-};
 use gfx::{Device, DeviceHelper};
 use sdl2_game_window::WindowSDL2;
-use piston::{
+use event::{
     EventIterator,
     EventSettings,
+    Window,
     WindowSettings,
     Render,
     Update,
     Input,
 };
-use piston::input;
-use piston::{Window};
-use piston::event::fps_counter::FPSCounter;
+use event::fps_counter::FPSCounter;
 
 mod snakeapp;
 mod object;
@@ -55,7 +52,7 @@ fn main() {
     println!("Running with graphics backend {}", backend);
     println!("Use 'S' to swap back-end");
 
-    let opengl = piston::shader_version::opengl::OpenGL_3_2;
+    let opengl = shader_version::opengl::OpenGL_3_2;
     let mut window = WindowSDL2::new(
         opengl,
         WindowSettings {
@@ -96,7 +93,8 @@ fn main() {
             Render(args) => {
                 match backend {
                     Gfx => {
-                        g2d.draw(&mut renderer, &frame, |c: Context, g| {
+                        g2d.draw(&mut renderer, &frame, |c, g| {
+                            use graphics::*;
                             c.color(settings::WATER_COLOR).draw(g);
                             app.render(&c, g);
                         });
@@ -104,6 +102,7 @@ fn main() {
                         renderer.reset();
                     }
                     OpenGL => {
+                        use graphics::*;
                         gl.viewport(0, 0, args.width as i32, args.height as i32);
                         gl.clear_program();
                         let c = Context::abs(

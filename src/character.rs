@@ -1,6 +1,6 @@
 #![allow(non_uppercase_statics)]
 
-use piston::graphics::*;
+use graphics::*;
 
 pub fn draw_character<B: BackEnd<I>, I: ImageSize>(
     tween_factor: f64, c: &ColorContext, gl: &mut B

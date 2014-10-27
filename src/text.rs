@@ -1,7 +1,7 @@
 #![allow(non_uppercase_statics)]
 
 // External crates.
-use piston::graphics::*;
+use graphics::*;
 
 static top_face_down: &'static [[f64, ..2]] = &[
     [18.0, 24.0],
