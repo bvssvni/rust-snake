@@ -368,7 +368,7 @@ impl Object {
 
         // Move object.
         match self.data {
-            SnakeData(Snake { state: state, ..}) => { 
+            SnakeData(Snake { state, .. }) => { 
                 self.move_snake(state, player_dx, player_dy);
             },
             _ => {},

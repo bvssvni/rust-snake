@@ -2,7 +2,7 @@
 
 name = "rust-snake"
 version = "0.0.0"
-authors = ["Your Name <your@email.com>"]
+authors = ["bvssvni <bvssvni@gmail.com>"]
 tags = []
 
 [profile.dev]
@@ -18,9 +18,9 @@ debug = false
 name = "rust-snake"
 path = "src/main.rs"
 
-[dependencies.sdl2_game_window]
+[dependencies.sdl2_window]
 
-git = "https://github.com/PistonDevelopers/sdl2_game_window.git"
+git = "https://github.com/PistonDevelopers/sdl2_window.git"
 
 [dependencies.gfx_graphics]
 

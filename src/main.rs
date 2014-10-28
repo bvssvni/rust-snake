@@ -7,7 +7,7 @@ extern crate event;
 extern crate graphics;
 extern crate rand;
 extern crate native;
-extern crate sdl2_game_window;
+extern crate sdl2_window;
 extern crate opengl_graphics;
 extern crate gfx_graphics;
 extern crate gfx;
@@ -16,7 +16,7 @@ extern crate sdl2;
 use opengl_graphics::Gl;
 use gfx_graphics::G2D;
 use gfx::{Device, DeviceHelper};
-use sdl2_game_window::WindowSDL2;
+use sdl2_window::Sdl2Window;
 use event::{
     EventIterator,
     EventSettings,
@@ -54,7 +54,7 @@ fn main() {
     println!("Use 'S' to swap back-end");
 
     let opengl = shader_version::opengl::OpenGL_3_2;
-    let mut window = WindowSDL2::new(
+    let mut window = Sdl2Window::new(
         opengl,
         WindowSettings {
             title: "Sea Snake Escape".to_string(),
