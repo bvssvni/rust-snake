@@ -1,5 +1,6 @@
 #![feature(globs)]
 
+extern crate fps_counter;
 extern crate input;
 extern crate shader_version;
 extern crate event;
@@ -25,7 +26,7 @@ use event::{
     Update,
     Input,
 };
-use event::fps_counter::FPSCounter;
+use fps_counter::FPSCounter;
 
 mod snakeapp;
 mod object;

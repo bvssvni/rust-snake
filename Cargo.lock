@@ -2,6 +2,7 @@
 name = "rust-snake"
 version = "0.0.0"
 dependencies = [
+ "fps_counter 0.0.0 (git+https://github.com/PistonDevelopers/fps_counter#01dbafa20cc92c2b752f64326395b992a673bd29)",
  "gfx_graphics 0.0.0 (git+https://github.com/PistonDevelopers/gfx_graphics.git#94b20ef447db70496ac85fad227156b662125e54)",
  "opengl_graphics 0.0.0 (git+https://github.com/PistonDevelopers/opengl_graphics.git#4a815e0ba92c0879d87855af4f0bdbeb78398900)",
  "sdl2_game_window 0.0.0 (git+https://github.com/PistonDevelopers/sdl2_game_window.git#2c83eb91d2be0fcefb4432cf10ac6f6bb5e621cf)",
@@ -18,10 +19,15 @@ dependencies = [
 [[package]]
 name = "event"
 version = "0.0.0"
-source = "git+https://github.com/pistondevelopers/event#09c4ebe29884f7190339480a1ef21189ad660c2a"
+source = "git+https://github.com/pistondevelopers/event#334187921647fd4966614ad324733d7b5572fd5c"
 dependencies = [
- "input 0.0.0 (git+https://github.com/pistondevelopers/input#17ca9c4a96cf56b3c3c5c01824ee237e37542b00)",
+ "input 0.0.0 (git+https://github.com/PistonDevelopers/input#17ca9c4a96cf56b3c3c5c01824ee237e37542b00)",
 ]
+
+[[package]]
+name = "fps_counter"
+version = "0.0.0"
+source = "git+https://github.com/PistonDevelopers/fps_counter#01dbafa20cc92c2b752f64326395b992a673bd29"
 
 [[package]]
 name = "gfx"
@@ -90,7 +96,7 @@ source = "git+https://github.com/pistondevelopers/image#9341e49299dccc7b9c3b300c
 [[package]]
 name = "input"
 version = "0.0.0"
-source = "git+https://github.com/pistondevelopers/input#17ca9c4a96cf56b3c3c5c01824ee237e37542b00"
+source = "git+https://github.com/PistonDevelopers/input#17ca9c4a96cf56b3c3c5c01824ee237e37542b00"
 
 [[package]]
 name = "khronos_api"
@@ -131,9 +137,9 @@ name = "sdl2_game_window"
 version = "0.0.0"
 source = "git+https://github.com/PistonDevelopers/sdl2_game_window.git#2c83eb91d2be0fcefb4432cf10ac6f6bb5e621cf"
 dependencies = [
- "event 0.0.0 (git+https://github.com/pistondevelopers/event#09c4ebe29884f7190339480a1ef21189ad660c2a)",
+ "event 0.0.0 (git+https://github.com/pistondevelopers/event#334187921647fd4966614ad324733d7b5572fd5c)",
  "gl 0.0.1 (git+https://github.com/bjz/gl-rs#c78c3b02e99c06ff978b39a400b9b37004714662)",
- "input 0.0.0 (git+https://github.com/pistondevelopers/input#17ca9c4a96cf56b3c3c5c01824ee237e37542b00)",
+ "input 0.0.0 (git+https://github.com/PistonDevelopers/input#17ca9c4a96cf56b3c3c5c01824ee237e37542b00)",
  "sdl2 0.0.1-alpha.1 (git+https://github.com/AngryLawyer/rust-sdl2#eaf9b4c60a7b333e557ef6c02abfb8bc758d4092)",
  "shader_version 0.0.0 (git+https://github.com/pistondevelopers/shader_version#c561d15e7d3a561271222daefe073054f5d62b8c)",
 ]
