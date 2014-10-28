@@ -27,3 +27,8 @@ In the Terminal window, navigate to the project folder and type:
 ```
 cargo run
 ```
+
+## Dependencies
+
+![dependencies](./Cargo.png)
+
