@@ -1,4 +1,4 @@
-#![allow(non_uppercase_statics)]
+#![allow(non_upper_case_globals)]
 
 // External crates.
 use graphics::*;
@@ -342,7 +342,7 @@ pub fn text<B: BackEnd<I>, I: ImageSize>(
             'w' => {w_letter(d, gl); x += jump_x;},
             'y' => {y_letter(d, gl); x += jump_x;},
             '\n' => {x = 0.0; y += jump_y;},
-            ch => fail!("{} is not implemented!", ch),
+            ch => panic!("{} is not implemented!", ch),
         };
     }
 }

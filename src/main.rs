@@ -1,5 +1,6 @@
 #![feature(globs)]
 
+extern crate current;
 extern crate fps_counter;
 extern crate input;
 extern crate shader_version;
@@ -13,18 +14,15 @@ extern crate gfx_graphics;
 extern crate gfx;
 extern crate sdl2;
 
+use current::{ Get };
+use std::cell::RefCell;
 use opengl_graphics::Gl;
 use gfx_graphics::G2D;
 use gfx::{Device, DeviceHelper};
 use sdl2_window::Sdl2Window;
 use event::{
-    EventIterator,
-    EventSettings,
-    Window,
-    WindowSettings,
-    Render,
-    Update,
-    Input,
+    Events, WindowSettings,
+    Render, Update, Input,
 };
 use fps_counter::FPSCounter;
 
@@ -54,7 +52,7 @@ fn main() {
     println!("Use 'S' to swap back-end");
 
     let opengl = shader_version::opengl::OpenGL_3_2;
-    let mut window = Sdl2Window::new(
+    let window = Sdl2Window::new(
         opengl,
         WindowSettings {
             title: "Sea Snake Escape".to_string(),
@@ -68,7 +66,7 @@ fn main() {
     let mut device = gfx::GlDevice::new(|s| unsafe {
         std::mem::transmute(sdl2::video::gl_get_proc_address(s))
     });
-    let (w, h) = window.get_size();
+    let event::window::Size([w, h]) = window.get();
     let frame = gfx::Frame::new(w as u16, h as u16);
 
     let mut renderer = device.create_renderer();
@@ -76,20 +74,11 @@ fn main() {
     let mut app = SnakeApp::new();
     app.load();
 
-    let mut event_iterator = EventIterator::new(&mut window,
-        &EventSettings {
-            updates_per_second: 120,
-            max_frames_per_second: 60
-        });
     let ref mut gl = Gl::new(opengl);
     let mut g2d = G2D::new(&mut device);
     let mut fps_counter = FPSCounter::new();
-    loop {
-        let e = match event_iterator.next() {
-                None => { break; }
-                Some(e) => e
-            };
-
+    let ref window = RefCell::new(window);
+    for e in Events::new(window) {
         match e {
             Render(args) => {
                 match backend {
@@ -115,7 +104,7 @@ fn main() {
                     }
                 };
 
-                event_iterator.window.window.set_title(fps_counter.tick().to_string().as_slice());
+                window.borrow_mut().window.set_title(fps_counter.tick().to_string().as_slice());
             },
             Update(args) => {
                 app.update(args.dt);

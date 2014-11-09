@@ -65,8 +65,8 @@ impl Snake {
                 let dy = dy / d;
                 let dx = dx * (dist - d);
                 let dy = dy * (dist - d);
-                *self.tail.get_mut(i * 2) -= dx;
-                *self.tail.get_mut(i * 2 + 1) -= dy;
+                self.tail[i * 2] -= dx;
+                self.tail[i * 2 + 1] -= dy;
             }
 
             x = x2;

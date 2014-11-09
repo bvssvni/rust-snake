@@ -115,16 +115,16 @@ impl SnakeApp {
 
         match (key, self.player_index) {
             (keyboard::Right, Some(player_index)) => {
-                self.objects.get_mut(player_index).move_right();
+                self.objects[player_index].move_right();
             },
             (keyboard::Up, Some(player_index)) => {
-                self.objects.get_mut(player_index).move_up();
+                self.objects[player_index].move_up();
             },
             (keyboard::Left, Some(player_index)) => {
-                self.objects.get_mut(player_index).move_left();
+                self.objects[player_index].move_left();
             },
             (keyboard::Down, Some(player_index)) => {
-                self.objects.get_mut(player_index).move_down();
+                self.objects[player_index].move_down();
             },
             _ => {},
         }
@@ -203,7 +203,7 @@ impl SnakeApp {
         // Show blood.
         let player_blood = self.player_blood();
         let blood_bar_index = self.blood_bar_index.unwrap();
-        let blood_bar = self.objects.get_mut(blood_bar_index);
+        let blood_bar = self.objects.get_mut(blood_bar_index).unwrap();
         match blood_bar.data {
             object::BarData(ref mut bar) => {
                 bar.value = player_blood;
@@ -217,7 +217,7 @@ impl SnakeApp {
         // Show air.
         let player_air = self.player_air();
         let air_bar_index = self.air_bar_index.unwrap();
-        let air_bar = self.objects.get_mut(air_bar_index);
+        let air_bar = self.objects.get_mut(air_bar_index).unwrap();
         match air_bar.data {
             object::BarData(ref mut bar) => {
                 bar.value = player_air;
@@ -286,12 +286,12 @@ impl SnakeApp {
 
     fn set_player_air(&mut self, val: f64) {
         let player_index = self.player_index.unwrap();
-        *self.objects.get_mut(player_index).air_mut().unwrap() = val;
+        *self.objects[player_index].air_mut().unwrap() = val;
     }
 
     fn bite_player(&mut self, damage: f64) {
         let player_index = self.player_index.unwrap();
-        self.objects.get_mut(player_index).player_mut().unwrap().bite(damage);
+        self.objects[player_index].player_mut().unwrap().bite(damage);
     }
 
     fn fill_air(&mut self) {
