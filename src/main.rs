@@ -14,7 +14,7 @@ extern crate gfx_graphics;
 extern crate gfx;
 extern crate sdl2;
 
-use current::{ Get };
+use current::{ Get, Set };
 use std::cell::RefCell;
 use opengl_graphics::Gl;
 use gfx_graphics::G2D;
@@ -24,6 +24,7 @@ use event::{
     Events, WindowSettings,
     Render, Update, Input,
 };
+use event::window::{ Title };
 use fps_counter::FPSCounter;
 
 mod snakeapp;
@@ -77,7 +78,7 @@ fn main() {
     let ref mut gl = Gl::new(opengl);
     let mut g2d = G2D::new(&mut device);
     let mut fps_counter = FPSCounter::new();
-    let ref window = RefCell::new(window);
+    let mut window = &RefCell::new(window);
     for e in Events::new(window) {
         match e {
             Render(args) => {
@@ -104,7 +105,7 @@ fn main() {
                     }
                 };
 
-                window.borrow_mut().window.set_title(fps_counter.tick().to_string().as_slice());
+                window.set_mut(Title(fps_counter.tick().to_string()));
             },
             Update(args) => {
                 app.update(args.dt);

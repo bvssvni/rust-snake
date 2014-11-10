@@ -11,7 +11,7 @@ dependencies = [
 [[package]]
 name = "current"
 version = "0.0.0"
-source = "git+https://github.com/PistonDevelopers/current#607d6028ae101ea77fae23b17e8f1c83e5d3231a"
+source = "git+https://github.com/PistonDevelopers/current#3195c8e3cf1ab24da9f2a9a586a2177dbd65ee7a"
 
 [[package]]
 name = "device"
@@ -24,7 +24,7 @@ dependencies = [
 [[package]]
 name = "event"
 version = "0.0.0"
-source = "git+https://github.com/pistondevelopers/event#847128d1bb1c6e58b6fc7e869d2cb34f4d280190"
+source = "git+https://github.com/pistondevelopers/event#d833bf8f0c162b0fb0216d637097cd7af090f0a1"
 dependencies = [
  "current 0.0.0 (git+https://github.com/PistonDevelopers/current)",
  "input 0.0.0 (git+https://github.com/pistondevelopers/input)",
@@ -83,7 +83,7 @@ dependencies = [
 [[package]]
 name = "gl"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#79cd3b3f9f19aa0e39f6af572fc8673a6d9760bc"
+source = "git+https://github.com/bjz/gl-rs#8cc900ad44a8f8ac28d9a0402b49a472712966cb"
 dependencies = [
  "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs)",
 ]
@@ -91,12 +91,12 @@ dependencies = [
 [[package]]
 name = "gl_common"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#79cd3b3f9f19aa0e39f6af572fc8673a6d9760bc"
+source = "git+https://github.com/bjz/gl-rs#8cc900ad44a8f8ac28d9a0402b49a472712966cb"
 
 [[package]]
 name = "gl_generator"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#79cd3b3f9f19aa0e39f6af572fc8673a6d9760bc"
+source = "git+https://github.com/bjz/gl-rs#8cc900ad44a8f8ac28d9a0402b49a472712966cb"
 dependencies = [
  "gl_common 0.0.1 (git+https://github.com/bjz/gl-rs)",
  "khronos_api 0.0.1 (git+https://github.com/bjz/gl-rs)",
@@ -125,7 +125,7 @@ source = "git+https://github.com/pistondevelopers/input#27bfb0e86d6f01c26098eab2
 [[package]]
 name = "khronos_api"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#79cd3b3f9f19aa0e39f6af572fc8673a6d9760bc"
+source = "git+https://github.com/bjz/gl-rs#8cc900ad44a8f8ac28d9a0402b49a472712966cb"
 
 [[package]]
 name = "opengl_graphics"
@@ -160,7 +160,7 @@ source = "git+https://github.com/AngryLawyer/rust-sdl2#93cc0d4184b3f66dbced0e467
 [[package]]
 name = "sdl2_window"
 version = "0.0.0"
-source = "git+https://github.com/PistonDevelopers/sdl2_window.git#41460b8364c9c6d19a1994e51be6e66d8da01664"
+source = "git+https://github.com/PistonDevelopers/sdl2_window.git#71afa6573f03d49f9cb23d819ff819f5974df13c"
 dependencies = [
  "event 0.0.0 (git+https://github.com/pistondevelopers/event)",
  "gl 0.0.1 (git+https://github.com/bjz/gl-rs)",
