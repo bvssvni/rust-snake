@@ -105,10 +105,6 @@ fn swap_backend<E: event::GenericEvent>(e: &E) {
     });
 }
 
-fn set_title(text: String) {
-    current_window().set_mut(Title(text));
-}
-
 fn events() -> event::Events<current::Usage<'static, Window>> {
     Events::new(current_window())
 }
@@ -152,7 +148,7 @@ fn start() {
                     }
                 };
 
-                set_title(fps_counter.tick().to_string());
+                current_window().set_mut(Title(fps_counter.tick().to_string()));
             },
             Update(args) => {
                 app.update(args.dt);
