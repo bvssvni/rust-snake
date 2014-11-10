@@ -1,6 +1,7 @@
 // Extern crates.
 use graphics::*;
 use input::keyboard;
+use current::{ Usage, UseCurrent };
 
 // Local crate.
 use action;
@@ -10,11 +11,28 @@ use object::Object;
 use text;
 use game_state;
 
+pub struct Cam(pub Option<[f64, ..2]>);
+
+pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
+
+impl Cam {
+    fn pos(&self) -> [f64, ..2] {
+        let Cam(pos) = *self;
+        match pos {
+            None => [0.0, 0.0],
+            Some(val) => val
+        }
+    }
+
+    fn set(&mut self, val: [f64, ..2]) {
+        *self = Cam(Some(val));
+    }
+}
+
 pub struct SnakeApp {
     // Tells where the surface is.
     surface_y: Option<f64>,
     game_state: Option<game_state::GameState>,
-    camera_pos: Option<[f64, ..2]>,
     camera_follow_percentage: Option<f64>,
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
@@ -30,10 +48,8 @@ impl SnakeApp {
         let c = &c.reset();
 
         // Get camera coordinates.
-        let (cam_x, cam_y) = if self.camera_pos.is_some() {
-                let camera_pos = self.camera_pos.unwrap();
-                (camera_pos[0], camera_pos[1] + 0.4)
-            } else { (0.0, 0.0) };
+        let [cam_x, mut cam_y] = current_cam().pos();
+        cam_y += 0.4;
 
         // Render surface.
         let surface_y = self.surface_y.unwrap();
@@ -84,7 +100,7 @@ impl SnakeApp {
 
     pub fn load(&mut self) {
         self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
-        self.camera_pos = Some(settings::INITIAL_CAMERA_POS);
+        current_cam().set(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
         self.game_state = Some(settings::INITIAL_GAME_STATE);
 
@@ -141,7 +157,6 @@ impl SnakeApp {
 
     pub fn new() -> SnakeApp {
         SnakeApp {
-            camera_pos: None,
             camera_follow_percentage: None,
             game_state: None,
             surface_y: None,
@@ -187,15 +202,14 @@ impl SnakeApp {
     }
 
     fn follow_player(&mut self, dt: f64) {
-        if self.camera_pos.is_none() { return; }
         // Make camera follow player.
-        let camera_pos = self.camera_pos.unwrap();
+        let camera_pos = current_cam().pos();
         let camera_follow_percentage = self.camera_follow_percentage.unwrap();
         let player_pos = self.player_pos();
         let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
         let dx = camera_follow_percentage * dt * dx;
         let dy = camera_follow_percentage * dt * dy;
-        self.camera_pos = Some([camera_pos[0] + dx, camera_pos[1] + dy]);
+        current_cam().set([camera_pos[0] + dx, camera_pos[1] + dy]);
     }
 
     fn show_blood(&mut self) {
@@ -317,4 +331,3 @@ impl SnakeApp {
         self.set_player_air(air);
     }
 }
-
