@@ -14,6 +14,8 @@ extern crate gfx_graphics;
 extern crate gfx;
 extern crate sdl2;
 
+pub use snakeapp::current_app;
+
 use current::{ Current, Get, Set, Usage, UseCurrent };
 use std::cell::RefCell;
 use opengl_graphics::Gl;
@@ -74,7 +76,7 @@ fn main() {
     let frame = gfx::Frame::new(w as u16, h as u16);
     let fps_counter = FPSCounter::new();
     let app = SnakeApp::new();
-    let cam = snakeapp::Cam(None);
+    let cam = snakeapp::Cam([0.0, 0.0]);
 
     let window = RefCell::new(window);
     let backend = RefCell::new(backend);
@@ -98,7 +100,7 @@ fn main() {
     let app_guard = app.set_current();
     let cam_guard = cam.set_current();
 
-    start();
+    snakeapp::app(|| start());
 
     drop(cam_guard);
     drop(app_guard);
@@ -113,23 +115,14 @@ fn main() {
 }
 
 fn current_window() -> Usage<'static, Window> { UseCurrent }
-
 fn current_gfx_device() -> Usage<'static, gfx::GlDevice> { UseCurrent }
-
 fn current_graphics_back_end() -> Usage<'static, GraphicsBackEnd> { UseCurrent }
-
 fn current_gl() -> Usage<'static, Gl> { UseCurrent }
-
 fn current_g2d() -> Usage<'static, G2D> { UseCurrent }
-
 fn current_renderer()
     -> Usage<'static, gfx::Renderer<gfx::GlCommandBuffer>> { UseCurrent }
-
 fn current_frame() -> Usage<'static, gfx::Frame> { UseCurrent }
-
 fn current_fps_counter() -> Usage<'static, FPSCounter> { UseCurrent }
-
-fn current_app() -> Usage<'static, SnakeApp> { UseCurrent }
 
 fn swap_backend<E: event::GenericEvent>(e: &E) {
     use event::{ PressEvent };

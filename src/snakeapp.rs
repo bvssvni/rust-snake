@@ -11,28 +11,50 @@ use object::Object;
 use text;
 use game_state;
 
-pub struct Cam(pub Option<[f64, ..2]>);
-
+pub fn current_app() -> Usage<'static, SnakeApp> { UseCurrent }
 pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
+pub fn current_game_state()
+    -> Usage<'static, game_state::GameState> { UseCurrent }
+
+pub fn app(f: ||) {
+    use std::cell::RefCell;
+    use current::Current;
+
+    let app = SnakeApp::new();
+    let cam = Cam([0.0, 0.0]);
+    let game_state = game_state::Play;
+
+    let app = RefCell::new(app);
+    let cam = RefCell::new(cam);
+    let game_state = RefCell::new(game_state);
+
+    let app_guard = app.set_current();
+    let cam_guard = cam.set_current();
+    let game_state_guard = game_state.set_current();
+
+    f();
+
+    drop(game_state_guard);
+    drop(app_guard);
+    drop(cam_guard);
+}
+
+pub struct Cam(pub [f64, ..2]);
 
 impl Cam {
     fn pos(&self) -> [f64, ..2] {
         let Cam(pos) = *self;
-        match pos {
-            None => [0.0, 0.0],
-            Some(val) => val
-        }
+        pos
     }
 
     fn set(&mut self, val: [f64, ..2]) {
-        *self = Cam(Some(val));
+        *self = Cam(val);
     }
 }
 
 pub struct SnakeApp {
     // Tells where the surface is.
     surface_y: Option<f64>,
-    game_state: Option<game_state::GameState>,
     camera_follow_percentage: Option<f64>,
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
@@ -65,7 +87,7 @@ impl SnakeApp {
 
         let text_c = c.flip_v();
         let text_c = text_c.zoom(0.0025);
-        match self.game_state.unwrap() {
+        match *current_game_state() {
             game_state::Win => {
                 let pos = settings::YOU_WIN_POS;
                 text::text(settings::YOU_WIN_TEXT,
@@ -102,7 +124,7 @@ impl SnakeApp {
         self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
         current_cam().set(settings::INITIAL_CAMERA_POS);
         self.surface_y = Some(settings::SURFACE_Y);
-        self.game_state = Some(settings::INITIAL_GAME_STATE);
+        *current_game_state() = settings::INITIAL_GAME_STATE;
 
         // Add player.
         self.objects.push(Object::player(
@@ -127,7 +149,7 @@ impl SnakeApp {
     }
 
     pub fn key_press(&mut self, key: keyboard::Key) {
-        if self.game_state.unwrap() != game_state::Play { return; }
+        if *current_game_state() != game_state::Play { return; }
 
         match (key, self.player_index) {
             (keyboard::Right, Some(player_index)) => {
@@ -148,7 +170,7 @@ impl SnakeApp {
 
     pub fn key_release(&mut self, key: keyboard::Key) {
         if key == keyboard::Return || key == keyboard::Space {
-            match self.game_state.unwrap() {
+            match *current_game_state() {
                 game_state::Win | game_state::Lose => self.restart(),
                 _ => {},
             }
@@ -158,7 +180,6 @@ impl SnakeApp {
     pub fn new() -> SnakeApp {
         SnakeApp {
             camera_follow_percentage: None,
-            game_state: None,
             surface_y: None,
             objects: Vec::new(),
             player_index: None,
@@ -244,7 +265,7 @@ impl SnakeApp {
         let player_pos = self.player_pos();
         // When player reaches surface, win.
         if player_pos[1] >= self.surface_y.unwrap() {
-            self.game_state = Some(game_state::Win);
+            *current_game_state() = game_state::Win;
             return;
         }
     }
@@ -253,7 +274,7 @@ impl SnakeApp {
         let blood = self.player_blood();
         let air = self.player_air();
         if blood < 0.0 || air < 0.0 {
-            self.game_state = Some(game_state::Lose);
+            *current_game_state() = game_state::Lose;
             return;
         }
     }
@@ -264,7 +285,7 @@ impl SnakeApp {
     }
 
     fn update_objects(&mut self, dt: f64) {
-        if self.game_state.unwrap() != game_state::Play { return; }
+        if *current_game_state() != game_state::Play { return; }
 
         // Update states of objects.
         let player_pos = self.player_pos();
