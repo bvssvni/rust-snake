@@ -16,6 +16,7 @@ pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
 pub fn current_game_state()
     -> Usage<'static, game_state::GameState> { UseCurrent }
 pub fn current_objects() -> Usage<'static, Vec<Object>> { UseCurrent }
+pub fn current_index() -> Usage<'static, Index> { UseCurrent }
 
 pub fn app(f: ||) {
     use std::cell::RefCell;
@@ -25,19 +26,23 @@ pub fn app(f: ||) {
     let cam = Cam([0.0, 0.0]);
     let game_state = game_state::Play;
     let objects: Vec<Object> = Vec::new();
+    let index = Index::new();
 
     let app = RefCell::new(app);
     let cam = RefCell::new(cam);
     let game_state = RefCell::new(game_state);
     let objects = RefCell::new(objects);
+    let index = RefCell::new(index);
 
     let app_guard = app.set_current();
     let cam_guard = cam.set_current();
     let game_state_guard = game_state.set_current();
     let objects_guard = objects.set_current();
+    let index_guard = index.set_current();
 
     f();
 
+    drop(index_guard);
     drop(objects_guard);
     drop(game_state_guard);
     drop(app_guard);
@@ -57,13 +62,26 @@ impl Cam {
     }
 }
 
+pub struct Index {
+    pub player: Option<uint>,
+    pub blood_bar: Option<uint>,
+    pub air_bar: Option<uint>,
+}
+
+impl Index {
+    pub fn new() -> Index {
+        Index {
+            player: None,
+            blood_bar: None,
+            air_bar: None
+        }
+    }
+}
+
 pub struct SnakeApp {
     // Tells where the surface is.
     surface_y: Option<f64>,
     camera_follow_percentage: Option<f64>,
-    player_index: Option<uint>,
-    blood_bar_index: Option<uint>,
-    air_bar_index: Option<uint>,
 }
 
 impl SnakeApp {
@@ -139,7 +157,7 @@ impl SnakeApp {
             [settings::PLAYER_ACCELERATION_UP, settings::PLAYER_ACCELERATION_DOWN]
         ));
         current_objects().push(Object::bar_background());
-        self.player_index = Some(0);
+        current_index().player = Some(0);
 
         // Add blood and air bar.
         self.add_bars();
@@ -154,7 +172,7 @@ impl SnakeApp {
     pub fn key_press(&mut self, key: keyboard::Key) {
         if *current_game_state() != game_state::Play { return; }
 
-        match (key, self.player_index) {
+        match (key, current_index().player) {
             (keyboard::Right, Some(player_index)) => {
                 current_objects()[player_index].move_right();
             },
@@ -184,9 +202,6 @@ impl SnakeApp {
         SnakeApp {
             camera_follow_percentage: None,
             surface_y: None,
-            player_index: None,
-            blood_bar_index: None,
-            air_bar_index: None,
         }
     }
 
@@ -200,7 +215,7 @@ impl SnakeApp {
             settings::AIR_BAR_BAR_COLOR,
             settings::AIR_BAR_INITIAL_VALUE
         ));
-        self.air_bar_index = Some(objects.len() - 1);
+        current_index().air_bar = Some(objects.len() - 1);
         objects.push(Object::bar(
             settings::BLOOD_BAR_POS,
             "blood",
@@ -209,7 +224,7 @@ impl SnakeApp {
             settings::BLOOD_BAR_BAR_COLOR,
             settings::BLOOD_BAR_INITIAL_VALUE
         ));
-        self.blood_bar_index = Some(objects.len() - 1);
+        current_index().blood_bar = Some(objects.len() - 1);
     }
 
     pub fn add_snakes(&mut self) {
@@ -240,10 +255,10 @@ impl SnakeApp {
     }
 
     fn show_blood(&mut self) {
-        if self.blood_bar_index == None { return; }
+        if current_index().blood_bar == None { return; }
         // Show blood.
         let player_blood = self.player_blood();
-        let blood_bar_index = self.blood_bar_index.unwrap();
+        let blood_bar_index = current_index().blood_bar.unwrap();
         let objects = &mut *current_objects();
         let blood_bar = objects.get_mut(blood_bar_index).unwrap();
         match blood_bar.data {
@@ -255,10 +270,10 @@ impl SnakeApp {
     }
 
     fn show_air(&mut self) {
-        if self.air_bar_index == None { return; }
+        if current_index().air_bar == None { return; }
         // Show air.
         let player_air = self.player_air();
-        let air_bar_index = self.air_bar_index.unwrap();
+        let air_bar_index = current_index().air_bar.unwrap();
         let objects = &mut *current_objects();
         let ref mut air_bar = objects.get_mut(air_bar_index).unwrap();
         match air_bar.data {
@@ -313,27 +328,27 @@ impl SnakeApp {
     }
 
     fn player_pos(&self) -> [f64, ..2] {
-        let player_index = self.player_index.unwrap();
+        let player_index = current_index().player.unwrap();
         current_objects()[player_index].pos
     }
 
     fn player_blood(&self) -> f64 {
-        let player_index = self.player_index.unwrap();
+        let player_index = current_index().player.unwrap();
         current_objects()[player_index].blood().unwrap()
     }
 
     fn player_air(&self) -> f64 {
-        let player_index = self.player_index.unwrap();
+        let player_index = current_index().player.unwrap();
         current_objects()[player_index].air().unwrap()
     }
 
     fn set_player_air(&mut self, val: f64) {
-        let player_index = self.player_index.unwrap();
+        let player_index = current_index().player.unwrap();
         *current_objects()[player_index].air_mut().unwrap() = val;
     }
 
     fn bite_player(&mut self, damage: f64) {
-        let player_index = self.player_index.unwrap();
+        let player_index = current_index().player.unwrap();
         current_objects()[player_index].player_mut().unwrap().bite(damage);
     }
 
