@@ -1,4 +1,5 @@
 #![feature(globs)]
+#![feature(if_let)]
 
 extern crate current;
 extern crate fps_counter;
@@ -14,21 +15,15 @@ extern crate gfx_graphics;
 extern crate gfx;
 extern crate sdl2;
 
-pub use snakeapp::current_app;
-
 use current::{ Current, Get, Set, Usage, UseCurrent };
 use std::cell::RefCell;
 use opengl_graphics::Gl;
 use gfx_graphics::G2D;
 use gfx::{Device, DeviceHelper};
 use sdl2_window::Sdl2Window as Window;
-use event::{
-    Events, WindowSettings,
-    Render, Update, Input,
-};
+use event::{ Events, WindowSettings };
 use event::window::{ Title };
 use fps_counter::FPSCounter;
-use snakeapp::SnakeApp;
 
 mod snakeapp;
 mod object;
@@ -75,8 +70,6 @@ fn main() {
     let event::window::Size([w, h]) = window.get();
     let frame = gfx::Frame::new(w as u16, h as u16);
     let fps_counter = FPSCounter::new();
-    let app = SnakeApp::new();
-    let cam = snakeapp::Cam([0.0, 0.0]);
 
     let window = RefCell::new(window);
     let backend = RefCell::new(backend);
@@ -86,8 +79,6 @@ fn main() {
     let renderer = RefCell::new(renderer);
     let frame = RefCell::new(frame);
     let fps_counter = RefCell::new(fps_counter);
-    let app = RefCell::new(app);
-    let cam = RefCell::new(cam);
 
     let window_guard = window.set_current();
     let backend_guard = backend.set_current();
@@ -97,21 +88,17 @@ fn main() {
     let renderer_guard = renderer.set_current();
     let frame_guard = frame.set_current();
     let fps_counter = fps_counter.set_current();
-    let app_guard = app.set_current();
-    let cam_guard = cam.set_current();
 
-    snakeapp::app(|| start());
+    snakeapp::app();
 
-    drop(cam_guard);
-    drop(app_guard);
-    drop(fps_counter);
-    drop(frame_guard);
-    drop(renderer_guard);
-    drop(g2d_guard);
-    drop(gl_guard);
-    drop(device_guard);
-    drop(backend_guard);
     drop(window_guard);
+    drop(backend_guard);
+    drop(device_guard);
+    drop(gl_guard);
+    drop(g2d_guard);
+    drop(renderer_guard);
+    drop(frame_guard);
+    drop(fps_counter);
 }
 
 fn current_window() -> Usage<'static, Window> { UseCurrent }
@@ -140,14 +127,14 @@ fn events() -> event::Events<current::Usage<'static, Window>> {
     Events::new(current_window())
 }
 
-fn render(args: event::RenderArgs) {
+fn render(args: &event::RenderArgs) {
     match *current_graphics_back_end() {
         Gfx => {
             current_g2d().draw(&mut *current_renderer(),
                                &*current_frame(), |c, g| {
                 use graphics::*;
                 c.color(settings::WATER_COLOR).draw(g);
-                current_app().render(&c, g);
+                snakeapp::render(&c, g);
             });
             current_gfx_device().submit(current_renderer().as_buffer());
             current_renderer().reset();
@@ -162,32 +149,12 @@ fn render(args: event::RenderArgs) {
                 args.height as f64
             );
             c.color(settings::WATER_COLOR).draw(gl);
-            current_app().render(&c, gl);
+            snakeapp::render(&c, gl);
         }
     };
 }
 
-fn start() {
-    current_app().load();
-    for e in events() {
-        swap_backend(&e);
-        match e {
-            Render(args) => {
-                render(args);
-                // Show FPS.
-                current_window().set_mut(Title(
-                    current_fps_counter().tick().to_string()));
-            },
-            Update(args) => {
-                current_app().update(args.dt);
-            },
-            Input(input::Press(input::Keyboard(key))) => {
-                current_app().key_press(key);
-            },
-            Input(input::Release(input::Keyboard(key))) => {
-                current_app().key_release(key);
-            },
-            _ => {},
-        }
-    }
+fn fps_tick() {
+    current_window().set_mut(Title(
+        current_fps_counter().tick().to_string()));
 }
