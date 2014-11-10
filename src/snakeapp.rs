@@ -15,6 +15,7 @@ pub fn current_app() -> Usage<'static, SnakeApp> { UseCurrent }
 pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
 pub fn current_game_state()
     -> Usage<'static, game_state::GameState> { UseCurrent }
+pub fn current_objects() -> Usage<'static, Vec<Object>> { UseCurrent }
 
 pub fn app(f: ||) {
     use std::cell::RefCell;
@@ -23,17 +24,21 @@ pub fn app(f: ||) {
     let app = SnakeApp::new();
     let cam = Cam([0.0, 0.0]);
     let game_state = game_state::Play;
+    let objects: Vec<Object> = Vec::new();
 
     let app = RefCell::new(app);
     let cam = RefCell::new(cam);
     let game_state = RefCell::new(game_state);
+    let objects = RefCell::new(objects);
 
     let app_guard = app.set_current();
     let cam_guard = cam.set_current();
     let game_state_guard = game_state.set_current();
+    let objects_guard = objects.set_current();
 
     f();
 
+    drop(objects_guard);
     drop(game_state_guard);
     drop(app_guard);
     drop(cam_guard);
@@ -59,8 +64,6 @@ pub struct SnakeApp {
     player_index: Option<uint>,
     blood_bar_index: Option<uint>,
     air_bar_index: Option<uint>,
-    // Contains the game objects.
-    objects: Vec<Object>,
 }
 
 impl SnakeApp {
@@ -80,7 +83,7 @@ impl SnakeApp {
         // Render objects in layers.
         let cam = &c.trans(-cam_x, -cam_y);
         for i in range(0u, settings::NUMBER_OF_LAYERS) {
-            for obj in self.objects.iter() {
+            for obj in current_objects().iter() {
                 if obj.layer == i { obj.render(cam, c, gl); }
             }
         }
@@ -127,7 +130,7 @@ impl SnakeApp {
         *current_game_state() = settings::INITIAL_GAME_STATE;
 
         // Add player.
-        self.objects.push(Object::player(
+        current_objects().push(Object::player(
             settings::ORIGIN,
             settings::BLUE,
             settings::PLAYER_INITIAL_BLOOD,
@@ -135,7 +138,7 @@ impl SnakeApp {
             [settings::PLAYER_ACCELERATION_LEFT, settings::PLAYER_ACCELERATION_RIGHT],
             [settings::PLAYER_ACCELERATION_UP, settings::PLAYER_ACCELERATION_DOWN]
         ));
-        self.objects.push(Object::bar_background());
+        current_objects().push(Object::bar_background());
         self.player_index = Some(0);
 
         // Add blood and air bar.
@@ -153,16 +156,16 @@ impl SnakeApp {
 
         match (key, self.player_index) {
             (keyboard::Right, Some(player_index)) => {
-                self.objects[player_index].move_right();
+                current_objects()[player_index].move_right();
             },
             (keyboard::Up, Some(player_index)) => {
-                self.objects[player_index].move_up();
+                current_objects()[player_index].move_up();
             },
             (keyboard::Left, Some(player_index)) => {
-                self.objects[player_index].move_left();
+                current_objects()[player_index].move_left();
             },
             (keyboard::Down, Some(player_index)) => {
-                self.objects[player_index].move_down();
+                current_objects()[player_index].move_down();
             },
             _ => {},
         }
@@ -181,7 +184,6 @@ impl SnakeApp {
         SnakeApp {
             camera_follow_percentage: None,
             surface_y: None,
-            objects: Vec::new(),
             player_index: None,
             blood_bar_index: None,
             air_bar_index: None,
@@ -189,7 +191,8 @@ impl SnakeApp {
     }
 
     pub fn add_bars(&mut self) {
-        self.objects.push(Object::bar(
+        let objects = &mut *current_objects();
+        objects.push(Object::bar(
             settings::AIR_BAR_POS,
             "air",
             settings::AIR_BAR_TEXT_COLOR,
@@ -197,8 +200,8 @@ impl SnakeApp {
             settings::AIR_BAR_BAR_COLOR,
             settings::AIR_BAR_INITIAL_VALUE
         ));
-        self.air_bar_index = Some(self.objects.len() - 1);
-        self.objects.push(Object::bar(
+        self.air_bar_index = Some(objects.len() - 1);
+        objects.push(Object::bar(
             settings::BLOOD_BAR_POS,
             "blood",
             settings::BLOOD_BAR_TEXT_COLOR,
@@ -206,19 +209,22 @@ impl SnakeApp {
             settings::BLOOD_BAR_BAR_COLOR,
             settings::BLOOD_BAR_INITIAL_VALUE
         ));
-        self.blood_bar_index = Some(self.objects.len() - 1);
+        self.blood_bar_index = Some(objects.len() - 1);
     }
 
     pub fn add_snakes(&mut self) {
-        if settings::SNAKE_1_ADD { self.objects.push(Object::snake(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
-        if settings::SNAKE_2_ADD { self.objects.push(Object::snake(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
+        if settings::SNAKE_1_ADD { current_objects().push(
+            Object::snake(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
+        if settings::SNAKE_2_ADD { current_objects().push(
+            Object::snake(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
     }
 
     pub fn add_air_bottles(&mut self) {
         let air_bottles = settings::AIR_BOTTLE_POS;
         let n = air_bottles.len() / 2;
+        let objects = &mut *current_objects();
         for i in range(0, n) {
-            self.objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
+            objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
         }
     }
 
@@ -238,7 +244,8 @@ impl SnakeApp {
         // Show blood.
         let player_blood = self.player_blood();
         let blood_bar_index = self.blood_bar_index.unwrap();
-        let blood_bar = self.objects.get_mut(blood_bar_index).unwrap();
+        let objects = &mut *current_objects();
+        let blood_bar = objects.get_mut(blood_bar_index).unwrap();
         match blood_bar.data {
             object::BarData(ref mut bar) => {
                 bar.value = player_blood;
@@ -252,7 +259,8 @@ impl SnakeApp {
         // Show air.
         let player_air = self.player_air();
         let air_bar_index = self.air_bar_index.unwrap();
-        let air_bar = self.objects.get_mut(air_bar_index).unwrap();
+        let objects = &mut *current_objects();
+        let ref mut air_bar = objects.get_mut(air_bar_index).unwrap();
         match air_bar.data {
             object::BarData(ref mut bar) => {
                 bar.value = player_air;
@@ -290,7 +298,7 @@ impl SnakeApp {
         // Update states of objects.
         let player_pos = self.player_pos();
         let mut attack_damage: f64 = 0.0;
-        for obj in self.objects.iter_mut() {
+        for obj in current_objects().iter_mut() {
             match obj.update(dt, player_pos) {
                 action::Passive => {},
                 action::Attack(attack) => { attack_damage += attack; },
@@ -306,33 +314,33 @@ impl SnakeApp {
 
     fn player_pos(&self) -> [f64, ..2] {
         let player_index = self.player_index.unwrap();
-        self.objects[player_index].pos
+        current_objects()[player_index].pos
     }
 
     fn player_blood(&self) -> f64 {
         let player_index = self.player_index.unwrap();
-        self.objects[player_index].blood().unwrap()
+        current_objects()[player_index].blood().unwrap()
     }
 
     fn player_air(&self) -> f64 {
         let player_index = self.player_index.unwrap();
-        self.objects[player_index].air().unwrap()
+        current_objects()[player_index].air().unwrap()
     }
 
     fn set_player_air(&mut self, val: f64) {
         let player_index = self.player_index.unwrap();
-        *self.objects[player_index].air_mut().unwrap() = val;
+        *current_objects()[player_index].air_mut().unwrap() = val;
     }
 
     fn bite_player(&mut self, damage: f64) {
         let player_index = self.player_index.unwrap();
-        self.objects[player_index].player_mut().unwrap().bite(damage);
+        current_objects()[player_index].player_mut().unwrap().bite(damage);
     }
 
     fn fill_air(&mut self) {
         let player_pos = self.player_pos();
         let mut air = self.player_air();
-        for obj in self.objects.iter_mut() {
+        for obj in current_objects().iter_mut() {
             let pos = obj.pos;
             match obj.air_bottle_mut() {
                 None => {},
