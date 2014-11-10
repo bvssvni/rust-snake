@@ -17,6 +17,7 @@ pub fn current_game_state()
     -> Usage<'static, game_state::GameState> { UseCurrent }
 pub fn current_objects() -> Usage<'static, Vec<Object>> { UseCurrent }
 pub fn current_index() -> Usage<'static, Index> { UseCurrent }
+pub fn current_settings() -> Usage<'static, Settings> { UseCurrent }
 
 pub fn app(f: ||) {
     use std::cell::RefCell;
@@ -27,21 +28,25 @@ pub fn app(f: ||) {
     let game_state = game_state::Play;
     let objects: Vec<Object> = Vec::new();
     let index = Index::new();
+    let settings = Settings::new();
 
     let app = RefCell::new(app);
     let cam = RefCell::new(cam);
     let game_state = RefCell::new(game_state);
     let objects = RefCell::new(objects);
     let index = RefCell::new(index);
+    let settings = RefCell::new(settings);
 
     let app_guard = app.set_current();
     let cam_guard = cam.set_current();
     let game_state_guard = game_state.set_current();
     let objects_guard = objects.set_current();
     let index_guard = index.set_current();
+    let settings_guard = settings.set_current();
 
     f();
 
+    drop(settings_guard);
     drop(index_guard);
     drop(objects_guard);
     drop(game_state_guard);
@@ -78,11 +83,22 @@ impl Index {
     }
 }
 
-pub struct SnakeApp {
+pub struct Settings {
     // Tells where the surface is.
     surface_y: Option<f64>,
     camera_follow_percentage: Option<f64>,
 }
+
+impl Settings {
+    pub fn new() -> Settings {
+        Settings {
+            surface_y: None,
+            camera_follow_percentage: None,
+        }
+    }
+}
+
+pub struct SnakeApp;
 
 impl SnakeApp {
     pub fn render<B: BackEnd<I>, I: ImageSize>(
@@ -95,7 +111,7 @@ impl SnakeApp {
         cam_y += 0.4;
 
         // Render surface.
-        let surface_y = self.surface_y.unwrap();
+        let surface_y = current_settings().surface_y.unwrap();
         c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).draw(gl);
 
         // Render objects in layers.
@@ -142,9 +158,9 @@ impl SnakeApp {
     }
 
     pub fn load(&mut self) {
-        self.camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
         current_cam().set(settings::INITIAL_CAMERA_POS);
-        self.surface_y = Some(settings::SURFACE_Y);
+        current_settings().camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
+        current_settings().surface_y = Some(settings::SURFACE_Y);
         *current_game_state() = settings::INITIAL_GAME_STATE;
 
         // Add player.
@@ -199,10 +215,7 @@ impl SnakeApp {
     }
 
     pub fn new() -> SnakeApp {
-        SnakeApp {
-            camera_follow_percentage: None,
-            surface_y: None,
-        }
+        SnakeApp
     }
 
     pub fn add_bars(&mut self) {
@@ -246,7 +259,7 @@ impl SnakeApp {
     fn follow_player(&mut self, dt: f64) {
         // Make camera follow player.
         let camera_pos = current_cam().pos();
-        let camera_follow_percentage = self.camera_follow_percentage.unwrap();
+        let camera_follow_percentage = current_settings().camera_follow_percentage.unwrap();
         let player_pos = self.player_pos();
         let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
         let dx = camera_follow_percentage * dt * dx;
@@ -287,7 +300,7 @@ impl SnakeApp {
     fn win(&mut self) {
         let player_pos = self.player_pos();
         // When player reaches surface, win.
-        if player_pos[1] >= self.surface_y.unwrap() {
+        if player_pos[1] >= current_settings().surface_y.unwrap() {
             *current_game_state() = game_state::Win;
             return;
         }
