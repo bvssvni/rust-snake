@@ -10,6 +10,7 @@ use object;
 use object::Object;
 use text;
 use game_state;
+use player::{ Player };
 
 pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
 pub fn current_game_state()
@@ -17,6 +18,7 @@ pub fn current_game_state()
 pub fn current_objects() -> Usage<'static, Vec<Object>> { UseCurrent }
 pub fn current_index() -> Usage<'static, Index> { UseCurrent }
 pub fn current_settings() -> Usage<'static, Settings> { UseCurrent }
+pub fn current_player() -> Usage<'static, Player> { UseCurrent }
 
 pub fn app() {
     use std::cell::RefCell;
@@ -27,18 +29,21 @@ pub fn app() {
     let objects: Vec<Object> = Vec::new();
     let index = Index::new();
     let settings = Settings::new();
+    let player = Player::new();
 
     let cam = RefCell::new(cam);
     let game_state = RefCell::new(game_state);
     let objects = RefCell::new(objects);
     let index = RefCell::new(index);
     let settings = RefCell::new(settings);
+    let player = RefCell::new(player);
 
     let cam_guard = cam.set_current();
     let game_state_guard = game_state.set_current();
     let objects_guard = objects.set_current();
     let index_guard = index.set_current();
     let settings_guard = settings.set_current();
+    let player_guard = player.set_current();
 
     start();
 
@@ -47,6 +52,7 @@ pub fn app() {
     drop(objects_guard);
     drop(index_guard);
     drop(settings_guard);
+    drop(player_guard);
 }
 
 fn start() {
@@ -166,26 +172,6 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
 
 pub fn update(dt: f64) {
 
-    fn player_air() -> f64 {
-        let player_index = current_index().player.unwrap();
-        current_objects()[player_index].air().unwrap()
-    }
-
-    fn set_player_air(val: f64) {
-        let player_index = current_index().player.unwrap();
-        *current_objects()[player_index].air_mut().unwrap() = val;
-    }
-
-    fn bite_player(damage: f64) {
-        let player_index = current_index().player.unwrap();
-        current_objects()[player_index].player_mut().unwrap().bite(damage);
-    }
-
-    fn player_blood() -> f64 {
-        let player_index = current_index().player.unwrap();
-        current_objects()[player_index].blood().unwrap()
-    }
-
     fn player_pos() -> [f64, ..2] {
         let player_index = current_index().player.unwrap();
         current_objects()[player_index].pos
@@ -193,6 +179,8 @@ pub fn update(dt: f64) {
 
     fn update_objects(dt: f64) {
         if *current_game_state() != game_state::Play { return; }
+
+        current_player().update(dt);
 
         // Update states of objects.
         let player_pos = player_pos();
@@ -204,18 +192,18 @@ pub fn update(dt: f64) {
             }
         }
         // Bite player.
-        bite_player(attack_damage);
+        current_player().bite(attack_damage);
 
         // Decrease the player's air with time.
-        let air = player_air();
-        set_player_air(air - dt * settings::PLAYER_LOSE_AIR_SPEED);
+        let air = current_player().air;
+        current_player().air = air - dt * settings::PLAYER_LOSE_AIR_SPEED;
     }
 
     update_objects(dt);
 
     fn fill_air() {
         let player_pos = player_pos();
-        let mut air = player_air();
+        let mut air = current_player().air;
         for obj in current_objects().iter_mut() {
             let pos = obj.pos;
             match obj.air_bottle_mut() {
@@ -233,7 +221,7 @@ pub fn update(dt: f64) {
         }
 
         air = if air > 1.0 { 1.0 } else { air };
-        set_player_air(air);
+        current_player().air = air;
     }
 
     fill_air();
@@ -250,8 +238,8 @@ pub fn update(dt: f64) {
     win();
 
     fn lose() {
-        let blood = player_blood();
-        let air = player_air();
+        let blood = current_player().blood;
+        let air = current_player().air;
         if blood < 0.0 || air < 0.0 {
             *current_game_state() = game_state::Lose;
             return;
@@ -263,7 +251,7 @@ pub fn update(dt: f64) {
     fn show_blood() {
         if current_index().blood_bar == None { return; }
         // Show blood.
-        let player_blood = player_blood();
+        let player_blood = current_player().blood;
         let blood_bar_index = current_index().blood_bar.unwrap();
         let objects = &mut *current_objects();
         let blood_bar = objects.get_mut(blood_bar_index).unwrap();
@@ -280,7 +268,7 @@ pub fn update(dt: f64) {
     fn show_air() {
         if current_index().air_bar == None { return; }
         // Show air.
-        let player_air = player_air();
+        let player_air = current_player().air;
         let air_bar_index = current_index().air_bar.unwrap();
         let objects = &mut *current_objects();
         let ref mut air_bar = objects.get_mut(air_bar_index).unwrap();
@@ -314,14 +302,14 @@ pub fn load() {
     *current_game_state() = settings::INITIAL_GAME_STATE;
 
     // Add player.
-    current_objects().push(Object::player(
+    settings::player(
         settings::ORIGIN,
         settings::BLUE,
         settings::PLAYER_INITIAL_BLOOD,
         settings::PLAYER_INITIAL_AIR,
         [settings::PLAYER_ACCELERATION_LEFT, settings::PLAYER_ACCELERATION_RIGHT],
         [settings::PLAYER_ACCELERATION_UP, settings::PLAYER_ACCELERATION_DOWN]
-    ));
+    );
     current_objects().push(Object::bar_background());
     current_index().player = Some(0);
 

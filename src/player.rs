@@ -13,6 +13,15 @@ pub struct Player {
 }
 
 impl Player {
+    pub fn new() -> Player {
+        Player {
+            blood: 0.0,
+            air: 0.0,
+            tween_factor: 0.0,
+            state: Normal,
+        }
+    }
+
     pub fn update(&mut self, dt: f64) {
         self.tween_factor += dt * settings::PLAYER_TWEEN_SPEED;
         self.state = match self.state {
@@ -34,5 +43,3 @@ impl Player {
         }
     }
 }
-
-

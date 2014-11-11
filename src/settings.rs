@@ -112,6 +112,37 @@ pub const LIGHT_BLUE: [f32, ..4] = [0.5, 0.5, 1.0, 1.0];
 
 pub const ORIGIN: [f64, ..2] = [0.0, 0.0];
 
+pub fn player(
+    pos: [f64, ..2],
+    test_color: [f32, ..4],
+    blood: f64,
+    air: f64,
+    acceleration_h: [f64, ..2],
+    acceleration_v: [f64, ..2]
+) {
+    use object::PlayerData;
+    use player::Player;
+    use snakeapp::current_player;
+
+    *current_player() = Player {
+        blood: blood,
+        air: air,
+        tween_factor: PLAYER_INITIAL_TWEEN_FACTOR,
+        state: PLAYER_INITIAL_STATE,
+    };
+    current_objects().push(Object {
+        layer: 0,
+        pos: pos,
+        vel: [0.0, 0.0],
+        acc: [0.0, 0.0],
+        acceleration_h: acceleration_h,
+        acceleration_v: acceleration_v,
+        radius: PLAYER_RADIUS,
+        test_color: test_color,
+        data: PlayerData,
+    });
+}
+
 pub fn level_1() {
     current_settings().surface_y = Some(SURFACE_Y);
 
