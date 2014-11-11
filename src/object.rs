@@ -14,11 +14,11 @@ use air_bottle::AirBottle;
 use snake;
 use snake::Snake;
 use text;
-use snakeapp::{ current_player };
+use snakeapp::{ current_player, current_snakes };
 
 pub enum ObjectData {
     PlayerData,
-    SnakeData(Snake),
+    SnakeData(uint),
     AirBottleData(AirBottle),
     BarData(Bar),
     BarBackgroundData,
@@ -82,6 +82,16 @@ impl Object {
             tail.push(pos[0]);
             tail.push(pos[1]);
         }
+        let i = current_snakes().len();
+        current_snakes().push(Snake {
+            sensor_distance: settings.sensor_distance,
+            state: settings.initial_state,
+            bite_damage: settings.bite_damage,
+            attack_distance: settings.attack_distance,
+            tail: tail,
+            wait_seconds_before_initial_attack: settings.wait_seconds_before_initial_attack,
+            wait_seconds_before_repeat_attack: settings.wait_seconds_before_repeat_attack,
+        });
         Object {
             layer: 0,
             pos: pos,
@@ -91,15 +101,7 @@ impl Object {
             acceleration_v: [settings.acceleration_up, settings.acceleration_down],
             radius: settings.radius,
             test_color: settings.test_color,
-            data: SnakeData(Snake {
-                sensor_distance: settings.sensor_distance,
-                state: settings.initial_state,
-                bite_damage: settings.bite_damage,
-                attack_distance: settings.attack_distance,
-                tail: tail,
-                wait_seconds_before_initial_attack: settings.wait_seconds_before_initial_attack,
-                wait_seconds_before_repeat_attack: settings.wait_seconds_before_repeat_attack,
-            }),
+            data: SnakeData(i),
         }
     }
 
@@ -232,7 +234,7 @@ impl Object {
         let rad = self.radius;
 
         match self.data {
-            SnakeData(ref snake) => self.render_snake(snake, x, y, rad, cam, c, gl),
+            SnakeData(i) => self.render_snake(&current_snakes()[i], x, y, rad, cam, c, gl),
             PlayerData => self.render_player(&*current_player(), x, y, cam, c, gl),
             AirBottleData(ref air_bottle) => self.render_air_bottle(air_bottle, x, y, rad, cam, c, gl),
             BarData(bar) => {
@@ -298,15 +300,16 @@ impl Object {
         // Update object state.
         let (player_dx, player_dy) = (player_pos[0] - self.pos[0], player_pos[1] - self.pos[1]);
         match self.data {
-            SnakeData(ref mut snake) => {
-                action = snake.update(dt, player_pos, self.pos);
+            SnakeData(i) => {
+                action = current_snakes()[i].update(dt, player_pos, self.pos);
             },
             _ => {},
         }
 
         // Move object.
         match self.data {
-            SnakeData(Snake { state, .. }) => {
+            SnakeData(i) => {
+                let Snake { state, .. } = current_snakes()[i];
                 self.move_snake(state, player_dx, player_dy);
             },
             _ => {},

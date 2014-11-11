@@ -12,6 +12,7 @@ use text;
 use game_state;
 use player::{ Player };
 use colors;
+use snake::Snake;
 
 pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
 pub fn current_game_state()
@@ -20,6 +21,7 @@ pub fn current_objects() -> Usage<'static, Vec<Object>> { UseCurrent }
 pub fn current_index() -> Usage<'static, Index> { UseCurrent }
 pub fn current_settings() -> Usage<'static, Settings> { UseCurrent }
 pub fn current_player() -> Usage<'static, Player> { UseCurrent }
+pub fn current_snakes() -> Usage<'static, Vec<Snake>> { UseCurrent }
 
 pub fn app() {
     use std::cell::RefCell;
@@ -31,6 +33,7 @@ pub fn app() {
     let index = Index::new();
     let settings = Settings::new();
     let player = Player::new();
+    let snakes: Vec<Snake> = Vec::new();
 
     let cam = RefCell::new(cam);
     let game_state = RefCell::new(game_state);
@@ -38,6 +41,7 @@ pub fn app() {
     let index = RefCell::new(index);
     let settings = RefCell::new(settings);
     let player = RefCell::new(player);
+    let snakes = RefCell::new(snakes);
 
     let cam_guard = cam.set_current();
     let game_state_guard = game_state.set_current();
@@ -45,6 +49,7 @@ pub fn app() {
     let index_guard = index.set_current();
     let settings_guard = settings.set_current();
     let player_guard = player.set_current();
+    let snakes_guard = snakes.set_current();
 
     start();
 
@@ -54,6 +59,7 @@ pub fn app() {
     drop(index_guard);
     drop(settings_guard);
     drop(player_guard);
+    drop(snakes_guard);
 }
 
 fn start() {
