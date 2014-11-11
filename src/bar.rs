@@ -15,11 +15,11 @@ impl Bar {
         &self, c: &Context, gl: &mut B
     ) {
         text::text(
-            self.text, 
+            self.text,
             &c
             .color(self.text_color)
             .flip_v()
-            .zoom(0.001), 
+            .zoom(0.001),
             gl
         );
         let rect = settings::BAR_RECTANGLE;
@@ -32,5 +32,3 @@ impl Bar {
         c.rect(x, y, w * val, h).margin(settings::BAR_MARGIN).color(self.bar_color).draw(gl);
     }
 }
-
-

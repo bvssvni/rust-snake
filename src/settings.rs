@@ -4,7 +4,7 @@ use snake;
 use game_state;
 use player;
 use object::Object;
-use snakeapp::{ current_objects, current_settings };
+use snakeapp::{ current_objects, current_settings, current_index };
 use colors;
 
 pub const NUMBER_OF_LAYERS: uint = 4;
@@ -108,6 +108,7 @@ pub fn player(
         tween_factor: 0.0,
         state: player::Normal,
     };
+    let i = current_objects().len();
     current_objects().push(Object {
         layer: 0,
         pos: ORIGIN,
@@ -119,6 +120,7 @@ pub fn player(
         test_color: colors::BLUE,
         data: PlayerData,
     });
+    current_index().player = Some(i);
 }
 
 pub fn level_1() {

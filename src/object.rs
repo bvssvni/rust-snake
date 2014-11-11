@@ -14,13 +14,19 @@ use air_bottle::AirBottle;
 use snake;
 use snake::Snake;
 use text;
-use snakeapp::{ current_player, current_snakes, current_air_bottles };
+use snakeapp::{
+    current_bars,
+    current_player,
+    current_snakes,
+    current_air_bottles
+};
 
+#[deriving(Show)]
 pub enum ObjectData {
     PlayerData,
     SnakeData(uint),
     AirBottleData(uint),
-    BarData(Bar),
+    BarData(uint),
     BarBackgroundData,
 }
 
@@ -116,7 +122,15 @@ impl Object {
         value: f64
     ) -> Object {
 
-       Object {
+        let i = current_bars().len();
+        current_bars().push(Bar {
+            text: text,
+            value: value,
+            text_color: text_color,
+            background_color: background_color,
+            bar_color: bar_color,
+        });
+        Object {
             layer: 2,
             pos: pos,
             radius: 0.0,
@@ -125,13 +139,7 @@ impl Object {
             acceleration_h: [0.0, 0.0],
             acceleration_v: [0.0, 0.0],
             test_color: colors::BLACK,
-            data: BarData(Bar {
-                text: text,
-                value: value,
-                text_color: text_color,
-                background_color: background_color,
-                bar_color: bar_color,
-            }),
+            data: BarData(i),
         }
     }
 
@@ -235,8 +243,8 @@ impl Object {
                 &*current_player(), x, y, cam, c, gl),
             AirBottleData(i) => self.render_air_bottle(
                 &current_air_bottles()[i], x, y, rad, cam, c, gl),
-            BarData(bar) => {
-                bar.render(&c.trans(x, y), gl);
+            BarData(i) => {
+                current_bars()[i].render(&c.trans(x, y), gl);
             },
             BarBackgroundData => {
                 // Render round rectangle around bars.

@@ -14,6 +14,7 @@ use player::{ Player };
 use colors;
 use snake::Snake;
 use air_bottle::AirBottle;
+use bar::Bar;
 
 pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
 pub fn current_game_state()
@@ -24,6 +25,7 @@ pub fn current_settings() -> Usage<'static, Settings> { UseCurrent }
 pub fn current_player() -> Usage<'static, Player> { UseCurrent }
 pub fn current_snakes() -> Usage<'static, Vec<Snake>> { UseCurrent }
 pub fn current_air_bottles() -> Usage<'static, Vec<AirBottle>> { UseCurrent }
+pub fn current_bars() -> Usage<'static, Vec<Bar>> { UseCurrent }
 
 pub fn app() {
     use std::cell::RefCell;
@@ -37,6 +39,7 @@ pub fn app() {
     let player = Player::new();
     let snakes: Vec<Snake> = Vec::new();
     let air_bottles: Vec<AirBottle> = Vec::new();
+    let bars: Vec<Bar> = Vec::new();
 
     let cam = RefCell::new(cam);
     let game_state = RefCell::new(game_state);
@@ -46,6 +49,7 @@ pub fn app() {
     let player = RefCell::new(player);
     let snakes = RefCell::new(snakes);
     let air_bottles = RefCell::new(air_bottles);
+    let bars = RefCell::new(bars);
 
     let cam_guard = cam.set_current();
     let game_state_guard = game_state.set_current();
@@ -55,6 +59,7 @@ pub fn app() {
     let player_guard = player.set_current();
     let snakes_guard = snakes.set_current();
     let air_bottles = air_bottles.set_current();
+    let bars = bars.set_current();
 
     start();
 
@@ -66,6 +71,7 @@ pub fn app() {
     drop(player_guard);
     drop(snakes_guard);
     drop(air_bottles);
+    drop(bars);
 }
 
 fn start() {
@@ -270,8 +276,8 @@ pub fn update(dt: f64) {
         let objects = &mut *current_objects();
         let blood_bar = objects.get_mut(blood_bar_index).unwrap();
         match blood_bar.data {
-            object::BarData(ref mut bar) => {
-                bar.value = player_blood;
+            object::BarData(i) => {
+                current_bars()[i].value = player_blood;
             },
             _ => {},
         }
@@ -287,8 +293,8 @@ pub fn update(dt: f64) {
         let objects = &mut *current_objects();
         let ref mut air_bar = objects.get_mut(air_bar_index).unwrap();
         match air_bar.data {
-            object::BarData(ref mut bar) => {
-                bar.value = player_air;
+            object::BarData(i) => {
+                current_bars()[i].value = player_air;
             },
             _ => {},
         }
@@ -359,6 +365,8 @@ pub fn key_press(key: keyboard::Key) {
             current_objects()[player_index].move_right();
         },
         (keyboard::Up, Some(player_index)) => {
+            println!("TEST move up {}", current_objects()[player_index].data);
+
             current_objects()[player_index].move_up();
         },
         (keyboard::Left, Some(player_index)) => {
