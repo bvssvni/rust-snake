@@ -11,6 +11,7 @@ use object::Object;
 use text;
 use game_state;
 use player::{ Player };
+use colors;
 
 pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
 pub fn current_game_state()
@@ -135,7 +136,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
 
     // Render surface.
     let surface_y = current_settings().surface_y.unwrap();
-    c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(settings::BLUE).draw(gl);
+    c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(colors::BLUE).draw(gl);
 
     // Render objects in layers.
     let cam = &c.trans(-cam_x, -cam_y);
@@ -302,14 +303,6 @@ pub fn load() {
     *current_game_state() = settings::INITIAL_GAME_STATE;
 
     // Add player.
-    settings::player(
-        settings::ORIGIN,
-        settings::BLUE,
-        settings::PLAYER_INITIAL_BLOOD,
-        settings::PLAYER_INITIAL_AIR,
-        [settings::PLAYER_ACCELERATION_LEFT, settings::PLAYER_ACCELERATION_RIGHT],
-        [settings::PLAYER_ACCELERATION_UP, settings::PLAYER_ACCELERATION_DOWN]
-    );
     current_objects().push(Object::bar_background());
     current_index().player = Some(0);
 

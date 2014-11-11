@@ -36,6 +36,7 @@ mod action;
 mod game_state;
 mod character;
 mod air_bottle;
+mod colors;
 
 #[deriving(Show)]
 pub enum GraphicsBackEnd {

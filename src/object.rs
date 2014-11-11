@@ -1,6 +1,7 @@
 // External crates.
 use graphics::*;
-use graphics::interpolation::{lerp_4};
+use graphics::interpolation::{ lerp_4 };
+use colors;
 
 // Local crate.
 use character;
@@ -119,7 +120,7 @@ impl Object {
             acc: [0.0, 0.0],
             acceleration_h: [0.0, 0.0],
             acceleration_v: [0.0, 0.0],
-            test_color: settings::BLACK,
+            test_color: colors::BLACK,
             data: BarData(Bar {
                 text: text,
                 value: value,
@@ -155,7 +156,7 @@ impl Object {
             let x = snake.tail[i * 2];
             let y = snake.tail[i * 2 + 1];
             if (i / 8) % 2 == 1 {
-                cam.circle(x, y, rad).color(settings::BLACK).draw(gl);
+                cam.circle(x, y, rad).color(colors::BLACK).draw(gl);
             } else {
                 cam.circle(x, y, rad).color(settings::SNAKE_TAIL_COLOR).draw(gl);
             }
