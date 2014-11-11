@@ -165,12 +165,146 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
 }
 
 pub fn update(dt: f64) {
+
+    fn player_air() -> f64 {
+        let player_index = current_index().player.unwrap();
+        current_objects()[player_index].air().unwrap()
+    }
+
+    fn set_player_air(val: f64) {
+        let player_index = current_index().player.unwrap();
+        *current_objects()[player_index].air_mut().unwrap() = val;
+    }
+
+    fn bite_player(damage: f64) {
+        let player_index = current_index().player.unwrap();
+        current_objects()[player_index].player_mut().unwrap().bite(damage);
+    }
+
+    fn player_blood() -> f64 {
+        let player_index = current_index().player.unwrap();
+        current_objects()[player_index].blood().unwrap()
+    }
+
+    fn player_pos() -> [f64, ..2] {
+        let player_index = current_index().player.unwrap();
+        current_objects()[player_index].pos
+    }
+
+    fn update_objects(dt: f64) {
+        if *current_game_state() != game_state::Play { return; }
+
+        // Update states of objects.
+        let player_pos = player_pos();
+        let mut attack_damage: f64 = 0.0;
+        for obj in current_objects().iter_mut() {
+            match obj.update(dt, player_pos) {
+                action::Passive => {},
+                action::Attack(attack) => { attack_damage += attack; },
+            }
+        }
+        // Bite player.
+        bite_player(attack_damage);
+
+        // Decrease the player's air with time.
+        let air = player_air();
+        set_player_air(air - dt * settings::PLAYER_LOSE_AIR_SPEED);
+    }
+
     update_objects(dt);
+
+    fn fill_air() {
+        let player_pos = player_pos();
+        let mut air = player_air();
+        for obj in current_objects().iter_mut() {
+            let pos = obj.pos;
+            match obj.air_bottle_mut() {
+                None => {},
+                Some(air_bottle) => {
+                    let dx = pos[0] - player_pos[0];
+                    let dy = pos[1] - player_pos[1];
+                    let d = dx * dx + dy * dy;
+                    if d <= settings::AIR_BOTTLE_RADIUS * settings::AIR_BOTTLE_RADIUS {
+                        air += air_bottle.fill_up;
+                        air_bottle.fill_up = 0.0;
+                    }
+                },
+            }
+        }
+
+        air = if air > 1.0 { 1.0 } else { air };
+        set_player_air(air);
+    }
+
     fill_air();
+
+    fn win() {
+        let player_pos = player_pos();
+        // When player reaches surface, win.
+        if player_pos[1] >= current_settings().surface_y.unwrap() {
+            *current_game_state() = game_state::Win;
+            return;
+        }
+    }
+
     win();
+
+    fn lose() {
+        let blood = player_blood();
+        let air = player_air();
+        if blood < 0.0 || air < 0.0 {
+            *current_game_state() = game_state::Lose;
+            return;
+        }
+    }
+
     lose();
+
+    fn show_blood() {
+        if current_index().blood_bar == None { return; }
+        // Show blood.
+        let player_blood = player_blood();
+        let blood_bar_index = current_index().blood_bar.unwrap();
+        let objects = &mut *current_objects();
+        let blood_bar = objects.get_mut(blood_bar_index).unwrap();
+        match blood_bar.data {
+            object::BarData(ref mut bar) => {
+                bar.value = player_blood;
+            },
+            _ => {},
+        }
+    }
+
     show_blood();
+
+    fn show_air() {
+        if current_index().air_bar == None { return; }
+        // Show air.
+        let player_air = player_air();
+        let air_bar_index = current_index().air_bar.unwrap();
+        let objects = &mut *current_objects();
+        let ref mut air_bar = objects.get_mut(air_bar_index).unwrap();
+        match air_bar.data {
+            object::BarData(ref mut bar) => {
+                bar.value = player_air;
+            },
+            _ => {},
+        }
+    }
+
     show_air();
+
+    fn follow_player(dt: f64) {
+        // Make camera follow player.
+        let camera_pos = current_cam().pos();
+        let camera_follow_percentage = current_settings().camera_follow_percentage.unwrap();
+        let player_pos = player_pos();
+        let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
+        let dx = camera_follow_percentage * dt * dx;
+        let dy = camera_follow_percentage * dt * dy;
+        current_cam().set([camera_pos[0] + dx, camera_pos[1] + dy]);
+    }
+
     follow_player(dt);
 }
 
@@ -192,14 +326,56 @@ pub fn load() {
     current_objects().push(Object::bar_background());
     current_index().player = Some(0);
 
+    fn add_bars() {
+        let objects = &mut *current_objects();
+        objects.push(Object::bar(
+            settings::AIR_BAR_POS,
+            "air",
+            settings::AIR_BAR_TEXT_COLOR,
+            settings::AIR_BAR_BACKGROUND_COLOR,
+            settings::AIR_BAR_BAR_COLOR,
+            settings::AIR_BAR_INITIAL_VALUE
+        ));
+        current_index().air_bar = Some(objects.len() - 1);
+        objects.push(Object::bar(
+            settings::BLOOD_BAR_POS,
+            "blood",
+            settings::BLOOD_BAR_TEXT_COLOR,
+            settings::BLOOD_BAR_BACKGROUND_COLOR,
+            settings::BLOOD_BAR_BAR_COLOR,
+            settings::BLOOD_BAR_INITIAL_VALUE
+        ));
+        current_index().blood_bar = Some(objects.len() - 1);
+    }
+
     // Add blood and air bar.
     add_bars();
+
+    fn add_air_bottles() {
+        let air_bottles = settings::AIR_BOTTLE_POS;
+        let n = air_bottles.len() / 2;
+        let objects = &mut *current_objects();
+        for i in range(0, n) {
+            objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
+        }
+    }
 
     // Add air bottles.
     add_air_bottles();
 
+    fn add_snakes() {
+        if settings::SNAKE_1_ADD { current_objects().push(
+            Object::snake(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
+        if settings::SNAKE_2_ADD { current_objects().push(
+            Object::snake(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
+    }
+
     // Add snakes.
     add_snakes();
+}
+
+fn restart() {
+    load();
 }
 
 pub fn key_press(key: keyboard::Key) {
@@ -229,173 +405,4 @@ pub fn key_release(key: keyboard::Key) {
             _ => {},
         }
     }
-}
-
-pub fn add_bars() {
-    let objects = &mut *current_objects();
-    objects.push(Object::bar(
-        settings::AIR_BAR_POS,
-        "air",
-        settings::AIR_BAR_TEXT_COLOR,
-        settings::AIR_BAR_BACKGROUND_COLOR,
-        settings::AIR_BAR_BAR_COLOR,
-        settings::AIR_BAR_INITIAL_VALUE
-    ));
-    current_index().air_bar = Some(objects.len() - 1);
-    objects.push(Object::bar(
-        settings::BLOOD_BAR_POS,
-        "blood",
-        settings::BLOOD_BAR_TEXT_COLOR,
-        settings::BLOOD_BAR_BACKGROUND_COLOR,
-        settings::BLOOD_BAR_BAR_COLOR,
-        settings::BLOOD_BAR_INITIAL_VALUE
-    ));
-    current_index().blood_bar = Some(objects.len() - 1);
-}
-
-pub fn add_snakes() {
-    if settings::SNAKE_1_ADD { current_objects().push(
-        Object::snake(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
-    if settings::SNAKE_2_ADD { current_objects().push(
-        Object::snake(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
-}
-
-pub fn add_air_bottles() {
-    let air_bottles = settings::AIR_BOTTLE_POS;
-    let n = air_bottles.len() / 2;
-    let objects = &mut *current_objects();
-    for i in range(0, n) {
-        objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
-    }
-}
-
-fn follow_player(dt: f64) {
-    // Make camera follow player.
-    let camera_pos = current_cam().pos();
-    let camera_follow_percentage = current_settings().camera_follow_percentage.unwrap();
-    let player_pos = player_pos();
-    let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
-    let dx = camera_follow_percentage * dt * dx;
-    let dy = camera_follow_percentage * dt * dy;
-    current_cam().set([camera_pos[0] + dx, camera_pos[1] + dy]);
-}
-
-fn show_blood() {
-    if current_index().blood_bar == None { return; }
-    // Show blood.
-    let player_blood = player_blood();
-    let blood_bar_index = current_index().blood_bar.unwrap();
-    let objects = &mut *current_objects();
-    let blood_bar = objects.get_mut(blood_bar_index).unwrap();
-    match blood_bar.data {
-        object::BarData(ref mut bar) => {
-            bar.value = player_blood;
-        },
-        _ => {},
-    }
-}
-
-fn show_air() {
-    if current_index().air_bar == None { return; }
-    // Show air.
-    let player_air = player_air();
-    let air_bar_index = current_index().air_bar.unwrap();
-    let objects = &mut *current_objects();
-    let ref mut air_bar = objects.get_mut(air_bar_index).unwrap();
-    match air_bar.data {
-        object::BarData(ref mut bar) => {
-            bar.value = player_air;
-        },
-        _ => {},
-    }
-}
-
-fn win() {
-    let player_pos = player_pos();
-    // When player reaches surface, win.
-    if player_pos[1] >= current_settings().surface_y.unwrap() {
-        *current_game_state() = game_state::Win;
-        return;
-    }
-}
-
-fn lose() {
-    let blood = player_blood();
-    let air = player_air();
-    if blood < 0.0 || air < 0.0 {
-        *current_game_state() = game_state::Lose;
-        return;
-    }
-}
-
-fn restart() {
-    load();
-}
-
-fn update_objects(dt: f64) {
-    if *current_game_state() != game_state::Play { return; }
-
-    // Update states of objects.
-    let player_pos = player_pos();
-    let mut attack_damage: f64 = 0.0;
-    for obj in current_objects().iter_mut() {
-        match obj.update(dt, player_pos) {
-            action::Passive => {},
-            action::Attack(attack) => { attack_damage += attack; },
-        }
-    }
-    // Bite player.
-    bite_player(attack_damage);
-
-    // Decrease the player's air with time.
-    let air = player_air();
-    set_player_air(air - dt * settings::PLAYER_LOSE_AIR_SPEED);
-}
-
-fn player_pos() -> [f64, ..2] {
-    let player_index = current_index().player.unwrap();
-    current_objects()[player_index].pos
-}
-
-fn player_blood() -> f64 {
-    let player_index = current_index().player.unwrap();
-    current_objects()[player_index].blood().unwrap()
-}
-
-fn player_air() -> f64 {
-    let player_index = current_index().player.unwrap();
-    current_objects()[player_index].air().unwrap()
-}
-
-fn set_player_air(val: f64) {
-    let player_index = current_index().player.unwrap();
-    *current_objects()[player_index].air_mut().unwrap() = val;
-}
-
-fn bite_player(damage: f64) {
-    let player_index = current_index().player.unwrap();
-    current_objects()[player_index].player_mut().unwrap().bite(damage);
-}
-
-fn fill_air() {
-    let player_pos = player_pos();
-    let mut air = player_air();
-    for obj in current_objects().iter_mut() {
-        let pos = obj.pos;
-        match obj.air_bottle_mut() {
-            None => {},
-            Some(air_bottle) => {
-                let dx = pos[0] - player_pos[0];
-                let dy = pos[1] - player_pos[1];
-                let d = dx * dx + dy * dy;
-                if d <= settings::AIR_BOTTLE_RADIUS * settings::AIR_BOTTLE_RADIUS {
-                    air += air_bottle.fill_up;
-                    air_bottle.fill_up = 0.0;
-                }
-            },
-        }
-    }
-
-    air = if air > 1.0 { 1.0 } else { air };
-    set_player_air(air);
 }
