@@ -365,8 +365,6 @@ pub fn key_press(key: keyboard::Key) {
             current_objects()[player_index].move_right();
         },
         (keyboard::Up, Some(player_index)) => {
-            println!("TEST move up {}", current_objects()[player_index].data);
-
             current_objects()[player_index].move_up();
         },
         (keyboard::Left, Some(player_index)) => {
