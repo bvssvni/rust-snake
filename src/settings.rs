@@ -3,6 +3,8 @@
 use snake;
 use game_state;
 use player;
+use object::Object;
+use snakeapp::{ current_objects, current_settings };
 
 pub const NUMBER_OF_LAYERS: uint = 4;
 pub const WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.2, 1.0];
@@ -24,21 +26,6 @@ pub const AIR_BOTTLE_RADIUS: f64 = 0.1;
 pub const AIR_BOTTLE_TEST_COLOR: [f32, ..4] = WHITE;
 pub const AIR_BOTTLE_TEXT_COLOR: [f32, ..4] = BLACK;
 pub const AIR_BOTTLE_FILL_UP: f64 = 0.5;
-pub const AIR_BOTTLE_POS: &'static [f64] = &[
-    0.5, 0.3,
-    0.3, 0.8,
-    0.6, 1.4,
-    0.3, 2.2,
-    0.1, 3.0,
-    0.3, 4.0,
-    0.3, 5.0,
-    0.6, 5.5,
-    0.6, 6.1,
-    0.7, 6.8,
-    0.5, 8.0,
-    0.2, 8.2,
-    0.6, 8.8,
-];
 
 pub const PLAYER_LOSE_AIR_SPEED: f64 = 0.1;
 pub const PLAYER_COLOR: [f32, ..4] = [0.4, 0.4, 0.4, 1.0];
@@ -60,7 +47,7 @@ pub struct SnakeSettings {
     pub acceleration_right: f64,
     pub acceleration_up: f64,
     pub acceleration_down: f64,
-    pub initial_state: snake::SnakeState,    
+    pub initial_state: snake::SnakeState,
     pub bite_damage: f64,
     pub sensor_distance: f64,
     pub attack_distance: f64,
@@ -87,16 +74,6 @@ pub const SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     test_color: [1.0, 1.0, 1.0, 1.0],
     radius: 0.03,
 };
-
-// snake 1.
-pub const SNAKE_1_SETTINGS: SnakeSettings = SNAKE_SETTINGS;
-pub const SNAKE_1_POS: [f64, ..2] = [-0.8, 0.8];
-pub const SNAKE_1_ADD: bool = true;
-
-// snake 2.
-pub const SNAKE_2_SETTINGS: SnakeSettings = SNAKE_SETTINGS;
-pub const SNAKE_2_POS: [f64, ..2] = [0.8, 0.8];
-pub const SNAKE_2_ADD: bool = true;
 
 pub const BAR_RECTANGLE: [f64, ..4] = [0.3, -0.06, 1.5, 0.05];
 pub const BAR_MARGIN: f64 = 0.01;
@@ -135,3 +112,40 @@ pub const LIGHT_BLUE: [f32, ..4] = [0.5, 0.5, 1.0, 1.0];
 
 pub const ORIGIN: [f64, ..2] = [0.0, 0.0];
 
+pub fn level_1() {
+    current_settings().surface_y = Some(SURFACE_Y);
+
+    fn add_air_bottles() {
+        let air_bottles = &[
+            0.5, 0.3,
+            0.3, 0.8,
+            0.6, 1.4,
+            0.3, 2.2,
+            0.1, 3.0,
+            0.3, 4.0,
+            0.3, 5.0,
+            0.6, 5.5,
+            0.6, 6.1,
+            0.7, 6.8,
+            0.5, 8.0,
+            0.2, 8.2,
+            0.6, 8.8,
+        ];
+        let n = air_bottles.len() / 2;
+        let objects = &mut *current_objects();
+        for i in range(0, n) {
+            objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
+        }
+    }
+
+    add_air_bottles();
+
+    fn add_snakes() {
+        current_objects().push(
+            Object::snake([-0.8, 0.8], SNAKE_SETTINGS));
+        current_objects().push(
+            Object::snake([0.8, 0.8], SNAKE_SETTINGS));
+    }
+
+    add_snakes();
+}

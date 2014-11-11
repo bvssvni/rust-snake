@@ -107,8 +107,8 @@ impl Index {
 
 pub struct Settings {
     // Tells where the surface is.
-    surface_y: Option<f64>,
-    camera_follow_percentage: Option<f64>,
+    pub surface_y: Option<f64>,
+    pub camera_follow_percentage: Option<f64>,
 }
 
 impl Settings {
@@ -311,7 +311,6 @@ pub fn update(dt: f64) {
 pub fn load() {
     current_cam().set(settings::INITIAL_CAMERA_POS);
     current_settings().camera_follow_percentage = Some(settings::CAMERA_FOLLOW_PERCENTAGE);
-    current_settings().surface_y = Some(settings::SURFACE_Y);
     *current_game_state() = settings::INITIAL_GAME_STATE;
 
     // Add player.
@@ -351,27 +350,7 @@ pub fn load() {
     // Add blood and air bar.
     add_bars();
 
-    fn add_air_bottles() {
-        let air_bottles = settings::AIR_BOTTLE_POS;
-        let n = air_bottles.len() / 2;
-        let objects = &mut *current_objects();
-        for i in range(0, n) {
-            objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
-        }
-    }
-
-    // Add air bottles.
-    add_air_bottles();
-
-    fn add_snakes() {
-        if settings::SNAKE_1_ADD { current_objects().push(
-            Object::snake(settings::SNAKE_1_POS, settings::SNAKE_1_SETTINGS)); }
-        if settings::SNAKE_2_ADD { current_objects().push(
-            Object::snake(settings::SNAKE_2_POS, settings::SNAKE_2_SETTINGS)); }
-    }
-
-    // Add snakes.
-    add_snakes();
+    settings::level_1();
 }
 
 fn restart() {
