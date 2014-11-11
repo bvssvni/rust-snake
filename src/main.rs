@@ -128,6 +128,7 @@ fn events() -> event::Events<current::Usage<'static, Window>> {
     Events::new(current_window())
 }
 
+/// This gets called from `snakeapp` to render with proper back-end.
 fn render(args: &event::RenderArgs) {
     match *current_graphics_back_end() {
         Gfx => {
