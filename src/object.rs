@@ -14,12 +14,12 @@ use air_bottle::AirBottle;
 use snake;
 use snake::Snake;
 use text;
-use snakeapp::{ current_player, current_snakes };
+use snakeapp::{ current_player, current_snakes, current_air_bottles };
 
 pub enum ObjectData {
     PlayerData,
     SnakeData(uint),
-    AirBottleData(AirBottle),
+    AirBottleData(uint),
     BarData(Bar),
     BarBackgroundData,
 }
@@ -56,6 +56,10 @@ impl Object {
     pub fn air_bottle(
         pos: [f64, ..2]
     ) -> Object {
+        let i = current_air_bottles().len();
+        current_air_bottles().push(AirBottle {
+            fill_up: settings::AIR_BOTTLE_FILL_UP,
+        });
         Object {
             pos: pos,
             layer: 0,
@@ -65,9 +69,7 @@ impl Object {
             acceleration_v: [0.0, 0.0],
             radius: settings::AIR_BOTTLE_RADIUS,
             test_color: settings::AIR_BOTTLE_TEST_COLOR,
-            data: AirBottleData(AirBottle {
-                fill_up: settings::AIR_BOTTLE_FILL_UP,
-            }),
+            data: AirBottleData(i),
         }
     }
 
@@ -130,13 +132,6 @@ impl Object {
                 background_color: background_color,
                 bar_color: bar_color,
             }),
-        }
-    }
-
-    pub fn air_bottle_mut<'a>(&'a mut self) -> Option<&'a mut AirBottle> {
-        match self.data {
-            AirBottleData(ref mut air_bottle) => Some(air_bottle),
-            _ => None,
         }
     }
 
@@ -234,9 +229,12 @@ impl Object {
         let rad = self.radius;
 
         match self.data {
-            SnakeData(i) => self.render_snake(&current_snakes()[i], x, y, rad, cam, c, gl),
-            PlayerData => self.render_player(&*current_player(), x, y, cam, c, gl),
-            AirBottleData(ref air_bottle) => self.render_air_bottle(air_bottle, x, y, rad, cam, c, gl),
+            SnakeData(i) => self.render_snake(
+                &current_snakes()[i], x, y, rad, cam, c, gl),
+            PlayerData => self.render_player(
+                &*current_player(), x, y, cam, c, gl),
+            AirBottleData(i) => self.render_air_bottle(
+                &current_air_bottles()[i], x, y, rad, cam, c, gl),
             BarData(bar) => {
                 bar.render(&c.trans(x, y), gl);
             },

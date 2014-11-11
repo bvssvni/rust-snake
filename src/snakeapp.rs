@@ -13,6 +13,7 @@ use game_state;
 use player::{ Player };
 use colors;
 use snake::Snake;
+use air_bottle::AirBottle;
 
 pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
 pub fn current_game_state()
@@ -22,6 +23,7 @@ pub fn current_index() -> Usage<'static, Index> { UseCurrent }
 pub fn current_settings() -> Usage<'static, Settings> { UseCurrent }
 pub fn current_player() -> Usage<'static, Player> { UseCurrent }
 pub fn current_snakes() -> Usage<'static, Vec<Snake>> { UseCurrent }
+pub fn current_air_bottles() -> Usage<'static, Vec<AirBottle>> { UseCurrent }
 
 pub fn app() {
     use std::cell::RefCell;
@@ -34,6 +36,7 @@ pub fn app() {
     let settings = Settings::new();
     let player = Player::new();
     let snakes: Vec<Snake> = Vec::new();
+    let air_bottles: Vec<AirBottle> = Vec::new();
 
     let cam = RefCell::new(cam);
     let game_state = RefCell::new(game_state);
@@ -42,6 +45,7 @@ pub fn app() {
     let settings = RefCell::new(settings);
     let player = RefCell::new(player);
     let snakes = RefCell::new(snakes);
+    let air_bottles = RefCell::new(air_bottles);
 
     let cam_guard = cam.set_current();
     let game_state_guard = game_state.set_current();
@@ -50,6 +54,7 @@ pub fn app() {
     let settings_guard = settings.set_current();
     let player_guard = player.set_current();
     let snakes_guard = snakes.set_current();
+    let air_bottles = air_bottles.set_current();
 
     start();
 
@@ -60,6 +65,7 @@ pub fn app() {
     drop(settings_guard);
     drop(player_guard);
     drop(snakes_guard);
+    drop(air_bottles);
 }
 
 fn start() {
@@ -213,17 +219,18 @@ pub fn update(dt: f64) {
         let mut air = current_player().air;
         for obj in current_objects().iter_mut() {
             let pos = obj.pos;
-            match obj.air_bottle_mut() {
-                None => {},
-                Some(air_bottle) => {
+            match obj.data {
+                object::AirBottleData(i) => {
                     let dx = pos[0] - player_pos[0];
                     let dy = pos[1] - player_pos[1];
                     let d = dx * dx + dy * dy;
                     if d <= settings::AIR_BOTTLE_RADIUS * settings::AIR_BOTTLE_RADIUS {
+                        let air_bottle = &mut current_air_bottles()[i];
                         air += air_bottle.fill_up;
                         air_bottle.fill_up = 0.0;
                     }
                 },
+                _ => {}
             }
         }
 
