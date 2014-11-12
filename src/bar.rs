@@ -7,7 +7,7 @@ pub struct Bar {
     pub text_color: [f32, ..4],
     pub background_color: [f32, ..4],
     pub bar_color: [f32, ..4],
-    pub value: f64,
+    pub value: fn () -> f64,
 }
 
 impl Bar {
@@ -28,7 +28,9 @@ impl Bar {
         let w = rect[2];
         let h = rect[3];
         c.rect(x, y, w, h).color(self.background_color).draw(gl);
-        let val = if self.value < 0.0 { 0.0 } else { self.value };
+        let val = (self.value)();
+        let val = if val > 1.0 { 1.0 } else { val };
+        let val = if val < 0.0 { 0.0 } else { val };
         c.rect(x, y, w * val, h).margin(settings::BAR_MARGIN).color(self.bar_color).draw(gl);
     }
 }

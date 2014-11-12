@@ -119,7 +119,7 @@ impl Object {
         text_color: [f32, ..4],
         background_color: [f32, ..4],
         bar_color: [f32, ..4],
-        value: f64
+        value: fn () -> f64
     ) -> Object {
 
         let i = current_bars().len();

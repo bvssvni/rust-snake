@@ -74,13 +74,11 @@ pub const BAR_RECTANGLE: [f64, ..4] = [0.3, -0.06, 1.5, 0.05];
 pub const BAR_MARGIN: f64 = 0.01;
 pub const BAR_TEXT_COLOR: [f32, ..4] = colors::WHITE;
 
-pub const AIR_BAR_INITIAL_VALUE: f64 = 0.5;
 pub const AIR_BAR_POS: [f64, ..2] = [-0.9, 0.95];
 pub const AIR_BAR_TEXT_COLOR: [f32, ..4] = BAR_TEXT_COLOR;
 pub const AIR_BAR_BACKGROUND_COLOR: [f32, ..4] = colors::DARK_BLUE;
 pub const AIR_BAR_BAR_COLOR: [f32, ..4] = colors::LIGHT_BLUE;
 
-pub const BLOOD_BAR_INITIAL_VALUE: f64 = 0.5;
 pub const BLOOD_BAR_POS: [f64, ..2] = [-0.9, 0.85];
 pub const BLOOD_BAR_TEXT_COLOR: [f32, ..4] = BAR_TEXT_COLOR;
 pub const BLOOD_BAR_BACKGROUND_COLOR: [f32, ..4] = colors::DARK_RED;

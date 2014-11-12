@@ -264,40 +264,6 @@ pub fn update(dt: f64) {
 
     lose();
 
-    fn show_blood() {
-        if current_index().blood_bar == None { return; }
-        // Show blood.
-        let player_blood = current_player().blood;
-        let blood_bar_index = current_index().blood_bar.unwrap();
-        let objects = &mut *current_objects();
-        let blood_bar = objects.get_mut(blood_bar_index).unwrap();
-        match blood_bar.data {
-            object::BarData(i) => {
-                current_bars()[i].value = player_blood;
-            },
-            _ => {},
-        }
-    }
-
-    show_blood();
-
-    fn show_air() {
-        if current_index().air_bar == None { return; }
-        // Show air.
-        let player_air = current_player().air;
-        let air_bar_index = current_index().air_bar.unwrap();
-        let objects = &mut *current_objects();
-        let ref mut air_bar = objects.get_mut(air_bar_index).unwrap();
-        match air_bar.data {
-            object::BarData(i) => {
-                current_bars()[i].value = player_air;
-            },
-            _ => {},
-        }
-    }
-
-    show_air();
-
     fn follow_player(dt: f64) {
         // Make camera follow player.
         let follow_percentage = current_settings().camera_follow_percentage.unwrap();
@@ -317,6 +283,9 @@ pub fn load() {
     current_index().player = Some(0);
 
     fn add_bars() {
+        fn air() -> f64 { current_player().air }
+        fn blood() -> f64 { current_player().blood }
+
         let objects = &mut *current_objects();
         objects.push(Object::bar(
             settings::AIR_BAR_POS,
@@ -324,7 +293,7 @@ pub fn load() {
             settings::AIR_BAR_TEXT_COLOR,
             settings::AIR_BAR_BACKGROUND_COLOR,
             settings::AIR_BAR_BAR_COLOR,
-            settings::AIR_BAR_INITIAL_VALUE
+            air
         ));
         current_index().air_bar = Some(objects.len() - 1);
         objects.push(Object::bar(
@@ -333,7 +302,7 @@ pub fn load() {
             settings::BLOOD_BAR_TEXT_COLOR,
             settings::BLOOD_BAR_BACKGROUND_COLOR,
             settings::BLOOD_BAR_BAR_COLOR,
-            settings::BLOOD_BAR_INITIAL_VALUE
+            blood
         ));
         current_index().blood_bar = Some(objects.len() - 1);
     }
