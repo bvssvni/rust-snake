@@ -15,8 +15,7 @@ extern crate gfx_graphics;
 extern crate gfx;
 extern crate sdl2;
 
-use current::{ Current, Get, Set, Usage, UseCurrent };
-use std::cell::RefCell;
+use current::{ Current, CurrentGuard, Get, Set };
 use opengl_graphics::Gl;
 use gfx_graphics::G2D;
 use gfx::{Device, DeviceHelper};
@@ -46,12 +45,12 @@ pub enum GraphicsBackEnd {
 
 fn main() {
 
-    let backend = Gfx;
+    let mut backend = Gfx;
     println!("Running with graphics backend {}", backend);
     println!("Use 'S' to swap back-end");
 
     let opengl = shader_version::opengl::OpenGL_3_2;
-    let window = Window::new(
+    let mut window = Window::new(
         opengl,
         WindowSettings {
             title: "Sea Snake Escape".to_string(),
@@ -65,30 +64,21 @@ fn main() {
     let mut device = gfx::GlDevice::new(|s| unsafe {
         std::mem::transmute(sdl2::video::gl_get_proc_address(s))
     });
-    let gl = Gl::new(opengl);
-    let g2d = G2D::new(&mut device);
-    let renderer = device.create_renderer();
+    let mut gl = Gl::new(opengl);
+    let mut g2d = G2D::new(&mut device);
+    let mut renderer = device.create_renderer();
     let event::window::Size([w, h]) = window.get();
-    let frame = gfx::Frame::new(w as u16, h as u16);
-    let fps_counter = FPSCounter::new();
+    let mut frame = gfx::Frame::new(w as u16, h as u16);
+    let mut fps_counter = FPSCounter::new();
 
-    let window = RefCell::new(window);
-    let backend = RefCell::new(backend);
-    let device = RefCell::new(device);
-    let gl = RefCell::new(gl);
-    let g2d = RefCell::new(g2d);
-    let renderer = RefCell::new(renderer);
-    let frame = RefCell::new(frame);
-    let fps_counter = RefCell::new(fps_counter);
-
-    let window_guard = window.set_current();
-    let backend_guard = backend.set_current();
-    let device_guard = device.set_current();
-    let gl_guard = gl.set_current();
-    let g2d_guard = g2d.set_current();
-    let renderer_guard = renderer.set_current();
-    let frame_guard = frame.set_current();
-    let fps_counter = fps_counter.set_current();
+    let window_guard = CurrentGuard::new(&mut window);
+    let backend_guard = CurrentGuard::new(&mut backend);
+    let device_guard = CurrentGuard::new(&mut device);
+    let gl_guard = CurrentGuard::new(&mut gl);
+    let g2d_guard = CurrentGuard::new(&mut g2d);
+    let renderer_guard = CurrentGuard::new(&mut renderer);
+    let frame_guard = CurrentGuard::new(&mut frame);
+    let fps_counter_guard = CurrentGuard::new(&mut fps_counter);
 
     snakeapp::app();
 
@@ -99,18 +89,17 @@ fn main() {
     drop(g2d_guard);
     drop(renderer_guard);
     drop(frame_guard);
-    drop(fps_counter);
+    drop(fps_counter_guard);
 }
 
-fn current_window() -> Usage<'static, Window> { UseCurrent }
-fn current_gfx_device() -> Usage<'static, gfx::GlDevice> { UseCurrent }
-fn current_graphics_back_end() -> Usage<'static, GraphicsBackEnd> { UseCurrent }
-fn current_gl() -> Usage<'static, Gl> { UseCurrent }
-fn current_g2d() -> Usage<'static, G2D> { UseCurrent }
-fn current_renderer()
-    -> Usage<'static, gfx::Renderer<gfx::GlCommandBuffer>> { UseCurrent }
-fn current_frame() -> Usage<'static, gfx::Frame> { UseCurrent }
-fn current_fps_counter() -> Usage<'static, FPSCounter> { UseCurrent }
+fn current_window() -> Current<Window> { Current }
+fn current_gfx_device() -> Current<gfx::GlDevice> { Current }
+fn current_graphics_back_end() -> Current<GraphicsBackEnd> { Current }
+fn current_gl() -> Current<Gl> { Current }
+fn current_g2d() -> Current<G2D> { Current }
+fn current_renderer() -> Current<gfx::Renderer<gfx::GlCommandBuffer>> { Current }
+fn current_frame() -> Current<gfx::Frame> { Current }
+fn current_fps_counter() -> Current<FPSCounter> { Current }
 
 fn swap_backend<E: event::GenericEvent>(e: &E) {
     use event::{ PressEvent };
@@ -124,7 +113,7 @@ fn swap_backend<E: event::GenericEvent>(e: &E) {
     });
 }
 
-fn events() -> event::Events<current::Usage<'static, Window>> {
+fn events() -> event::Events<Current<Window>> {
     Events::new(current_window())
 }
 

@@ -1,7 +1,7 @@
 // Extern crates.
 use graphics::*;
 use input::keyboard;
-use current::{ Usage, UseCurrent };
+use current::{ Current, CurrentGuard };
 
 // Local crate.
 use action;
@@ -16,50 +16,36 @@ use snake::Snake;
 use air_bottle::AirBottle;
 use bar::Bar;
 
-pub fn current_cam() -> Usage<'static, Cam> { UseCurrent }
-pub fn current_game_state()
-    -> Usage<'static, game_state::GameState> { UseCurrent }
-pub fn current_objects() -> Usage<'static, Vec<Object>> { UseCurrent }
-pub fn current_index() -> Usage<'static, Index> { UseCurrent }
-pub fn current_settings() -> Usage<'static, Settings> { UseCurrent }
-pub fn current_player() -> Usage<'static, Player> { UseCurrent }
-pub fn current_snakes() -> Usage<'static, Vec<Snake>> { UseCurrent }
-pub fn current_air_bottles() -> Usage<'static, Vec<AirBottle>> { UseCurrent }
-pub fn current_bars() -> Usage<'static, Vec<Bar>> { UseCurrent }
+pub fn current_cam() -> Current<Cam> { Current }
+pub fn current_game_state() -> Current<game_state::GameState> { Current }
+pub fn current_objects() -> Current<Vec<Object>> { Current }
+pub fn current_index() -> Current<Index> { Current }
+pub fn current_settings() -> Current<Settings> { Current }
+pub fn current_player() -> Current<Player> { Current }
+pub fn current_snakes() -> Current<Vec<Snake>> { Current }
+pub fn current_air_bottles() -> Current<Vec<AirBottle>> { Current }
+pub fn current_bars() -> Current<Vec<Bar>> { Current }
 
 pub fn app() {
-    use std::cell::RefCell;
-    use current::Current;
+    let mut cam = Cam([0.0, 0.0]);
+    let mut game_state = game_state::Play;
+    let mut objects: Vec<Object> = Vec::new();
+    let mut index = Index::new();
+    let mut settings = Settings::new();
+    let mut player = Player::new();
+    let mut snakes: Vec<Snake> = Vec::new();
+    let mut air_bottles: Vec<AirBottle> = Vec::new();
+    let mut bars: Vec<Bar> = Vec::new();
 
-    let cam = Cam([0.0, 0.0]);
-    let game_state = game_state::Play;
-    let objects: Vec<Object> = Vec::new();
-    let index = Index::new();
-    let settings = Settings::new();
-    let player = Player::new();
-    let snakes: Vec<Snake> = Vec::new();
-    let air_bottles: Vec<AirBottle> = Vec::new();
-    let bars: Vec<Bar> = Vec::new();
-
-    let cam = RefCell::new(cam);
-    let game_state = RefCell::new(game_state);
-    let objects = RefCell::new(objects);
-    let index = RefCell::new(index);
-    let settings = RefCell::new(settings);
-    let player = RefCell::new(player);
-    let snakes = RefCell::new(snakes);
-    let air_bottles = RefCell::new(air_bottles);
-    let bars = RefCell::new(bars);
-
-    let cam_guard = cam.set_current();
-    let game_state_guard = game_state.set_current();
-    let objects_guard = objects.set_current();
-    let index_guard = index.set_current();
-    let settings_guard = settings.set_current();
-    let player_guard = player.set_current();
-    let snakes_guard = snakes.set_current();
-    let air_bottles = air_bottles.set_current();
-    let bars = bars.set_current();
+    let cam_guard = CurrentGuard::new(&mut cam);
+    let game_state_guard = CurrentGuard::new(&mut game_state);
+    let objects_guard = CurrentGuard::new(&mut objects);
+    let index_guard = CurrentGuard::new(&mut index);
+    let settings_guard = CurrentGuard::new(&mut settings);
+    let player_guard = CurrentGuard::new(&mut player);
+    let snakes_guard = CurrentGuard::new(&mut snakes);
+    let air_bottles_guard = CurrentGuard::new(&mut air_bottles);
+    let bars_guard = CurrentGuard::new(&mut bars);
 
     start();
 
@@ -70,8 +56,8 @@ pub fn app() {
     drop(settings_guard);
     drop(player_guard);
     drop(snakes_guard);
-    drop(air_bottles);
-    drop(bars);
+    drop(air_bottles_guard);
+    drop(bars_guard);
 }
 
 fn start() {
@@ -111,6 +97,15 @@ impl Cam {
 
     fn set(&mut self, val: [f64, ..2]) {
         *self = Cam(val);
+    }
+
+    /// Make camera follow position.
+    fn follow_pos(&mut self, dt: f64, follow_percentage: f64, pos: [f64, ..2]) {
+        let camera_pos = self.pos();
+        let (dx, dy) = (pos[0] - camera_pos[0], pos[1] - camera_pos[1]);
+        let dx = follow_percentage * dt * dx;
+        let dy = follow_percentage * dt * dy;
+        self.set([camera_pos[0] + dx, camera_pos[1] + dy]);
     }
 }
 
@@ -258,8 +253,9 @@ pub fn update(dt: f64) {
     win();
 
     fn lose() {
-        let blood = current_player().blood;
-        let air = current_player().air;
+        let player = &*current_player();
+        let blood = player.blood;
+        let air = player.air;
         if blood < 0.0 || air < 0.0 {
             *current_game_state() = game_state::Lose;
             return;
@@ -304,13 +300,8 @@ pub fn update(dt: f64) {
 
     fn follow_player(dt: f64) {
         // Make camera follow player.
-        let camera_pos = current_cam().pos();
-        let camera_follow_percentage = current_settings().camera_follow_percentage.unwrap();
-        let player_pos = player_pos();
-        let (dx, dy) = (player_pos[0] - camera_pos[0], player_pos[1] - camera_pos[1]);
-        let dx = camera_follow_percentage * dt * dx;
-        let dy = camera_follow_percentage * dt * dy;
-        current_cam().set([camera_pos[0] + dx, camera_pos[1] + dy]);
+        let follow_percentage = current_settings().camera_follow_percentage.unwrap();
+        current_cam().follow_pos(dt, follow_percentage, player_pos());
     }
 
     follow_player(dt);
