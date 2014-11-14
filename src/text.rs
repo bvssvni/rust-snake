@@ -1,7 +1,7 @@
 #![allow(non_upper_case_globals)]
 
 // External crates.
-use graphics::*;
+use piston::graphics::*;
 
 static top_face_down: &'static [[f64, ..2]] = &[
     [18.0, 24.0],
@@ -346,4 +346,3 @@ pub fn text<B: BackEnd<I>, I: ImageSize>(
         };
     }
 }
-

@@ -1,7 +1,8 @@
 // Extern crates.
-use graphics::*;
-use input::keyboard;
-use current::{ Current, CurrentGuard };
+use piston::graphics::{ Context, BackEnd, ImageSize };
+use piston;
+use piston::input::keyboard;
+use piston::{ Current, CurrentGuard };
 
 // Local crate.
 use action;
@@ -60,16 +61,47 @@ pub fn app() {
     drop(bars_guard);
 }
 
+/// The graphics back-end to use for rendering.
+#[deriving(Show)]
+pub enum GraphicsBackEnd {
+    /// Use Gfx to render
+    Gfx,
+    /// Use OpenGL to render
+    OpenGL,
+}
+
 fn start() {
-    use event::{ RenderEvent, UpdateEvent, PressEvent, ReleaseEvent };
-    use input;
+    use piston::event::{ RenderEvent, UpdateEvent, PressEvent, ReleaseEvent };
+    use piston::input;
+
+    let mut back_end = Gfx;
+    println!("Running with graphics backend {}", back_end);
+    println!("Use 'S' to swap back-end");
 
     load();
-    for e in ::events() {
-        ::swap_backend(&e);
-        e.render(|args| {
-            ::render(args);
-            ::fps_tick();
+    for e in piston::events() {
+        e.press(|button| {
+            if button == input::Keyboard(input::keyboard::S) {
+                back_end = match back_end {
+                        Gfx => { println!("Swapped to OpenGL"); OpenGL }
+                        OpenGL => { println!("Swapped to Gfx"); Gfx }
+                    };
+            }
+        });
+        e.render(|_args| {
+            match back_end {
+                Gfx => {
+                    piston::render_2d_gfx(Some(settings::WATER_COLOR), |c, g| {
+                        render(c, g)
+                    });
+                }
+                OpenGL => {
+                    piston::render_2d_opengl(Some(settings::WATER_COLOR), |c, g| {
+                        render(c, g)
+                    });
+                }
+            };
+            piston::set_title(piston::fps_tick().to_string());
         });
         e.update(|args| {
             update(args.dt);
@@ -141,6 +173,8 @@ impl Settings {
 }
 
 pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
+    use piston::graphics::*;
+
     let c = &c.reset();
 
     // Get camera coordinates.

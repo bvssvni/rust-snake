@@ -1,4 +1,4 @@
-use graphics::*;
+use piston::graphics::*;
 use text;
 use settings;
 
