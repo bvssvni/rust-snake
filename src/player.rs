@@ -18,19 +18,19 @@ impl Player {
             blood: 0.0,
             air: 0.0,
             tween_factor: 0.0,
-            state: Normal,
+            state: PlayerState::Normal,
         }
     }
 
     pub fn update(&mut self, dt: f64) {
         self.tween_factor += dt * settings::PLAYER_TWEEN_SPEED;
         self.state = match self.state {
-            Normal => Normal,
-            Bitten(sec) => {
+            PlayerState::Normal => PlayerState::Normal,
+            PlayerState::Bitten(sec) => {
                 if sec - dt < 0.0 {
-                    Normal
+                    PlayerState::Normal
                 } else {
-                    Bitten(sec - dt)
+                    PlayerState::Bitten(sec - dt)
                 }
             }
         }
@@ -38,7 +38,7 @@ impl Player {
 
     pub fn bite(&mut self, damage: f64) {
         if damage > 0.0 {
-            self.state = Bitten(settings::PLAYER_BITTEN_FADE_OUT_SECONDS);
+            self.state = PlayerState::Bitten(settings::PLAYER_BITTEN_FADE_OUT_SECONDS);
             self.blood -= damage;
         }
     }

@@ -1,6 +1,6 @@
 
 use settings;
-use action;
+use action::Action;
 
 pub enum SnakeState {
     Ignorant,
@@ -21,34 +21,46 @@ pub struct Snake {
 
 impl Snake {
     pub fn update(
-        &mut self, dt: f64,  
-        player_pos: [f64, ..2], 
-        snake_pos: [f64, ..2]) -> action::Action {
+        &mut self, dt: f64,
+        player_pos: [f64, ..2],
+        snake_pos: [f64, ..2]
+    ) -> Action {
+        use std::num::Float;
 
         self.simulate_tail(snake_pos[0], snake_pos[1], dt);
         let (dx, dy) = (player_pos[0] - snake_pos[0], player_pos[1] - snake_pos[1]);
         let d = (dx * dx + dy * dy).sqrt();
-        
-        let mut action = action::Passive;
+
+        let mut action = Action::Passive;
         self.state = match self.state {
-            Ignorant => if d < self.sensor_distance { ChasingPlayer } else { Ignorant },
-            ChasingPlayer =>
-                if d < self.attack_distance { WaitForAttack(self.wait_seconds_before_initial_attack) }
-                else { ChasingPlayer },
-            WaitForAttack(seconds) =>
+            SnakeState::Ignorant =>
+                if d < self.sensor_distance {
+                    SnakeState::ChasingPlayer
+                } else {
+                    SnakeState::Ignorant
+                },
+            SnakeState::ChasingPlayer =>
+                if d < self.attack_distance {
+                    SnakeState::WaitForAttack(self.wait_seconds_before_initial_attack)
+                } else {
+                    SnakeState::ChasingPlayer
+                },
+            SnakeState::WaitForAttack(seconds) =>
                 if seconds - dt <= 0.0 {
-                    if d >= self.attack_distance { ChasingPlayer }
-                    else { 
-                        action = action::Attack(self.bite_damage);
-                        WaitForAttack(self.wait_seconds_before_repeat_attack) 
+                    if d >= self.attack_distance { SnakeState::ChasingPlayer }
+                    else {
+                        action = Action::Attack(self.bite_damage);
+                        SnakeState::WaitForAttack(self.wait_seconds_before_repeat_attack)
                     }
-                } else { WaitForAttack(seconds - dt) },
-            Dead => Dead,
+                } else { SnakeState::WaitForAttack(seconds - dt) },
+            SnakeState::Dead => SnakeState::Dead,
         };
         action
     }
 
     pub fn simulate_tail(&mut self, x: f64, y: f64, _dt: f64) {
+        use std::num::Float;
+
         let mut x = x;
         let mut y = y;
         let dist = settings::SNAKE_TAIL_DISTANCE;
@@ -74,4 +86,3 @@ impl Snake {
         }
     }
 }
-

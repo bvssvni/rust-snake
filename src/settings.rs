@@ -11,7 +11,7 @@ pub const NUMBER_OF_LAYERS: uint = 4;
 pub const WATER_COLOR: [f32, ..4] = [0.0, 0.0, 0.2, 1.0];
 pub const WATER_FRICTION: f64 = 0.2;
 pub const SURFACE_Y: f64 = 10.0;
-pub const INITIAL_GAME_STATE: game_state::GameState = game_state::Play;
+pub const INITIAL_GAME_STATE: game_state::GameState = game_state::GameState::Play;
 pub const INITIAL_CAMERA_POS: [f64, ..2] = [0.0, 0.0];
 pub const CAMERA_FOLLOW_PERCENTAGE: f64 = 0.4;
 
@@ -60,7 +60,7 @@ pub const SNAKE_SETTINGS: SnakeSettings = SnakeSettings {
     acceleration_right: 0.1 * SNAKE_OVERALL_ACCELERATION,
     acceleration_up: 0.1 * SNAKE_OVERALL_ACCELERATION,
     acceleration_down: 0.1 * SNAKE_OVERALL_ACCELERATION,
-    initial_state: snake::Ignorant,
+    initial_state: snake::SnakeState::Ignorant,
     bite_damage: 0.3,
     sensor_distance: 2.0,
     attack_distance: 0.5 * PLAYER_RADIUS,
@@ -96,7 +96,7 @@ pub fn player(
     blood: f64,
     air: f64,
 ) {
-    use object::PlayerData;
+    use object::Data;
     use player::Player;
     use snakeapp::current_player;
 
@@ -104,7 +104,7 @@ pub fn player(
         blood: blood,
         air: air,
         tween_factor: 0.0,
-        state: player::Normal,
+        state: player::PlayerState::Normal,
     };
     let i = current_objects().len();
     current_objects().push(Object {
@@ -116,7 +116,7 @@ pub fn player(
         acceleration_v: [0.1, 0.1],
         radius: PLAYER_RADIUS,
         test_color: colors::BLUE,
-        data: PlayerData,
+        data: Data::Player,
     });
     current_index().player = Some(i);
 }

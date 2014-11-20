@@ -22,12 +22,12 @@ use snakeapp::{
 };
 
 #[deriving(Show)]
-pub enum ObjectData {
-    PlayerData,
-    SnakeData(uint),
-    AirBottleData(uint),
-    BarData(uint),
-    BarBackgroundData,
+pub enum Data {
+    Player,
+    Snake(uint),
+    AirBottle(uint),
+    Bar(uint),
+    BarBackground,
 }
 
 /// All objects are of same kind.
@@ -41,7 +41,7 @@ pub struct Object {
     pub acceleration_v: [f64, ..2],
     pub radius: f64,
     pub test_color: [f32, ..4],
-    pub data: ObjectData,
+    pub data: Data,
 }
 
 impl Object {
@@ -55,7 +55,7 @@ impl Object {
             test_color: [0.0, 0.0, 0.0, 0.0],
             acceleration_h: [0.0, 0.0],
             acceleration_v: [0.0, 0.0],
-            data: BarBackgroundData,
+            data: Data::BarBackground,
         }
     }
 
@@ -75,7 +75,7 @@ impl Object {
             acceleration_v: [0.0, 0.0],
             radius: settings::AIR_BOTTLE_RADIUS,
             test_color: settings::AIR_BOTTLE_TEST_COLOR,
-            data: AirBottleData(i),
+            data: Data::AirBottle(i),
         }
     }
 
@@ -109,7 +109,7 @@ impl Object {
             acceleration_v: [settings.acceleration_up, settings.acceleration_down],
             radius: settings.radius,
             test_color: settings.test_color,
-            data: SnakeData(i),
+            data: Data::Snake(i),
         }
     }
 
@@ -139,7 +139,7 @@ impl Object {
             acceleration_h: [0.0, 0.0],
             acceleration_v: [0.0, 0.0],
             test_color: colors::BLACK,
-            data: BarData(i),
+            data: Data::Bar(i),
         }
     }
 
@@ -180,7 +180,7 @@ impl Object {
 
         // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
         match player.state {
-            player::Normal => {
+            player::PlayerState::Normal => {
                 character::draw_character(
                     player.tween_factor,
                         &cam
@@ -190,7 +190,7 @@ impl Object {
                         gl
                     );
             },
-            player::Bitten(sec) => {
+            player::PlayerState::Bitten(sec) => {
                 let t = 1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS;
                 let color = lerp_4(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
                 character::draw_character(
@@ -237,16 +237,16 @@ impl Object {
         let rad = self.radius;
 
         match self.data {
-            SnakeData(i) => self.render_snake(
+            Data::Snake(i) => self.render_snake(
                 &current_snakes()[i], x, y, rad, cam, c, gl),
-            PlayerData => self.render_player(
+            Data::Player => self.render_player(
                 &*current_player(), x, y, cam, c, gl),
-            AirBottleData(i) => self.render_air_bottle(
+            Data::AirBottle(i) => self.render_air_bottle(
                 &current_air_bottles()[i], x, y, rad, cam, c, gl),
-            BarData(i) => {
+            Data::Bar(i) => {
                 current_bars()[i].render(&c.trans(x, y), gl);
             },
-            BarBackgroundData => {
+            Data::BarBackground => {
                 // Render round rectangle around bars.
                 let bar_bgh = settings::BAR_BACKGROUND_HEIGHT;
                 let bar_color = settings::BAR_BACKGROUND_COLOR;
@@ -270,7 +270,7 @@ impl Object {
 
     fn move_snake(&mut self, state: snake::SnakeState, player_dx: f64, player_dy: f64) {
         match state {
-            snake::ChasingPlayer => {
+            snake::SnakeState::ChasingPlayer => {
                 if player_dx > 0.0 { self.move_right(); }
                 else { self.move_left(); }
 
@@ -282,6 +282,8 @@ impl Object {
     }
 
     pub fn update(&mut self, dt: f64, player_pos: [f64, ..2]) -> action::Action {
+        use std::num::Float;
+
         self.pos = [
             self.pos[0] + 0.5 * self.vel[0] * dt,
             self.pos[1] + 0.5 * self.vel[1] * dt
@@ -302,11 +304,11 @@ impl Object {
             self.pos[1] + 0.5 * self.vel[1] * dt
         ];
 
-        let mut action = action::Passive;
+        let mut action = action::Action::Passive;
         // Update object state.
         let (player_dx, player_dy) = (player_pos[0] - self.pos[0], player_pos[1] - self.pos[1]);
         match self.data {
-            SnakeData(i) => {
+            Data::Snake(i) => {
                 action = current_snakes()[i].update(dt, player_pos, self.pos);
             },
             _ => {},
@@ -314,7 +316,7 @@ impl Object {
 
         // Move object.
         match self.data {
-            SnakeData(i) => {
+            Data::Snake(i) => {
                 let Snake { state, .. } = current_snakes()[i];
                 self.move_snake(state, player_dx, player_dy);
             },

@@ -10,7 +10,7 @@ use settings;
 use object;
 use object::Object;
 use text;
-use game_state;
+use game_state::GameState;
 use player::{ Player };
 use colors;
 use snake::Snake;
@@ -18,7 +18,7 @@ use air_bottle::AirBottle;
 use bar::Bar;
 
 pub fn current_cam() -> Current<Cam> { Current }
-pub fn current_game_state() -> Current<game_state::GameState> { Current }
+pub fn current_game_state() -> Current<GameState> { Current }
 pub fn current_objects() -> Current<Vec<Object>> { Current }
 pub fn current_index() -> Current<Index> { Current }
 pub fn current_settings() -> Current<Settings> { Current }
@@ -29,7 +29,7 @@ pub fn current_bars() -> Current<Vec<Bar>> { Current }
 
 pub fn app() {
     let mut cam = Cam([0.0, 0.0]);
-    let mut game_state = game_state::Play;
+    let mut game_state = GameState::Play;
     let mut objects: Vec<Object> = Vec::new();
     let mut index = Index::new();
     let mut settings = Settings::new();
@@ -74,28 +74,34 @@ fn start() {
     use piston::event::{ RenderEvent, UpdateEvent, PressEvent, ReleaseEvent };
     use piston::input;
 
-    let mut back_end = Gfx;
+    let mut back_end = GraphicsBackEnd::Gfx;
     println!("Running with graphics backend {}", back_end);
     println!("Use 'S' to swap back-end");
 
     load();
     for e in piston::events() {
         e.press(|button| {
-            if button == input::Keyboard(input::keyboard::S) {
-                back_end = match back_end {
-                        Gfx => { println!("Swapped to OpenGL"); OpenGL }
-                        OpenGL => { println!("Swapped to Gfx"); Gfx }
-                    };
-            }
+            if button != input::Keyboard(input::keyboard::S) { return; }
+
+            back_end = match back_end {
+                GraphicsBackEnd::Gfx => {
+                    println!("Swapped to OpenGL");
+                    GraphicsBackEnd::OpenGL
+                }
+                GraphicsBackEnd::OpenGL => {
+                    println!("Swapped to Gfx");
+                    GraphicsBackEnd::Gfx
+                }
+            };
         });
         e.render(|_args| {
             match back_end {
-                Gfx => {
+                GraphicsBackEnd::Gfx => {
                     piston::render_2d_gfx(Some(settings::WATER_COLOR), |c, g| {
                         render(c, g)
                     });
                 }
-                OpenGL => {
+                GraphicsBackEnd::OpenGL => {
                     piston::render_2d_opengl(Some(settings::WATER_COLOR), |c, g| {
                         render(c, g)
                     });
@@ -196,7 +202,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
     let text_c = c.flip_v();
     let text_c = text_c.zoom(0.0025);
     match *current_game_state() {
-        game_state::Win => {
+        GameState::Win => {
             let pos = settings::YOU_WIN_POS;
             text::text(settings::YOU_WIN_TEXT,
                 &text_c
@@ -204,7 +210,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
                 .color(settings::YOU_WIN_TEXT_COLOR)
             , gl);
         },
-        game_state::Lose => {
+        GameState::Lose => {
             let pos = settings::YOU_LOSE_POS;
             text::text(settings::YOU_LOSE_TEXT,
                 &text_c
@@ -212,7 +218,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
                 .color(settings::YOU_LOSE_TEXT_COLOR)
             , gl);
         },
-        game_state::Play => {
+        GameState::Play => {
 
         },
     }
@@ -226,7 +232,7 @@ pub fn update(dt: f64) {
     }
 
     fn update_objects(dt: f64) {
-        if *current_game_state() != game_state::Play { return; }
+        if *current_game_state() != GameState::Play { return; }
 
         current_player().update(dt);
 
@@ -235,8 +241,8 @@ pub fn update(dt: f64) {
         let mut attack_damage: f64 = 0.0;
         for obj in current_objects().iter_mut() {
             match obj.update(dt, player_pos) {
-                action::Passive => {},
-                action::Attack(attack) => { attack_damage += attack; },
+                action::Action::Passive => {},
+                action::Action::Attack(attack) => { attack_damage += attack; },
             }
         }
         // Bite player.
@@ -255,7 +261,7 @@ pub fn update(dt: f64) {
         for obj in current_objects().iter_mut() {
             let pos = obj.pos;
             match obj.data {
-                object::AirBottleData(i) => {
+                object::Data::AirBottle(i) => {
                     let dx = pos[0] - player_pos[0];
                     let dy = pos[1] - player_pos[1];
                     let d = dx * dx + dy * dy;
@@ -279,7 +285,7 @@ pub fn update(dt: f64) {
         let player_pos = player_pos();
         // When player reaches surface, win.
         if player_pos[1] >= current_settings().surface_y.unwrap() {
-            *current_game_state() = game_state::Win;
+            *current_game_state() = GameState::Win;
             return;
         }
     }
@@ -291,7 +297,7 @@ pub fn update(dt: f64) {
         let blood = player.blood;
         let air = player.air;
         if blood < 0.0 || air < 0.0 {
-            *current_game_state() = game_state::Lose;
+            *current_game_state() = GameState::Lose;
             return;
         }
     }
@@ -352,7 +358,7 @@ fn restart() {
 }
 
 pub fn key_press(key: keyboard::Key) {
-    if *current_game_state() != game_state::Play { return; }
+    if *current_game_state() != GameState::Play { return; }
 
     match (key, current_index().player) {
         (keyboard::Right, Some(player_index)) => {
@@ -374,7 +380,7 @@ pub fn key_press(key: keyboard::Key) {
 pub fn key_release(key: keyboard::Key) {
     if key == keyboard::Return || key == keyboard::Space {
         match *current_game_state() {
-            game_state::Win | game_state::Lose => restart(),
+            GameState::Win | GameState::Lose => restart(),
             _ => {},
         }
     }
