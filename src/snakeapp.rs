@@ -319,6 +319,7 @@ pub fn load() {
     *current_game_state() = settings::INITIAL_GAME_STATE;
 
     // Add player.
+    current_objects().clear();
     current_objects().push(Object::bar_background());
     current_index().player = Some(0);
 

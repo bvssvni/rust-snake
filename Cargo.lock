@@ -30,7 +30,7 @@ source = "git+https://github.com/PistonDevelopers/current#281637a9f018f41ed44a15
 [[package]]
 name = "device"
 version = "0.1.0"
-source = "git+https://github.com/gfx-rs/gfx-rs#92423cb7c959c648bfb7211aad52d9654d86eed1"
+source = "git+https://github.com/gfx-rs/gfx-rs#8d33b65f7a472d31bbb4ef7abce4137c3909d8bd"
 dependencies = [
  "gfx_gl 0.1.0 (git+https://github.com/gfx-rs/gfx_gl.git)",
 ]
@@ -84,7 +84,7 @@ source = "git+https://github.com/csherratt/genmesh.git#b873594b1479f7b85e0bcba47
 [[package]]
 name = "gfx"
 version = "0.1.0"
-source = "git+https://github.com/gfx-rs/gfx-rs#92423cb7c959c648bfb7211aad52d9654d86eed1"
+source = "git+https://github.com/gfx-rs/gfx-rs#8d33b65f7a472d31bbb4ef7abce4137c3909d8bd"
 dependencies = [
  "device 0.1.0 (git+https://github.com/gfx-rs/gfx-rs)",
  "gfx_macros 0.1.0 (git+https://github.com/gfx-rs/gfx-rs)",
@@ -108,21 +108,21 @@ dependencies = [
  "gfx_macros 0.1.0 (git+https://github.com/gfx-rs/gfx-rs)",
  "gfx_texture 0.0.0 (git+https://github.com/pistondevelopers/gfx_texture)",
  "graphics 0.0.0 (git+https://github.com/pistondevelopers/graphics)",
- "image 0.1.0 (git+https://github.com/pistondevelopers/image)",
+ "image 0.2.0-alpha.1 (git+https://github.com/pistondevelopers/image)",
 ]
 
 [[package]]
 name = "gfx_macros"
 version = "0.1.0"
-source = "git+https://github.com/gfx-rs/gfx-rs#92423cb7c959c648bfb7211aad52d9654d86eed1"
+source = "git+https://github.com/gfx-rs/gfx-rs#8d33b65f7a472d31bbb4ef7abce4137c3909d8bd"
 
 [[package]]
 name = "gfx_texture"
 version = "0.0.0"
-source = "git+https://github.com/pistondevelopers/gfx_texture#504a58b3a28ed99bed32121832ca12f182f648ab"
+source = "git+https://github.com/pistondevelopers/gfx_texture#78ff958a397a8866d74437b56c9b0688d65a9696"
 dependencies = [
  "gfx 0.1.0 (git+https://github.com/gfx-rs/gfx-rs)",
- "image 0.1.0 (git+https://github.com/pistondevelopers/image)",
+ "image 0.2.0-alpha.1 (git+https://github.com/pistondevelopers/image)",
  "texture 0.0.0 (git+https://github.com/PistonDevelopers/texture)",
 ]
 
@@ -160,8 +160,8 @@ dependencies = [
 
 [[package]]
 name = "image"
-version = "0.1.0"
-source = "git+https://github.com/pistondevelopers/image#a869d792215bbcf645267df32e7890f2fa5999ab"
+version = "0.2.0-alpha.1"
+source = "git+https://github.com/pistondevelopers/image#c6d88b6a4b8c87cfe7f9726cc7d50bd322c4bf13"
 
 [[package]]
 name = "input"
@@ -181,11 +181,11 @@ source = "git+https://github.com/bjz/noise-rs#965bf6052316ef343213394edb8eadedb9
 [[package]]
 name = "opengl_graphics"
 version = "0.0.0"
-source = "git+https://github.com/pistondevelopers/opengl_graphics#944933e3e857ec004a07639ef5bdf6a62b9e3dc7"
+source = "git+https://github.com/pistondevelopers/opengl_graphics#edb7aaf8a979e59d968150a336b2ded2868fe69b"
 dependencies = [
  "gl 0.0.1 (git+https://github.com/bjz/gl-rs.git)",
  "graphics 0.0.0 (git+https://github.com/pistondevelopers/graphics)",
- "image 0.1.0 (git+https://github.com/pistondevelopers/image)",
+ "image 0.2.0-alpha.1 (git+https://github.com/pistondevelopers/image)",
  "shader_version 0.0.0 (git+https://github.com/pistondevelopers/shader_version)",
  "texture 0.0.0 (git+https://github.com/PistonDevelopers/texture)",
 ]
@@ -203,7 +203,7 @@ dependencies = [
  "gfx 0.1.0 (git+https://github.com/gfx-rs/gfx-rs)",
  "gfx_graphics 0.0.0 (git+https://github.com/pistondevelopers/gfx_graphics)",
  "graphics 0.0.0 (git+https://github.com/pistondevelopers/graphics)",
- "image 0.1.0 (git+https://github.com/pistondevelopers/image)",
+ "image 0.2.0-alpha.1 (git+https://github.com/pistondevelopers/image)",
  "input 0.0.0 (git+https://github.com/pistondevelopers/input)",
  "noise-rs 0.0.1 (git+https://github.com/bjz/noise-rs)",
  "opengl_graphics 0.0.0 (git+https://github.com/pistondevelopers/opengl_graphics)",
@@ -225,7 +225,7 @@ source = "git+https://github.com/pistondevelopers/read_color#c563f9f02a0879353f1
 [[package]]
 name = "render"
 version = "0.1.0"
-source = "git+https://github.com/gfx-rs/gfx-rs#92423cb7c959c648bfb7211aad52d9654d86eed1"
+source = "git+https://github.com/gfx-rs/gfx-rs#8d33b65f7a472d31bbb4ef7abce4137c3909d8bd"
 dependencies = [
  "device 0.1.0 (git+https://github.com/gfx-rs/gfx-rs)",
 ]
@@ -257,7 +257,7 @@ name = "select_color"
 version = "0.0.0"
 source = "git+https://github.com/pistondevelopers/select_color#1febf5dae0e949e451a634942acb0862bde88ad7"
 dependencies = [
- "image 0.1.0 (git+https://github.com/pistondevelopers/image)",
+ "image 0.2.0-alpha.1 (git+https://github.com/pistondevelopers/image)",
 ]
 
 [[package]]
@@ -279,14 +279,14 @@ dependencies = [
 [[package]]
 name = "texture"
 version = "0.0.0"
-source = "git+https://github.com/PistonDevelopers/texture#0dd5a5f2029b4a56a02f8e528087b93496c6ac52"
+source = "git+https://github.com/PistonDevelopers/texture#65e7bbd59a2a2e8354ec0dd0cdd35260db64f85b"
 
 [[package]]
 name = "texture-packer"
 version = "0.0.0"
 source = "git+https://github.com/PistonDevelopers/texture-packer#46cdd4ba1b066f3c2fb19cdc05537cadda90af67"
 dependencies = [
- "image 0.1.0 (git+https://github.com/pistondevelopers/image)",
+ "image 0.2.0-alpha.1 (git+https://github.com/pistondevelopers/image)",
 ]
 
 [[package]]
