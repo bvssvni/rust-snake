@@ -1,4 +1,7 @@
-use piston::graphics::*;
+use piston::graphics;
+use piston::graphics::{
+    BackEnd, Context, ImageSize, RelativeTransform,
+};
 use text;
 use settings;
 
@@ -16,21 +19,20 @@ impl Bar {
     ) {
         text::text(
             self.text,
+            &graphics::Polygon::new(self.text_color),
             &c
-            .color(self.text_color)
             .flip_v()
             .zoom(0.001),
             gl
         );
         let rect = settings::BAR_RECTANGLE;
-        let x = rect[0];
-        let y = rect[1];
-        let w = rect[2];
-        let h = rect[3];
-        c.rect(x, y, w, h).color(self.background_color).draw(gl);
+        let [x, y, w, h] = rect;
+        graphics::Rectangle::new(self.background_color)
+            .draw(rect, c, gl);
         let val = (self.value)();
         let val = if val > 1.0 { 1.0 } else { val };
         let val = if val < 0.0 { 0.0 } else { val };
-        c.rect(x, y, w * val, h).margin(settings::BAR_MARGIN).color(self.bar_color).draw(gl);
+        graphics::Rectangle::new(self.bar_color)
+            .draw(graphics::rectangle::margin([x, y, w * val, h], settings::BAR_MARGIN), c, gl);
     }
 }

@@ -1,5 +1,6 @@
 // Extern crates.
 use piston::graphics::{ Context, BackEnd, ImageSize };
+use piston::graphics;
 use piston;
 use piston::input::keyboard;
 use piston::{ Current, CurrentGuard };
@@ -98,12 +99,12 @@ fn start() {
             match back_end {
                 GraphicsBackEnd::Gfx => {
                     piston::render_2d_gfx(Some(settings::WATER_COLOR), |c, g| {
-                        render(c, g)
+                        render(&c, g)
                     });
                 }
                 GraphicsBackEnd::OpenGL => {
                     piston::render_2d_opengl(Some(settings::WATER_COLOR), |c, g| {
-                        render(c, g)
+                        render(&c, g)
                     });
                 }
             };
@@ -189,7 +190,8 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
 
     // Render surface.
     let surface_y = current_settings().surface_y.unwrap();
-    c.rect(-1.0, surface_y - cam_y, 2.0, 0.05).color(colors::BLUE).draw(gl);
+    graphics::Rectangle::new(colors::BLUE)
+        .draw([-1.0, surface_y - cam_y, 2.0, 0.05], c, gl);
 
     // Render objects in layers.
     let cam = &c.trans(-cam_x, -cam_y);
@@ -205,17 +207,17 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
         GameState::Win => {
             let pos = settings::YOU_WIN_POS;
             text::text(settings::YOU_WIN_TEXT,
+                &graphics::Polygon::new(settings::YOU_WIN_TEXT_COLOR),
                 &text_c
                 .trans(pos[0], pos[1])
-                .color(settings::YOU_WIN_TEXT_COLOR)
             , gl);
         },
         GameState::Lose => {
             let pos = settings::YOU_LOSE_POS;
             text::text(settings::YOU_LOSE_TEXT,
+                &graphics::Polygon::new(settings::YOU_LOSE_TEXT_COLOR),
                 &text_c
                 .trans(pos[0], pos[1])
-                .color(settings::YOU_LOSE_TEXT_COLOR)
             , gl);
         },
         GameState::Play => {

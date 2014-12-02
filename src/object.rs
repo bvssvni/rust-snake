@@ -1,5 +1,6 @@
 // External crates.
-use piston::graphics::*;
+use piston::graphics;
+use piston::graphics::{ BackEnd, Context, ImageSize, RelativeTransform };
 use piston::graphics::interpolation::{ lerp_4 };
 use colors;
 
@@ -155,15 +156,18 @@ impl Object {
     ) {
 
         // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
-        cam.circle(x, y, rad).color(self.test_color).draw(gl);
+        graphics::Ellipse::new(self.test_color)
+            .draw(graphics::ellipse::circle(x, y, rad), cam, gl);
         let n = snake.tail.len() / 2;
+        let black = graphics::Ellipse::new(colors::BLACK);
+        let tail = graphics::Ellipse::new(settings::SNAKE_TAIL_COLOR);
         for i in range(0, n) {
             let x = snake.tail[i * 2];
             let y = snake.tail[i * 2 + 1];
             if (i / 8) % 2 == 1 {
-                cam.circle(x, y, rad).color(colors::BLACK).draw(gl);
+                black.draw(graphics::ellipse::circle(x, y, rad), cam, gl);
             } else {
-                cam.circle(x, y, rad).color(settings::SNAKE_TAIL_COLOR).draw(gl);
+                tail.draw(graphics::ellipse::circle(x, y, rad), cam, gl);
             }
         }
     }
@@ -182,23 +186,21 @@ impl Object {
         match player.state {
             player::PlayerState::Normal => {
                 character::draw_character(
+                    &graphics::Polygon::new(settings::PLAYER_COLOR),
                     player.tween_factor,
-                        &cam
-                            .trans(x, y)
-                            .zoom(0.002)
-                            .color(settings::PLAYER_COLOR),
-                        gl
-                    );
+                    &cam.trans(x, y).zoom(0.002),
+                    gl
+                );
             },
             player::PlayerState::Bitten(sec) => {
                 let t = 1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS;
                 let color = lerp_4(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
                 character::draw_character(
+                    &graphics::Polygon::new(color),
                     player.tween_factor,
                     &cam
                         .trans(x, y)
-                        .zoom(0.002)
-                        .color(color),
+                        .zoom(0.002),
                     gl
                 );
             },
@@ -216,12 +218,12 @@ impl Object {
         gl: &mut B
     ) {
         if air_bottle.fill_up == 0.0 { return; }
-        cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
+        graphics::Rectangle::new(self.test_color)
+            .draw(graphics::rectangle::centered_square(x, y, rad), cam, gl);
         text::text(
             "air",
-            &cam
-                .color(settings::AIR_BOTTLE_TEXT_COLOR)
-                .trans(x, y)
+            &graphics::Polygon::new(settings::AIR_BOTTLE_TEXT_COLOR),
+            &cam.trans(x, y)
                 .flip_v()
                 .trans(-0.075, -0.03)
                 .zoom(0.001),
@@ -253,17 +255,18 @@ impl Object {
                 let bar_color_2 = settings::BAR_BACKGROUND_COLOR_2;
                 let margin = settings::BAR_BACKGROUND_MARGIN;
                 let margin_2 = settings::BAR_BACKGROUND_MARGIN_2;
-                c.rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh)
-                    .margin(margin)
-                    .round(0.1)
-                    .color(bar_color)
-                    .draw(gl);
-                c
-                    .rect(-1.0, 1.0 - bar_bgh, 2.0, bar_bgh)
-                    .margin(margin_2)
-                    .round(0.1)
-                    .color(bar_color_2)
-                    .draw(gl);
+                let rect = graphics::rectangle::margin(
+                        [-1.0, 1.0 - bar_bgh, 2.0, bar_bgh],
+                        margin
+                    );
+                graphics::Rectangle::round(bar_color, 0.1)
+                    .draw(rect, c, gl);
+                let rect_2 = graphics::rectangle::margin(
+                        [-1.0, 1.0 - bar_bgh, 2.0, bar_bgh],
+                        margin_2
+                    );
+                graphics::Rectangle::round(bar_color_2, 0.1)
+                    .draw(rect_2, c, gl);
             }
         };
     }

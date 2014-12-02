@@ -1,21 +1,22 @@
 #![allow(non_upper_case_globals)]
 
-use piston::graphics::*;
+use piston::graphics;
+use piston::graphics::{ BackEnd, Context, ImageSize, RelativeTransform };
 
 pub fn draw_character<B: BackEnd<I>, I: ImageSize>(
-    tween_factor: f64, c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, tween_factor: f64, c: &Context, gl: &mut B
 ) {
     let d = c.flip_v();
     let d = d.trans(-148.0, -116.0);
-    let d = d.lerp(tween_factor);
-    d.polygons(frames_left_upper_leg).draw(gl);
-    d.polygons(frames_left_lower_leg).draw(gl);
-    d.polygons(frames_right_upper_leg).draw(gl);
-    d.polygons(frames_right_lower_leg).draw(gl);
-    d.polygons(frames_body).draw(gl);
-    d.polygons(frames_left_arm).draw(gl);
-    d.polygons(frames_right_arm).draw(gl);
-    d.polygons(frames_head).draw(gl);
+    let draw = |poly| polygon.draw_tween_lerp(poly, tween_factor, &d, gl);
+    draw(frames_left_upper_leg);
+    draw(frames_left_lower_leg);
+    draw(frames_right_upper_leg);
+    draw(frames_right_lower_leg);
+    draw(frames_body);
+    draw(frames_left_arm);
+    draw(frames_right_arm);
+    draw(frames_head);
 }
 
 pub static frames_right_lower_leg: &'static [&'static [[f64, ..2]]] = &[

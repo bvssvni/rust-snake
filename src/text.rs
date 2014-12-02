@@ -1,7 +1,10 @@
 #![allow(non_upper_case_globals)]
 
 // External crates.
-use piston::graphics::*;
+use piston::graphics;
+use piston::graphics::{
+    BackEnd, Context, ImageSize, RelativeTransform
+};
 
 static top_face_down: &'static [[f64, ..2]] = &[
     [18.0, 24.0],
@@ -174,150 +177,164 @@ static upper_diagonal_top_left_to_bottom_right: &'static [[f64, ..2]] = &[
 // end segments.
 
 fn a_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_face_down).draw(gl);
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left).draw(gl);
-    c.polygon(middle).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(lower_right_face_left).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_face_down);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left);
+    draw(middle);
+    draw(lower_left_face_right);
+    draw(lower_right_face_left);
 }
 
 fn i_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(upper_middle).draw(gl);
-    c.polygon(lower_middle).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(upper_middle);
+    draw(lower_middle);
 }
 
 fn t_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_face_down).draw(gl);
-    c.polygon(upper_middle).draw(gl);
-    c.polygon(lower_middle).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_face_down);
+    draw(upper_middle);
+    draw(lower_middle);
 }
 
 fn r_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_face_down).draw(gl);
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left).draw(gl);
-    c.polygon(middle).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(lower_diagonal_top_left_to_bottom_right).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_face_down);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left);
+    draw(middle);
+    draw(lower_left_face_right);
+    draw(lower_diagonal_top_left_to_bottom_right);
 }
 
 fn b_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_capped_right).draw(gl);
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left_capped_right).draw(gl);
-    c.polygon(middle).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(lower_right_face_left_capped_right).draw(gl);
-    c.polygon(bottom_capped_right).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_capped_right);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left_capped_right);
+    draw(middle);
+    draw(lower_left_face_right);
+    draw(lower_right_face_left_capped_right);
+    draw(bottom_capped_right);
 }
 
 fn l_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(bottom_face_up).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(upper_left_face_right);
+    draw(lower_left_face_right);
+    draw(bottom_face_up);
 }
 
 fn o_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_capped_left_right).draw(gl);
-    c.polygon(upper_left_face_right_capped_left).draw(gl);
-    c.polygon(upper_right_face_left_capped_right).draw(gl);
-    c.polygon(lower_left_face_right_capped_left).draw(gl);
-    c.polygon(lower_right_face_left_capped_right).draw(gl);
-    c.polygon(bottom_capped_left_right).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_capped_left_right);
+    draw(upper_left_face_right_capped_left);
+    draw(upper_right_face_left_capped_right);
+    draw(lower_left_face_right_capped_left);
+    draw(lower_right_face_left_capped_right);
+    draw(bottom_capped_left_right);
 }
 
 fn d_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_capped_right).draw(gl);
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left_capped_right).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(lower_right_face_left_capped_right).draw(gl);
-    c.polygon(bottom_capped_right).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_capped_right);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left_capped_right);
+    draw(lower_left_face_right);
+    draw(lower_right_face_left_capped_right);
+    draw(bottom_capped_right);
 }
 
 fn y_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left).draw(gl);
-    c.polygon(middle).draw(gl);
-    c.polygon(lower_right_face_left).draw(gl);
-    c.polygon(bottom_capped_left_right).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left);
+    draw(middle);
+    draw(lower_right_face_left);
+    draw(bottom_capped_left_right);
 }
 
 fn u_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(lower_right_face_left).draw(gl);
-    c.polygon(bottom_capped_left_right).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left);
+    draw(lower_left_face_right);
+    draw(lower_right_face_left);
+    draw(bottom_capped_left_right);
 }
 
 fn w_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(lower_right_face_left).draw(gl);
-    c.polygon(bottom_face_up).draw(gl);
-    c.polygon(bottom_vertical).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left);
+    draw(lower_left_face_right);
+    draw(lower_right_face_left);
+    draw(bottom_face_up);
+    draw(bottom_vertical);
 }
 
 fn n_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(upper_right_face_left).draw(gl);
-    c.polygon(upper_diagonal_top_left_to_bottom_right).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(lower_right_face_left).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(upper_left_face_right);
+    draw(upper_right_face_left);
+    draw(upper_diagonal_top_left_to_bottom_right);
+    draw(lower_left_face_right);
+    draw(lower_right_face_left);
 }
 
 fn s_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_capped_left_right).draw(gl);
-    c.polygon(upper_left_face_right_capped_left).draw(gl);
-    c.polygon(middle).draw(gl);
-    c.polygon(lower_right_face_left_capped_right).draw(gl);
-    c.polygon(bottom_capped_left_right).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_capped_left_right);
+    draw(upper_left_face_right_capped_left);
+    draw(middle);
+    draw(lower_right_face_left_capped_right);
+    draw(bottom_capped_left_right);
 }
 
 fn e_letter<B: BackEnd<I>, I: ImageSize>(
-    c: &ColorContext, gl: &mut B
+    polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    c.polygon(top_face_down).draw(gl);
-    c.polygon(upper_left_face_right).draw(gl);
-    c.polygon(middle).draw(gl);
-    c.polygon(lower_left_face_right).draw(gl);
-    c.polygon(bottom_face_up).draw(gl);
+    let draw = |poly| polygon.draw(poly, c, gl);
+    draw(top_face_down);
+    draw(upper_left_face_right);
+    draw(middle);
+    draw(lower_left_face_right);
+    draw(bottom_face_up);
 }
 
 // end letters.
 
 /// Renders text filled with colors.
 pub fn text<B: BackEnd<I>, I: ImageSize>(
-    text: &str, c: &ColorContext, gl: &mut B
+    text: &str, p: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
     let mut x = 0.0;
     let mut y = 0.0;
@@ -327,20 +344,20 @@ pub fn text<B: BackEnd<I>, I: ImageSize>(
         let d = &c.trans(-17.0 + x, -24.0 + y);
         match ch {
             ' ' => {x += jump_x;},
-            'a' => {a_letter(d, gl); x += jump_x;},
-            'b' => {b_letter(d, gl); x += jump_x;},
-            'd' => {d_letter(d, gl); x += jump_x;},
-            'e' => {e_letter(d, gl); x += jump_x;},
-            'i' => {i_letter(d, gl); x += jump_x;},
-            'l' => {l_letter(d, gl); x += jump_x;},
-            'n' => {n_letter(d, gl); x += jump_x;},
-            'o' => {o_letter(d, gl); x += jump_x;},
-            'r' => {r_letter(d, gl); x += jump_x;},
-            's' => {s_letter(d, gl); x += jump_x;},
-            't' => {t_letter(d, gl); x += jump_x;},
-            'u' => {u_letter(d, gl); x += jump_x;},
-            'w' => {w_letter(d, gl); x += jump_x;},
-            'y' => {y_letter(d, gl); x += jump_x;},
+            'a' => {a_letter(p, d, gl); x += jump_x;},
+            'b' => {b_letter(p, d, gl); x += jump_x;},
+            'd' => {d_letter(p, d, gl); x += jump_x;},
+            'e' => {e_letter(p, d, gl); x += jump_x;},
+            'i' => {i_letter(p, d, gl); x += jump_x;},
+            'l' => {l_letter(p, d, gl); x += jump_x;},
+            'n' => {n_letter(p, d, gl); x += jump_x;},
+            'o' => {o_letter(p, d, gl); x += jump_x;},
+            'r' => {r_letter(p, d, gl); x += jump_x;},
+            's' => {s_letter(p, d, gl); x += jump_x;},
+            't' => {t_letter(p, d, gl); x += jump_x;},
+            'u' => {u_letter(p, d, gl); x += jump_x;},
+            'w' => {w_letter(p, d, gl); x += jump_x;},
+            'y' => {y_letter(p, d, gl); x += jump_x;},
             '\n' => {x = 0.0; y += jump_y;},
             ch => panic!("{} is not implemented!", ch),
         };
