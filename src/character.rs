@@ -19,7 +19,7 @@ pub fn draw_character<B: BackEnd<I>, I: ImageSize>(
     draw(frames_head);
 }
 
-pub static frames_right_lower_leg: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_right_lower_leg: &'static [&'static [[f64; 2]]] = &[
     &[
         [170.0, 213.0],
         [179.0, 218.0],
@@ -78,7 +78,7 @@ pub static frames_right_lower_leg: &'static [&'static [[f64, ..2]]] = &[
     ]
 ];
 
-pub static frames_left_lower_leg: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_left_lower_leg: &'static [&'static [[f64; 2]]] = &[
     &[
         [134.0, 217.0],
         [141.0, 223.0],
@@ -137,7 +137,7 @@ pub static frames_left_lower_leg: &'static [&'static [[f64, ..2]]] = &[
     ]
 ];
 
-pub static frames_right_upper_leg: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_right_upper_leg: &'static [&'static [[f64; 2]]] = &[
     &[
         [162.0, 170.0],
         [173.0, 172.0],
@@ -196,7 +196,7 @@ pub static frames_right_upper_leg: &'static [&'static [[f64, ..2]]] = &[
     ]
 ];
 
-pub static frames_left_upper_leg: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_left_upper_leg: &'static [&'static [[f64; 2]]] = &[
     &[
         [136.0, 180.0],
         [143.0, 189.0],
@@ -255,7 +255,7 @@ pub static frames_left_upper_leg: &'static [&'static [[f64, ..2]]] = &[
     ]
 ];
 
-pub static frames_right_arm: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_right_arm: &'static [&'static [[f64; 2]]] = &[
     &[
         [172.0, 131.0],
         [163.0, 123.0],
@@ -330,7 +330,7 @@ pub static frames_right_arm: &'static [&'static [[f64, ..2]]] = &[
     ]
 ];
 
-pub static frames_left_arm: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_left_arm: &'static [&'static [[f64; 2]]] = &[
     &[
         [128.0, 145.0],
         [115.0, 141.0],
@@ -405,7 +405,7 @@ pub static frames_left_arm: &'static [&'static [[f64, ..2]]] = &[
     ]
 ];
 
-pub static frames_body: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_body: &'static [&'static [[f64; 2]]] = &[
     &[
         [149.0, 131.0],
         [165.0, 134.0],
@@ -478,7 +478,7 @@ pub static frames_body: &'static [&'static [[f64, ..2]]] = &[
     ]
 ];
 
-pub static frames_head: &'static [&'static [[f64, ..2]]] = &[
+pub static frames_head: &'static [&'static [[f64; 2]]] = &[
     &[
         [147.0, 100.0],
         [156.0, 103.0],

@@ -22,8 +22,8 @@ pub struct Snake {
 impl Snake {
     pub fn update(
         &mut self, dt: f64,
-        player_pos: [f64, ..2],
-        snake_pos: [f64, ..2]
+        player_pos: [f64; 2],
+        snake_pos: [f64; 2]
     ) -> Action {
         use std::num::Float;
 

@@ -126,20 +126,20 @@ fn start() {
     }
 }
 
-pub struct Cam(pub [f64, ..2]);
+pub struct Cam(pub [f64; 2]);
 
 impl Cam {
-    fn pos(&self) -> [f64, ..2] {
+    fn pos(&self) -> [f64; 2] {
         let Cam(pos) = *self;
         pos
     }
 
-    fn set(&mut self, val: [f64, ..2]) {
+    fn set(&mut self, val: [f64; 2]) {
         *self = Cam(val);
     }
 
     /// Make camera follow position.
-    fn follow_pos(&mut self, dt: f64, follow_percentage: f64, pos: [f64, ..2]) {
+    fn follow_pos(&mut self, dt: f64, follow_percentage: f64, pos: [f64; 2]) {
         let camera_pos = self.pos();
         let (dx, dy) = (pos[0] - camera_pos[0], pos[1] - camera_pos[1]);
         let dx = follow_percentage * dt * dx;
@@ -228,7 +228,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
 
 pub fn update(dt: f64) {
 
-    fn player_pos() -> [f64, ..2] {
+    fn player_pos() -> [f64; 2] {
         let player_index = current_index().player.unwrap();
         current_objects()[player_index].pos
     }

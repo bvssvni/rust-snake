@@ -35,13 +35,13 @@ pub enum Data {
 /// Makes it easier to write game logic.
 pub struct Object {
     pub layer: uint,
-    pub pos: [f64, ..2],
-    pub vel: [f64, ..2],
-    pub acc: [f64, ..2],
-    pub acceleration_h: [f64, ..2],
-    pub acceleration_v: [f64, ..2],
+    pub pos: [f64; 2],
+    pub vel: [f64; 2],
+    pub acc: [f64; 2],
+    pub acceleration_h: [f64; 2],
+    pub acceleration_v: [f64; 2],
     pub radius: f64,
-    pub test_color: [f32, ..4],
+    pub test_color: [f32; 4],
     pub data: Data,
 }
 
@@ -61,7 +61,7 @@ impl Object {
     }
 
     pub fn air_bottle(
-        pos: [f64, ..2]
+        pos: [f64; 2]
     ) -> Object {
         let i = current_air_bottles().len();
         current_air_bottles().push(AirBottle {
@@ -81,7 +81,7 @@ impl Object {
     }
 
     pub fn snake(
-        pos: [f64, ..2],
+        pos: [f64; 2],
         settings: settings::SnakeSettings
     ) -> Object {
 
@@ -115,11 +115,11 @@ impl Object {
     }
 
     pub fn bar(
-        pos: [f64, ..2],
+        pos: [f64; 2],
         text: &'static str,
-        text_color: [f32, ..4],
-        background_color: [f32, ..4],
-        bar_color: [f32, ..4],
+        text_color: [f32; 4],
+        background_color: [f32; 4],
+        bar_color: [f32; 4],
         value: fn () -> f64
     ) -> Object {
 
@@ -284,7 +284,7 @@ impl Object {
        }
     }
 
-    pub fn update(&mut self, dt: f64, player_pos: [f64, ..2]) -> action::Action {
+    pub fn update(&mut self, dt: f64, player_pos: [f64; 2]) -> action::Action {
         use std::num::Float;
 
         self.pos = [

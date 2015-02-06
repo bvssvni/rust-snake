@@ -7,9 +7,9 @@ use settings;
 
 pub struct Bar {
     pub text: &'static str,
-    pub text_color: [f32, ..4],
-    pub background_color: [f32, ..4],
-    pub bar_color: [f32, ..4],
+    pub text_color: [f32; 4],
+    pub background_color: [f32; 4],
+    pub bar_color: [f32; 4],
     pub value: fn () -> f64,
 }
 
