@@ -23,6 +23,3 @@ path = "src/main.rs"
 git = "https://github.com/bvssvni/start_piston.git"
 features = ["include_gfx"]
 
-[dependencies]
-
-libc = "*"
