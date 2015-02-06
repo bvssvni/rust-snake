@@ -22,7 +22,7 @@ use snakeapp::{
     current_air_bottles
 };
 
-#[deriving(Show)]
+#[derive(Show)]
 pub enum Data {
     Player,
     Snake(uint),

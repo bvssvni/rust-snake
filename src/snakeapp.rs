@@ -63,7 +63,7 @@ pub fn app() {
 }
 
 /// The graphics back-end to use for rendering.
-#[deriving(Show)]
+#[derive(Debug)]
 pub enum GraphicsBackEnd {
     /// Use Gfx to render
     Gfx,

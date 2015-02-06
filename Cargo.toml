@@ -18,6 +18,11 @@ debug = false
 name = "rust-snake"
 path = "src/main.rs"
 
-[dependencies.piston]
+[dependencies.start_piston]
 
-git = "https://github.com/PistonDevelopers/piston.git"
+git = "https://github.com/bvssvni/start_piston.git"
+features = ["include_gfx"]
+
+[dependencies]
+
+libc = "*"
