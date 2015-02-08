@@ -1,7 +1,6 @@
 // Extern crates.
-use graphics::{ Context, BackEnd, ImageSize };
+use graphics::{ Context, BackEnd };
 use graphics;
-use piston;
 use piston::input::keyboard;
 use current::{ Current, CurrentGuard };
 use start_piston;
@@ -74,7 +73,6 @@ pub enum GraphicsBackEnd {
 
 fn start() {
     use piston::event::{ RenderEvent, UpdateEvent, PressEvent, ReleaseEvent };
-    use piston::input;
 
     let mut back_end = GraphicsBackEnd::Gfx;
     println!("Running with graphics backend {:?}", back_end);

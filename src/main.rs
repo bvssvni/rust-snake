@@ -1,5 +1,4 @@
-#![feature(globs)]
-#![feature(if_let)]
+#![feature(core)]
 
 extern crate start_piston;
 extern crate piston;
