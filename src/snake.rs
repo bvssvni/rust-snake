@@ -2,6 +2,7 @@
 use settings;
 use action::Action;
 
+#[derive(Copy)]
 pub enum SnakeState {
     Ignorant,
     ChasingPlayer,

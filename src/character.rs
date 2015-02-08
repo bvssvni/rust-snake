@@ -1,14 +1,14 @@
 #![allow(non_upper_case_globals)]
 
-use piston::graphics;
-use piston::graphics::{ BackEnd, Context, ImageSize, RelativeTransform };
+use graphics;
+use graphics::{ BackEnd, Context, RelativeTransform };
 
-pub fn draw_character<B: BackEnd<I>, I: ImageSize>(
+pub fn draw_character<B: BackEnd>(
     polygon: &graphics::Polygon, tween_factor: f64, c: &Context, gl: &mut B
 ) {
     let d = c.flip_v();
     let d = d.trans(-148.0, -116.0);
-    let draw = |poly| polygon.draw_tween_lerp(poly, tween_factor, &d, gl);
+    let mut draw = |poly| polygon.draw_tween_lerp(poly, tween_factor, &d, gl);
     draw(frames_left_upper_leg);
     draw(frames_left_lower_leg);
     draw(frames_right_upper_leg);

@@ -1,16 +1,17 @@
 // Extern crates.
-use piston::graphics::{ Context, BackEnd, ImageSize };
-use piston::graphics;
+use graphics::{ Context, BackEnd, ImageSize };
+use graphics;
 use piston;
 use piston::input::keyboard;
-use piston::{ Current, CurrentGuard };
+use current::{ Current, CurrentGuard };
+use start_piston;
 
 // Local crate.
 use action;
 use settings;
 use object;
 use object::Object;
-use text;
+use text as text_mod;
 use game_state::GameState;
 use player::{ Player };
 use colors;
@@ -18,15 +19,15 @@ use snake::Snake;
 use air_bottle::AirBottle;
 use bar::Bar;
 
-pub fn current_cam() -> Current<Cam> { Current }
-pub fn current_game_state() -> Current<GameState> { Current }
-pub fn current_objects() -> Current<Vec<Object>> { Current }
-pub fn current_index() -> Current<Index> { Current }
-pub fn current_settings() -> Current<Settings> { Current }
-pub fn current_player() -> Current<Player> { Current }
-pub fn current_snakes() -> Current<Vec<Snake>> { Current }
-pub fn current_air_bottles() -> Current<Vec<AirBottle>> { Current }
-pub fn current_bars() -> Current<Vec<Bar>> { Current }
+pub fn current_cam() -> Current<Cam> { unsafe { Current::new() } }
+pub fn current_game_state() -> Current<GameState> { unsafe { Current::new() } }
+pub fn current_objects() -> Current<Vec<Object>> { unsafe { Current::new() } }
+pub fn current_index() -> Current<Index> { unsafe { Current::new() } }
+pub fn current_settings() -> Current<Settings> { unsafe { Current::new() } }
+pub fn current_player() -> Current<Player> { unsafe { Current::new() } }
+pub fn current_snakes() -> Current<Vec<Snake>> { unsafe { Current::new() } }
+pub fn current_air_bottles() -> Current<Vec<AirBottle>> { unsafe { Current::new() } }
+pub fn current_bars() -> Current<Vec<Bar>> { unsafe { Current::new() } }
 
 pub fn app() {
     let mut cam = Cam([0.0, 0.0]);
@@ -76,13 +77,16 @@ fn start() {
     use piston::input;
 
     let mut back_end = GraphicsBackEnd::Gfx;
-    println!("Running with graphics backend {}", back_end);
+    println!("Running with graphics backend {:?}", back_end);
     println!("Use 'S' to swap back-end");
 
     load();
-    for e in piston::events() {
+    for e in start_piston::events() {
+        use piston::input::Key;
+        use piston::input::Button::Keyboard;
+
         e.press(|button| {
-            if button != input::Keyboard(input::keyboard::S) { return; }
+            if button != Keyboard(Key::S) { return; }
 
             back_end = match back_end {
                 GraphicsBackEnd::Gfx => {
@@ -98,31 +102,27 @@ fn start() {
         e.render(|_args| {
             match back_end {
                 GraphicsBackEnd::Gfx => {
-                    piston::render_2d_gfx(Some(settings::WATER_COLOR), |c, g| {
+                    start_piston::render_2d_gfx(Some(settings::WATER_COLOR), |c, g| {
                         render(&c, g)
                     });
                 }
                 GraphicsBackEnd::OpenGL => {
-                    piston::render_2d_opengl(Some(settings::WATER_COLOR), |c, g| {
+                    start_piston::render_2d_opengl(Some(settings::WATER_COLOR), |c, g| {
                         render(&c, g)
                     });
                 }
             };
-            piston::set_title(piston::fps_tick().to_string());
+            start_piston::set_title(start_piston::fps_tick().to_string());
         });
         e.update(|args| {
             update(args.dt);
         });
-        e.press(|button| {
-            if let input::Keyboard(key) = button {
-                key_press(key);
-            }
-        });
-        e.release(|button| {
-            if let input::Keyboard(key) = button {
-                key_release(key);
-            }
-        });
+        if let Some(Keyboard(key)) = e.press_args() {
+            key_press(key);
+        }
+        if let Some(Keyboard(key)) = e.release_args() {
+            key_release(key);
+        }
     }
 }
 
@@ -149,9 +149,9 @@ impl Cam {
 }
 
 pub struct Index {
-    pub player: Option<uint>,
-    pub blood_bar: Option<uint>,
-    pub air_bar: Option<uint>,
+    pub player: Option<usize>,
+    pub blood_bar: Option<usize>,
+    pub air_bar: Option<usize>,
 }
 
 impl Index {
@@ -179,8 +179,8 @@ impl Settings {
     }
 }
 
-pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
-    use piston::graphics::*;
+pub fn render<B: BackEnd>(c: &Context, gl: &mut B) {
+    use graphics::*;
 
     let c = &c.reset();
 
@@ -195,7 +195,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
 
     // Render objects in layers.
     let cam = &c.trans(-cam_x, -cam_y);
-    for i in range(0u, settings::NUMBER_OF_LAYERS) {
+    for i in range(0us, settings::NUMBER_OF_LAYERS) {
         for obj in current_objects().iter() {
             if obj.layer == i { obj.render(cam, c, gl); }
         }
@@ -206,7 +206,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
     match *current_game_state() {
         GameState::Win => {
             let pos = settings::YOU_WIN_POS;
-            text::text(settings::YOU_WIN_TEXT,
+            text_mod::text(settings::YOU_WIN_TEXT,
                 &graphics::Polygon::new(settings::YOU_WIN_TEXT_COLOR),
                 &text_c
                 .trans(pos[0], pos[1])
@@ -214,7 +214,7 @@ pub fn render<B: BackEnd<I>, I: ImageSize>(c: &Context, gl: &mut B) {
         },
         GameState::Lose => {
             let pos = settings::YOU_LOSE_POS;
-            text::text(settings::YOU_LOSE_TEXT,
+            text_mod::text(settings::YOU_LOSE_TEXT,
                 &graphics::Polygon::new(settings::YOU_LOSE_TEXT_COLOR),
                 &text_c
                 .trans(pos[0], pos[1])
@@ -361,19 +361,21 @@ fn restart() {
 }
 
 pub fn key_press(key: keyboard::Key) {
+    use piston::input::Key;
+
     if *current_game_state() != GameState::Play { return; }
 
     match (key, current_index().player) {
-        (keyboard::Right, Some(player_index)) => {
+        (Key::Right, Some(player_index)) => {
             current_objects()[player_index].move_right();
         },
-        (keyboard::Up, Some(player_index)) => {
+        (Key::Up, Some(player_index)) => {
             current_objects()[player_index].move_up();
         },
-        (keyboard::Left, Some(player_index)) => {
+        (Key::Left, Some(player_index)) => {
             current_objects()[player_index].move_left();
         },
-        (keyboard::Down, Some(player_index)) => {
+        (Key::Down, Some(player_index)) => {
             current_objects()[player_index].move_down();
         },
         _ => {},
@@ -381,7 +383,9 @@ pub fn key_press(key: keyboard::Key) {
 }
 
 pub fn key_release(key: keyboard::Key) {
-    if key == keyboard::Return || key == keyboard::Space {
+    use piston::input::Key;    
+
+    if key == Key::Return || key == Key::Space {
         match *current_game_state() {
             GameState::Win | GameState::Lose => restart(),
             _ => {},

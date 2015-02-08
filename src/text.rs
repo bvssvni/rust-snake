@@ -1,9 +1,9 @@
 #![allow(non_upper_case_globals)]
 
 // External crates.
-use piston::graphics;
-use piston::graphics::{
-    BackEnd, Context, ImageSize, RelativeTransform
+use graphics;
+use graphics::{
+    BackEnd, Context, RelativeTransform
 };
 
 static top_face_down: &'static [[f64; 2]] = &[
@@ -176,10 +176,10 @@ static upper_diagonal_top_left_to_bottom_right: &'static [[f64; 2]] = &[
 
 // end segments.
 
-fn a_letter<B: BackEnd<I>, I: ImageSize>(
+fn a_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_face_down);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
@@ -188,27 +188,27 @@ fn a_letter<B: BackEnd<I>, I: ImageSize>(
     draw(lower_right_face_left);
 }
 
-fn i_letter<B: BackEnd<I>, I: ImageSize>(
+fn i_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(upper_middle);
     draw(lower_middle);
 }
 
-fn t_letter<B: BackEnd<I>, I: ImageSize>(
+fn t_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_face_down);
     draw(upper_middle);
     draw(lower_middle);
 }
 
-fn r_letter<B: BackEnd<I>, I: ImageSize>(
+fn r_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_face_down);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
@@ -217,10 +217,10 @@ fn r_letter<B: BackEnd<I>, I: ImageSize>(
     draw(lower_diagonal_top_left_to_bottom_right);
 }
 
-fn b_letter<B: BackEnd<I>, I: ImageSize>(
+fn b_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_capped_right);
     draw(upper_left_face_right);
     draw(upper_right_face_left_capped_right);
@@ -230,19 +230,19 @@ fn b_letter<B: BackEnd<I>, I: ImageSize>(
     draw(bottom_capped_right);
 }
 
-fn l_letter<B: BackEnd<I>, I: ImageSize>(
+fn l_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(upper_left_face_right);
     draw(lower_left_face_right);
     draw(bottom_face_up);
 }
 
-fn o_letter<B: BackEnd<I>, I: ImageSize>(
+fn o_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_capped_left_right);
     draw(upper_left_face_right_capped_left);
     draw(upper_right_face_left_capped_right);
@@ -251,10 +251,10 @@ fn o_letter<B: BackEnd<I>, I: ImageSize>(
     draw(bottom_capped_left_right);
 }
 
-fn d_letter<B: BackEnd<I>, I: ImageSize>(
+fn d_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_capped_right);
     draw(upper_left_face_right);
     draw(upper_right_face_left_capped_right);
@@ -263,10 +263,10 @@ fn d_letter<B: BackEnd<I>, I: ImageSize>(
     draw(bottom_capped_right);
 }
 
-fn y_letter<B: BackEnd<I>, I: ImageSize>(
+fn y_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(middle);
@@ -274,10 +274,10 @@ fn y_letter<B: BackEnd<I>, I: ImageSize>(
     draw(bottom_capped_left_right);
 }
 
-fn u_letter<B: BackEnd<I>, I: ImageSize>(
+fn u_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(lower_left_face_right);
@@ -285,10 +285,10 @@ fn u_letter<B: BackEnd<I>, I: ImageSize>(
     draw(bottom_capped_left_right);
 }
 
-fn w_letter<B: BackEnd<I>, I: ImageSize>(
+fn w_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(lower_left_face_right);
@@ -297,10 +297,10 @@ fn w_letter<B: BackEnd<I>, I: ImageSize>(
     draw(bottom_vertical);
 }
 
-fn n_letter<B: BackEnd<I>, I: ImageSize>(
+fn n_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(upper_diagonal_top_left_to_bottom_right);
@@ -308,10 +308,10 @@ fn n_letter<B: BackEnd<I>, I: ImageSize>(
     draw(lower_right_face_left);
 }
 
-fn s_letter<B: BackEnd<I>, I: ImageSize>(
+fn s_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_capped_left_right);
     draw(upper_left_face_right_capped_left);
     draw(middle);
@@ -319,10 +319,10 @@ fn s_letter<B: BackEnd<I>, I: ImageSize>(
     draw(bottom_capped_left_right);
 }
 
-fn e_letter<B: BackEnd<I>, I: ImageSize>(
+fn e_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, c, gl);
     draw(top_face_down);
     draw(upper_left_face_right);
     draw(middle);
@@ -333,7 +333,7 @@ fn e_letter<B: BackEnd<I>, I: ImageSize>(
 // end letters.
 
 /// Renders text filled with colors.
-pub fn text<B: BackEnd<I>, I: ImageSize>(
+pub fn text<B: BackEnd>(
     text: &str, p: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
     let mut x = 0.0;

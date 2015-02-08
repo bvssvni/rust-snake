@@ -7,7 +7,7 @@ use object::Object;
 use snakeapp::{ current_objects, current_settings, current_index };
 use colors;
 
-pub const NUMBER_OF_LAYERS: uint = 4;
+pub const NUMBER_OF_LAYERS: usize = 4;
 pub const WATER_COLOR: [f32; 4] = [0.0, 0.0, 0.2, 1.0];
 pub const WATER_FRICTION: f64 = 0.2;
 pub const SURFACE_Y: f64 = 10.0;

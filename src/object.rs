@@ -1,7 +1,7 @@
 // External crates.
-use piston::graphics;
-use piston::graphics::{ BackEnd, Context, ImageSize, RelativeTransform };
-use piston::graphics::interpolation::{ lerp_4 };
+use graphics;
+use graphics::{ BackEnd, Context, RelativeTransform };
+use interpolation::lerp;
 use colors;
 
 // Local crate.
@@ -22,19 +22,19 @@ use snakeapp::{
     current_air_bottles
 };
 
-#[derive(Show)]
+#[derive(Debug)]
 pub enum Data {
     Player,
-    Snake(uint),
-    AirBottle(uint),
-    Bar(uint),
+    Snake(usize),
+    AirBottle(usize),
+    Bar(usize),
     BarBackground,
 }
 
 /// All objects are of same kind.
 /// Makes it easier to write game logic.
 pub struct Object {
-    pub layer: uint,
+    pub layer: usize,
     pub pos: [f64; 2],
     pub vel: [f64; 2],
     pub acc: [f64; 2],
@@ -144,7 +144,7 @@ impl Object {
         }
     }
 
-    fn render_snake<B: BackEnd<I>, I: ImageSize>(
+    fn render_snake<B: BackEnd>(
         &self,
         snake: &Snake,
         x: f64,
@@ -172,7 +172,7 @@ impl Object {
         }
     }
 
-    fn render_player<B: BackEnd<I>, I: ImageSize>(
+    fn render_player<B: BackEnd>(
         &self,
         player: &Player,
         x: f64,
@@ -194,7 +194,7 @@ impl Object {
             },
             player::PlayerState::Bitten(sec) => {
                 let t = 1.0 - sec / settings::PLAYER_BITTEN_FADE_OUT_SECONDS;
-                let color = lerp_4(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
+                let color = lerp(&settings::PLAYER_BITTEN_COLOR, &settings::PLAYER_COLOR, &(t as f32));
                 character::draw_character(
                     &graphics::Polygon::new(color),
                     player.tween_factor,
@@ -207,7 +207,7 @@ impl Object {
         }
     }
 
-    fn render_air_bottle<B: BackEnd<I>, I: ImageSize>(
+    fn render_air_bottle<B: BackEnd>(
         &self,
         air_bottle: &AirBottle,
         x: f64,
@@ -231,7 +231,7 @@ impl Object {
         );
     }
 
-    pub fn render<B: BackEnd<I>, I: ImageSize>(
+    pub fn render<B: BackEnd>(
         &self, cam: &Context, c: &Context, gl: &mut B
     ) {
         let x = self.pos[0];
@@ -320,7 +320,7 @@ impl Object {
         // Move object.
         match self.data {
             Data::Snake(i) => {
-                let Snake { state, .. } = current_snakes()[i];
+                let &Snake { state, .. } = &current_snakes()[i];
                 self.move_snake(state, player_dx, player_dy);
             },
             _ => {},

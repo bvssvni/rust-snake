@@ -19,7 +19,24 @@ name = "rust-snake"
 path = "src/main.rs"
 
 [dependencies.start_piston]
-
-git = "https://github.com/bvssvni/start_piston.git"
+git = "https://github.com/bvssvni/start_piston"
 features = ["include_gfx"]
+
+[dependencies.piston]
+git = "https://github.com/PistonDevelopers/piston"
+
+[dependencies.shader_version]
+git = "https://github.com/PistonDevelopers/shader_version"
+
+[dependencies.piston2d-graphics]
+git = "https://github.com/PistonDevelopers/graphics"
+
+[dependencies.interpolation]
+git = "https://github.com/PistonDevelopers/interpolation"
+
+[dependencies.current]
+git = "https://github.com/PistonDevelopers/current"
+
+[dependencies.gfx]
+git = "https://github.com/gfx-rs/gfx-rs"
 

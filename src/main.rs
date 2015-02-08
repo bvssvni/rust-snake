@@ -1,8 +1,13 @@
 #![feature(globs)]
 #![feature(if_let)]
 
+extern crate start_piston;
 extern crate piston;
 extern crate gfx;
+extern crate shader_version;
+extern crate graphics;
+extern crate interpolation;
+extern crate current;
 
 mod snakeapp;
 mod object;
@@ -18,12 +23,12 @@ mod air_bottle;
 mod colors;
 
 fn main() {
-    use piston::shader_version::opengl;
+    use shader_version::opengl::OpenGL;
 
-    let opengl = opengl::OpenGL_3_2;
-    piston::start(
+    let opengl = OpenGL::_3_2;
+    start_piston::start(
         opengl,
-        piston::WindowSettings {
+        piston::window::WindowSettings {
             title: "Sea Snake Escape".to_string(),
             size: [512, 512],
             fullscreen: false,

@@ -1,6 +1,6 @@
-use piston::graphics;
-use piston::graphics::{
-    BackEnd, Context, ImageSize, RelativeTransform,
+use graphics;
+use graphics::{
+    BackEnd, Context, RelativeTransform,
 };
 use text;
 use settings;
@@ -14,7 +14,7 @@ pub struct Bar {
 }
 
 impl Bar {
-    pub fn render<B: BackEnd<I>, I: ImageSize>(
+    pub fn render<B: BackEnd>(
         &self, c: &Context, gl: &mut B
     ) {
         text::text(
