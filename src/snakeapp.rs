@@ -381,7 +381,7 @@ pub fn key_press(key: keyboard::Key) {
 }
 
 pub fn key_release(key: keyboard::Key) {
-    use piston::input::Key;    
+    use piston::input::Key;
 
     if key == Key::Return || key == Key::Space {
         match *current_game_state() {
