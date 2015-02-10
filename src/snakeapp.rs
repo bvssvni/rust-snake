@@ -110,7 +110,7 @@ fn start() {
                     });
                 }
             };
-            start_piston::set_title(start_piston::fps_tick().to_string());
+            // start_piston::set_title(start_piston::fps_tick().to_string());
         });
         e.update(|args| {
             update(args.dt);

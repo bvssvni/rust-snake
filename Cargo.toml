@@ -20,7 +20,7 @@ path = "src/main.rs"
 
 [dependencies.start_piston]
 git = "https://github.com/bvssvni/start_piston"
-features = ["include_gfx"]
+features = ["include_gfx_glutin"]
 
 [dependencies.piston]
 git = "https://github.com/PistonDevelopers/piston"
