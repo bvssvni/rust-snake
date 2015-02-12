@@ -73,13 +73,15 @@ pub enum GraphicsBackEnd {
 
 fn start() {
     use piston::event::{ RenderEvent, UpdateEvent, PressEvent, ReleaseEvent };
+    use piston::event::MaxFps;
+    use piston::quack::Set;
 
     let mut back_end = GraphicsBackEnd::Gfx;
     println!("Running with graphics backend {:?}", back_end);
     println!("Use 'S' to swap back-end");
 
     load();
-    for e in start_piston::events() {
+    for e in start_piston::events().set(MaxFps(120)) {
         use piston::input::Key;
         use piston::input::Button::Keyboard;
 
@@ -110,7 +112,7 @@ fn start() {
                     });
                 }
             };
-            // start_piston::set_title(start_piston::fps_tick().to_string());
+            start_piston::set_title(start_piston::fps_tick().to_string());
         });
         e.update(|args| {
             update(args.dt);
