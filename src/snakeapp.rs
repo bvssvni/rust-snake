@@ -195,7 +195,7 @@ pub fn render<B: BackEnd>(c: &Context, gl: &mut B) {
 
     // Render objects in layers.
     let cam = &c.trans(-cam_x, -cam_y);
-    for i in range(0us, settings::NUMBER_OF_LAYERS) {
+    for i in 0usize..settings::NUMBER_OF_LAYERS {
         for obj in current_objects().iter() {
             if obj.layer == i { obj.render(cam, c, gl); }
         }
