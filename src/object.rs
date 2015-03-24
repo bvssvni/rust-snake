@@ -87,7 +87,7 @@ impl Object {
 
         let n = 256;
         let mut tail = Vec::with_capacity(n * 2);
-        for _ in range(0, n) {
+        for _ in 0 .. n {
             tail.push(pos[0]);
             tail.push(pos[1]);
         }
@@ -157,17 +157,20 @@ impl Object {
 
         // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
         graphics::Ellipse::new(self.test_color)
-            .draw(graphics::ellipse::circle(x, y, rad), cam, gl);
+            .draw(graphics::ellipse::circle(x, y, rad),
+                &cam.draw_state, cam.transform, gl);
         let n = snake.tail.len() / 2;
         let black = graphics::Ellipse::new(colors::BLACK);
         let tail = graphics::Ellipse::new(settings::SNAKE_TAIL_COLOR);
-        for i in range(0, n) {
+        for i in 0 .. n {
             let x = snake.tail[i * 2];
             let y = snake.tail[i * 2 + 1];
             if (i / 8) % 2 == 1 {
-                black.draw(graphics::ellipse::circle(x, y, rad), cam, gl);
+                black.draw(graphics::ellipse::circle(x, y, rad),
+                    &cam.draw_state, cam.transform, gl);
             } else {
-                tail.draw(graphics::ellipse::circle(x, y, rad), cam, gl);
+                tail.draw(graphics::ellipse::circle(x, y, rad),
+                    &cam.draw_state, cam.transform, gl);
             }
         }
     }
@@ -219,7 +222,8 @@ impl Object {
     ) {
         if air_bottle.fill_up == 0.0 { return; }
         graphics::Rectangle::new(self.test_color)
-            .draw(graphics::rectangle::centered_square(x, y, rad), cam, gl);
+            .draw(graphics::rectangle::centered_square(x, y, rad),
+                &cam.draw_state, cam.transform, gl);
         text::text(
             "air",
             &graphics::Polygon::new(settings::AIR_BOTTLE_TEXT_COLOR),
@@ -260,13 +264,13 @@ impl Object {
                         margin
                     );
                 graphics::Rectangle::round(bar_color, 0.1)
-                    .draw(rect, c, gl);
+                    .draw(rect, &c.draw_state, c.transform, gl);
                 let rect_2 = graphics::rectangle::margin(
                         [-1.0, 1.0 - bar_bgh, 2.0, bar_bgh],
                         margin_2
                     );
                 graphics::Rectangle::round(bar_color_2, 0.1)
-                    .draw(rect_2, c, gl);
+                    .draw(rect_2, &c.draw_state, c.transform, gl);
             }
         };
     }

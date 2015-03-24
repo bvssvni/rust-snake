@@ -66,7 +66,7 @@ impl Snake {
         let mut y = y;
         let dist = settings::SNAKE_TAIL_DISTANCE;
         let n = self.tail.len() / 2;
-        for i in range(0, n) {
+        for i in 0 .. n {
             let x2 = self.tail[i * 2];
             let y2 = self.tail[i * 2 + 1];
             let dx = x - x2;

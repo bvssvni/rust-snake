@@ -191,7 +191,8 @@ pub fn render<B: BackEnd>(c: &Context, gl: &mut B) {
     // Render surface.
     let surface_y = current_settings().surface_y.unwrap();
     graphics::Rectangle::new(colors::BLUE)
-        .draw([-1.0, surface_y - cam_y, 2.0, 0.05], c, gl);
+        .draw([-1.0, surface_y - cam_y, 2.0, 0.05],
+            &c.draw_state, c.transform, gl);
 
     // Render objects in layers.
     let cam = &c.trans(-cam_x, -cam_y);

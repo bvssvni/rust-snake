@@ -1,5 +1,3 @@
-#![feature(core)]
-
 extern crate start_piston;
 extern crate piston;
 extern crate gfx;

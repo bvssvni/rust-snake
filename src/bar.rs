@@ -28,11 +28,12 @@ impl Bar {
         let rect = settings::BAR_RECTANGLE;
         let [x, y, w, h] = rect;
         graphics::Rectangle::new(self.background_color)
-            .draw(rect, c, gl);
+            .draw(rect, &c.draw_state, c.transform, gl);
         let val = (self.value)();
         let val = if val > 1.0 { 1.0 } else { val };
         let val = if val < 0.0 { 0.0 } else { val };
         graphics::Rectangle::new(self.bar_color)
-            .draw(graphics::rectangle::margin([x, y, w * val, h], settings::BAR_MARGIN), c, gl);
+            .draw(graphics::rectangle::margin([x, y, w * val, h], settings::BAR_MARGIN),
+                &c.draw_state, c.transform, gl);
     }
 }

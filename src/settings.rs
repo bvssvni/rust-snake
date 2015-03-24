@@ -146,7 +146,7 @@ pub fn level_1() {
         ];
         let n = air_bottles.len() / 2;
         let objects = &mut *current_objects();
-        for i in range(0, n) {
+        for i in 0 .. n {
             objects.push(Object::air_bottle([air_bottles[i * 2], air_bottles[i * 2 + 1]]));
         }
     }

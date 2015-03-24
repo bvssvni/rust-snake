@@ -179,7 +179,7 @@ static upper_diagonal_top_left_to_bottom_right: &'static [[f64; 2]] = &[
 fn a_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_face_down);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
@@ -191,7 +191,7 @@ fn a_letter<B: BackEnd>(
 fn i_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(upper_middle);
     draw(lower_middle);
 }
@@ -199,7 +199,7 @@ fn i_letter<B: BackEnd>(
 fn t_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_face_down);
     draw(upper_middle);
     draw(lower_middle);
@@ -208,7 +208,7 @@ fn t_letter<B: BackEnd>(
 fn r_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_face_down);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
@@ -220,7 +220,7 @@ fn r_letter<B: BackEnd>(
 fn b_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_capped_right);
     draw(upper_left_face_right);
     draw(upper_right_face_left_capped_right);
@@ -233,7 +233,7 @@ fn b_letter<B: BackEnd>(
 fn l_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(upper_left_face_right);
     draw(lower_left_face_right);
     draw(bottom_face_up);
@@ -242,7 +242,7 @@ fn l_letter<B: BackEnd>(
 fn o_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_capped_left_right);
     draw(upper_left_face_right_capped_left);
     draw(upper_right_face_left_capped_right);
@@ -254,7 +254,7 @@ fn o_letter<B: BackEnd>(
 fn d_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_capped_right);
     draw(upper_left_face_right);
     draw(upper_right_face_left_capped_right);
@@ -266,7 +266,7 @@ fn d_letter<B: BackEnd>(
 fn y_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(middle);
@@ -277,7 +277,7 @@ fn y_letter<B: BackEnd>(
 fn u_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(lower_left_face_right);
@@ -288,7 +288,7 @@ fn u_letter<B: BackEnd>(
 fn w_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(lower_left_face_right);
@@ -300,7 +300,7 @@ fn w_letter<B: BackEnd>(
 fn n_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(upper_left_face_right);
     draw(upper_right_face_left);
     draw(upper_diagonal_top_left_to_bottom_right);
@@ -311,7 +311,7 @@ fn n_letter<B: BackEnd>(
 fn s_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_capped_left_right);
     draw(upper_left_face_right_capped_left);
     draw(middle);
@@ -322,7 +322,7 @@ fn s_letter<B: BackEnd>(
 fn e_letter<B: BackEnd>(
     polygon: &graphics::Polygon, c: &Context, gl: &mut B
 ) {
-    let mut draw = |poly| polygon.draw(poly, c, gl);
+    let mut draw = |poly| polygon.draw(poly, &c.draw_state, c.transform, gl);
     draw(top_face_down);
     draw(upper_left_face_right);
     draw(middle);

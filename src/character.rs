@@ -8,7 +8,13 @@ pub fn draw_character<B: BackEnd>(
 ) {
     let d = c.flip_v();
     let d = d.trans(-148.0, -116.0);
-    let mut draw = |poly| polygon.draw_tween_lerp(poly, tween_factor, &d, gl);
+    let mut draw = |poly| polygon.draw_tween_lerp(
+        poly, 
+        tween_factor,
+        &d.draw_state,
+        d.transform,
+        gl
+    );
     draw(frames_left_upper_leg);
     draw(frames_left_lower_leg);
     draw(frames_right_upper_leg);
