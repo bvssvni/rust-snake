@@ -15,7 +15,7 @@ debug = false
 
 [[bin]]
 
-name = "rust-snake"
+name = "sea_snake_escape"
 path = "src/main.rs"
 
 [dependencies.start_piston]
