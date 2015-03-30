@@ -73,15 +73,13 @@ pub enum GraphicsBackEnd {
 
 fn start() {
     use piston::event::{ RenderEvent, UpdateEvent, PressEvent, ReleaseEvent };
-    use piston::event::MaxFps;
-    use piston::quack::Set;
 
     let mut back_end = GraphicsBackEnd::Gfx;
     println!("Running with graphics backend {:?}", back_end);
     println!("Use 'S' to swap back-end");
 
     load();
-    for e in start_piston::events().set(MaxFps(120)) {
+    for e in start_piston::events().max_fps(120) {
         use piston::input::Key;
         use piston::input::Button::Keyboard;
 
@@ -185,7 +183,9 @@ pub fn render<B: BackEnd>(c: &Context, gl: &mut B) {
     let c = &c.reset();
 
     // Get camera coordinates.
-    let [cam_x, mut cam_y] = current_cam().pos();
+    let cam_pos = current_cam().pos();
+    let cam_x = cam_pos[0];
+    let mut cam_y = cam_pos[1];
     cam_y += 0.4;
 
     // Render surface.

@@ -26,7 +26,10 @@ impl Bar {
             gl
         );
         let rect = settings::BAR_RECTANGLE;
-        let [x, y, w, h] = rect;
+        let x = rect[0];
+        let y = rect[1];
+        let w = rect[2];
+        let h = rect[3];
         graphics::Rectangle::new(self.background_color)
             .draw(rect, &c.draw_state, c.transform, gl);
         let val = (self.value)();
