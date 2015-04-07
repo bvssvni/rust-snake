@@ -289,7 +289,7 @@ impl Object {
     }
 
     pub fn update(&mut self, dt: f64, player_pos: [f64; 2]) -> action::Action {
-        use std::num::Float;
+        use num::Float;
 
         self.pos = [
             self.pos[0] + 0.5 * self.vel[0] * dt,

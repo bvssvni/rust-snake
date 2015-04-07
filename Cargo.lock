@@ -5,6 +5,7 @@ dependencies = [
  "current 0.0.10 (git+https://github.com/PistonDevelopers/current)",
  "gfx 0.2.5 (git+https://github.com/gfx-rs/gfx-rs)",
  "interpolation 0.0.4 (git+https://github.com/PistonDevelopers/interpolation)",
+ "num 0.1.22 (registry+https://github.com/rust-lang/crates.io-index)",
  "piston 0.1.0 (git+https://github.com/PistonDevelopers/piston)",
  "piston2d-graphics 0.0.26 (git+https://github.com/PistonDevelopers/graphics)",
  "shader_version 0.0.6 (git+https://github.com/PistonDevelopers/shader_version)",

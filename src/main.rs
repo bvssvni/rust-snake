@@ -5,6 +5,7 @@ extern crate shader_version;
 extern crate graphics;
 extern crate interpolation;
 extern crate current;
+extern crate num;
 
 mod snakeapp;
 mod object;

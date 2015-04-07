@@ -40,3 +40,6 @@ git = "https://github.com/PistonDevelopers/current"
 [dependencies.gfx]
 git = "https://github.com/gfx-rs/gfx-rs"
 
+[dependencies]
+num = "*"
+

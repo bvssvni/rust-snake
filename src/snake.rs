@@ -26,7 +26,7 @@ impl Snake {
         player_pos: [f64; 2],
         snake_pos: [f64; 2]
     ) -> Action {
-        use std::num::Float;
+        use num::Float;
 
         self.simulate_tail(snake_pos[0], snake_pos[1], dt);
         let (dx, dy) = (player_pos[0] - snake_pos[0], player_pos[1] - snake_pos[1]);
@@ -60,7 +60,7 @@ impl Snake {
     }
 
     pub fn simulate_tail(&mut self, x: f64, y: f64, _dt: f64) {
-        use std::num::Float;
+        use num::Float;
 
         let mut x = x;
         let mut y = y;
