@@ -1,10 +1,10 @@
 #![allow(non_upper_case_globals)]
 
 use graphics;
-use graphics::{ BackEnd, Context, RelativeTransform };
+use graphics::{ Graphics, Context, Transformed };
 
-pub fn draw_character<B: BackEnd>(
-    polygon: &graphics::Polygon, tween_factor: f64, c: &Context, gl: &mut B
+pub fn draw_character<G: Graphics>(
+    polygon: &graphics::Polygon, tween_factor: f64, c: &Context, gl: &mut G
 ) {
     let d = c.flip_v();
     let d = d.trans(-148.0, -116.0);

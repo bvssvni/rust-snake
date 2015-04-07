@@ -1,5 +1,5 @@
 // Extern crates.
-use graphics::{ Context, BackEnd };
+use graphics::{ Context, Graphics };
 use graphics;
 use piston::input::keyboard;
 use current::{ Current, CurrentGuard };
@@ -177,7 +177,7 @@ impl Settings {
     }
 }
 
-pub fn render<B: BackEnd>(c: &Context, gl: &mut B) {
+pub fn render<G: Graphics>(c: &Context, gl: &mut G) {
     use graphics::*;
 
     let c = &c.reset();

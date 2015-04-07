@@ -2,7 +2,7 @@
 use settings;
 use action::Action;
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub enum SnakeState {
     Ignorant,
     ChasingPlayer,

@@ -1,6 +1,6 @@
 use graphics;
 use graphics::{
-    BackEnd, Context, RelativeTransform,
+    Graphics, Context, Transformed,
 };
 use text;
 use settings;
@@ -14,8 +14,8 @@ pub struct Bar {
 }
 
 impl Bar {
-    pub fn render<B: BackEnd>(
-        &self, c: &Context, gl: &mut B
+    pub fn render<G: Graphics>(
+        &self, c: &Context, gl: &mut G
     ) {
         text::text(
             self.text,

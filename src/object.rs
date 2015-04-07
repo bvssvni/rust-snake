@@ -1,6 +1,6 @@
 // External crates.
 use graphics;
-use graphics::{ BackEnd, Context, RelativeTransform };
+use graphics::{ Graphics, Context, Transformed };
 use interpolation::lerp;
 use colors;
 
@@ -144,7 +144,7 @@ impl Object {
         }
     }
 
-    fn render_snake<B: BackEnd>(
+    fn render_snake<G: Graphics>(
         &self,
         snake: &Snake,
         x: f64,
@@ -152,7 +152,7 @@ impl Object {
         rad: f64,
         cam: &Context,
         _c: &Context,
-        gl: &mut B
+        gl: &mut G
     ) {
 
         // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
@@ -175,14 +175,14 @@ impl Object {
         }
     }
 
-    fn render_player<B: BackEnd>(
+    fn render_player<G: Graphics>(
         &self,
         player: &Player,
         x: f64,
         y: f64,
         cam: &Context,
         _c: &Context,
-        gl: &mut B
+        gl: &mut G
     ) {
 
         // cam.square_centered(x, y, rad).color(self.test_color).draw(gl);
@@ -210,7 +210,7 @@ impl Object {
         }
     }
 
-    fn render_air_bottle<B: BackEnd>(
+    fn render_air_bottle<G: Graphics>(
         &self,
         air_bottle: &AirBottle,
         x: f64,
@@ -218,7 +218,7 @@ impl Object {
         rad: f64,
         cam: &Context,
         _c: &Context,
-        gl: &mut B
+        gl: &mut G
     ) {
         if air_bottle.fill_up == 0.0 { return; }
         graphics::Rectangle::new(self.test_color)
@@ -235,8 +235,8 @@ impl Object {
         );
     }
 
-    pub fn render<B: BackEnd>(
-        &self, cam: &Context, c: &Context, gl: &mut B
+    pub fn render<G: Graphics>(
+        &self, cam: &Context, c: &Context, gl: &mut G
     ) {
         let x = self.pos[0];
         let y = self.pos[1];
@@ -263,13 +263,13 @@ impl Object {
                         [-1.0, 1.0 - bar_bgh, 2.0, bar_bgh],
                         margin
                     );
-                graphics::Rectangle::round(bar_color, 0.1)
+                graphics::Rectangle::new_round(bar_color, 0.1)
                     .draw(rect, &c.draw_state, c.transform, gl);
                 let rect_2 = graphics::rectangle::margin(
                         [-1.0, 1.0 - bar_bgh, 2.0, bar_bgh],
                         margin_2
                     );
-                graphics::Rectangle::round(bar_color_2, 0.1)
+                graphics::Rectangle::new_round(bar_color_2, 0.1)
                     .draw(rect_2, &c.draw_state, c.transform, gl);
             }
         };
