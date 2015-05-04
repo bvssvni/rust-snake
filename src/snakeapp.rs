@@ -94,7 +94,7 @@ fn start() {
                     GraphicsBackEnd::OpenGL
                 }
                 GraphicsBackEnd::OpenGL => {
-                    println!("Swapped to Glum");
+                    println!("Swapped to Glium");
                     GraphicsBackEnd::Glium
                 }
                 GraphicsBackEnd::Glium => {
