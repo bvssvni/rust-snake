@@ -4,6 +4,7 @@ use graphics;
 use piston::input::keyboard;
 use current::{ Current, CurrentGuard };
 use start_piston;
+use glium_graphics::GliumGraphics;
 
 // Local crate.
 use action;
@@ -69,21 +70,24 @@ pub enum GraphicsBackEnd {
     Gfx,
     /// Use OpenGL to render
     OpenGL,
+    /// Use Glium to render
+    Glium,
 }
 
 fn start() {
     use piston::event::{ RenderEvent, UpdateEvent, PressEvent, ReleaseEvent };
+    use piston::window::Window;
 
     let mut back_end = GraphicsBackEnd::Gfx;
     println!("Running with graphics backend {:?}", back_end);
     println!("Use 'S' to swap back-end");
 
     load();
-    for e in start_piston::events().max_fps(120) {
+    for e in start_piston::events().max_fps(120).swap_buffers(false) {
         use piston::input::Key;
         use piston::input::Button::Keyboard;
 
-        e.press(|button| {
+        if let Some(button) = e.press_args() {
             if button != Keyboard(Key::S) { return; }
 
             back_end = match back_end {
@@ -92,22 +96,54 @@ fn start() {
                     GraphicsBackEnd::OpenGL
                 }
                 GraphicsBackEnd::OpenGL => {
+                    println!("Swapped to Glum");
+                    GraphicsBackEnd::Glium
+                }
+                GraphicsBackEnd::Glium => {
                     println!("Swapped to Gfx");
                     GraphicsBackEnd::Gfx
                 }
             };
-        });
-        e.render(|_args| {
+        };
+        e.render(|args| {
             match back_end {
                 GraphicsBackEnd::Gfx => {
-                    start_piston::render_2d_gfx(Some(settings::WATER_COLOR), |c, g| {
-                        render(&c, g)
-                    });
+                    {
+                        start_piston::render_2d_gfx(Some(settings::WATER_COLOR), |c, g| {
+                            render(&c, g)
+                        });
+                    }
+                    {
+                        let window = start_piston::current_window();
+                        let mut window = window.borrow_mut();
+                        window.swap_buffers();
+                    }
                 }
                 GraphicsBackEnd::OpenGL => {
-                    start_piston::render_2d_opengl(Some(settings::WATER_COLOR), |c, g| {
-                        render(&c, g)
-                    });
+                    {
+                        start_piston::render_2d_opengl(Some(settings::WATER_COLOR), |c, g| {
+                            render(&c, g)
+                        });
+                    }
+                    {
+                        let window = start_piston::current_window();
+                        let mut window = window.borrow_mut();
+                        window.swap_buffers();
+                    }
+                }
+                GraphicsBackEnd::Glium => {
+                    let glium_window = start_piston::current_glium_window();
+                    let glium_window = glium_window.borrow();
+                    let glium_2d = start_piston::current_glium_2d();
+                    let mut glium_2d = glium_2d.borrow_mut();
+                    let mut target = glium_window.draw();
+                    {
+                        let mut g = GliumGraphics::new(&mut *glium_2d, &mut target);
+                        graphics::clear(settings::WATER_COLOR, &mut g);
+                        let c = Context::new_viewport(args.viewport());
+                        render(&c, &mut g);
+                    }
+                    target.finish();
                 }
             };
             start_piston::set_title(start_piston::fps_tick().to_string());

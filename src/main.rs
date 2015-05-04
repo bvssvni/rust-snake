@@ -6,6 +6,7 @@ extern crate graphics;
 extern crate interpolation;
 extern crate current;
 extern crate num;
+extern crate glium_graphics;
 
 mod snakeapp;
 mod object;

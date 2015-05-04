@@ -20,7 +20,7 @@ path = "src/main.rs"
 
 [dependencies.start_piston]
 git = "https://github.com/bvssvni/start_piston"
-features = ["include_opengl", "include_gfx", "include_sdl2"]
+features = ["include_opengl", "include_gfx", "include_glium", "include_sdl2"]
 
 [dependencies.piston]
 git = "https://github.com/PistonDevelopers/piston"
@@ -39,6 +39,10 @@ git = "https://github.com/PistonDevelopers/current"
 
 [dependencies.gfx]
 git = "https://github.com/gfx-rs/gfx-rs"
+
+[dependencies.piston2d-glium_graphics]
+git = "https://github.com/pistondevelopers/glium_graphics"
+
 
 [dependencies]
 num = "*"
