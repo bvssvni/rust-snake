@@ -87,9 +87,7 @@ fn start() {
         use piston::input::Key;
         use piston::input::Button::Keyboard;
 
-        if let Some(button) = e.press_args() {
-            if button != Keyboard(Key::S) { return; }
-
+        if let Some(Keyboard(Key::S)) = e.press_args() {
             back_end = match back_end {
                 GraphicsBackEnd::Gfx => {
                     println!("Swapped to OpenGL");
