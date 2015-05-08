@@ -83,9 +83,22 @@ fn start() {
     println!("Use 'S' to swap back-end");
 
     load();
-    for e in start_piston::events().max_fps(120).swap_buffers(false) {
+    let mut iter = 0;
+    let iter_end = 10000;
+    let bench = false;
+    if bench { println!("Benchmarking...") };
+    for e in start_piston::events()
+        .max_fps(120)
+        .swap_buffers(false)
+        .bench_mode(bench)
+    {
         use piston::input::Key;
         use piston::input::Button::Keyboard;
+
+        if bench {
+            iter += 1;
+            if iter > iter_end { break; }
+        }
 
         if let Some(Keyboard(Key::S)) = e.press_args() {
             back_end = match back_end {
