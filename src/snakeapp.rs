@@ -2,6 +2,7 @@
 use graphics::{ Context, Graphics };
 use graphics;
 use piston::input::keyboard;
+use piston::event::{ RenderArgs, UpdateArgs, EventLoop };
 use current::{ Current, CurrentGuard };
 use start_piston;
 use glium_graphics::GliumGraphics;
@@ -116,7 +117,7 @@ fn start() {
                 }
             };
         };
-        e.render(|args| {
+        e.render(|args: &RenderArgs| {
             match back_end {
                 GraphicsBackEnd::Gfx => {
                     {
@@ -159,7 +160,7 @@ fn start() {
             };
             start_piston::set_title(start_piston::fps_tick().to_string());
         });
-        e.update(|args| {
+        e.update(|args: &UpdateArgs| {
             update(args.dt);
         });
         if let Some(Keyboard(key)) = e.press_args() {

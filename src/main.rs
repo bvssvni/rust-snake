@@ -22,12 +22,9 @@ mod air_bottle;
 mod colors;
 
 fn main() {
-    use shader_version::opengl::OpenGL;
     use piston::window::{ WindowSettings, Size };
 
-    let opengl = OpenGL::_3_2;
     start_piston::start(
-        opengl,
         WindowSettings::new(
             "Sea Snake Escape".to_string(),
             Size { width: 512, height: 512 })
